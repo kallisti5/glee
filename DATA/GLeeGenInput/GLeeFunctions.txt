@@ -1,0 +1,303 @@
+
+/*****************************************************************
+ * GLee internal types
+ *****************************************************************/
+typedef struct 
+{
+	char ** names;
+	int * lengths;
+	int numNames;
+}ExtensionList;
+
+
+/*****************************************************************
+ * GLee internal variables
+ *****************************************************************/
+char GLeeErrorString[256]="";
+
+
+/*****************************************************************
+ * GLee internal functions
+ *****************************************************************/
+
+void __GLeeExtList_init(ExtensionList *extList)
+{
+	extList->names=0;
+	extList->lengths=0;
+	extList->numNames=0;
+}
+
+void __GLeeExtList_clean(ExtensionList *extList)
+{
+	int a;
+	for (a=0;a<extList->numNames;a++)
+	{
+		if (extList->names[a]!=0) free((void *)extList->names[a]);
+	}
+	if (extList->names!=0) free((void *)extList->names);
+	if (extList->lengths!=0) free((void *)extList->lengths);
+	extList->names=0;
+	extList->lengths=0;
+	extList->numNames=0;
+}
+
+void __GLeeExtList_add(ExtensionList *extList, const char * extName)
+{
+	int length=strlen(extName)+1;
+	int i=extList->numNames;
+	int n=i+1;
+	if (i==0)
+	{
+		extList->lengths=(int *)malloc(sizeof(int));
+		extList->names=(char **)malloc(sizeof(char *));
+	}else
+	{
+		extList->lengths=(int *)realloc((void *)extList->lengths, n*sizeof(int));
+		extList->names=(char **)realloc((void *)extList->names, n*sizeof(char *));
+	}
+	extList->names[i]=(char *)malloc(length*sizeof(char));
+	strcpy(extList->names[i],extName);
+	extList->lengths[i]=length;
+	extList->numNames++;
+}
+
+const char *__GLeeGetExtStrPlat( void )
+{
+#ifdef WIN32
+	if (!_GLEE_WGL_ARB_extensions_string)
+		wglGetExtensionsStringARB = (GLEEPFNWGLGETEXTENSIONSSTRINGARBPROC) wglGetProcAddress("wglGetExtensionsStringARB");
+
+	if (wglGetExtensionsStringARB)
+		return (const char *)wglGetExtensionsStringARB(wglGetCurrentDC());
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+#else
+	Display *dpy=glXGetCurrentDisplay();
+	if(dpy)
+	{
+		int dpynr=DefaultScreen(dpy);
+		return (const char*)glXQueryExtensionsString(dpy,dpynr);
+	}
+#endif
+	return 0;
+}
+
+void __GLeeWriteError(const char * errorStr)
+{
+	int a=0;
+	for (a=0;a<256;a++)
+	{
+		GLeeErrorString[a]=errorStr[a];
+	}
+	GLeeErrorString[255]='\0';
+}
+
+int __GLeeGetVersionNumber(char *versionStr)
+{
+	int major=(int)versionStr[0]-(int)'0';
+	int minor=(int)versionStr[2]-(int)'0';
+	return major<<8 | minor;
+}
+
+GLboolean __GLeeGetExtensions(ExtensionList* extList)
+{
+	const char * platExtStr;
+	const char * glExtStr;
+	char * extStr;
+	char emptyString[1] = ""; 
+	char extensionName[1024];
+	int a,b;
+	int totalExtStrLen;
+	int platExtStrLen;
+	int addASpace;
+	
+	/* read the platform specific extension string */
+	platExtStr=__GLeeGetExtStrPlat(); 
+	if (!platExtStr) platExtStr=emptyString;
+
+	glExtStr=(const char *)glGetString(GL_EXTENSIONS);
+	if (glExtStr==0) 
+	{
+		__GLeeWriteError("glGetString(GL_EXTENSIONS) failed.");
+		return GL_FALSE;
+	}
+
+	/* allocate the extension string */
+	platExtStrLen = strlen(platExtStr);
+	totalExtStrLen = platExtStrLen + strlen(glExtStr);
+	extStr=(char *)malloc( (totalExtStrLen+2) * sizeof(char) ); /* we add 2 to allow for an extra space and a null terminator */
+
+	/* If the last character of platExtStr is not a space, we need to add one when we concatenate the extension strings*/
+	addASpace = 0;
+	if ( platExtStrLen > 2 )
+	{
+	    if ( platExtStr[ platExtStrLen-1 ] != ' ')
+		{
+			addASpace = 1;
+		}
+	}
+	
+	/* concatenate the two extension strings */
+	if ( addASpace )
+	{
+	    sprintf(extStr,"%s %s",platExtStr,glExtStr);
+	}
+	else
+	{
+	    sprintf(extStr,"%s%s",platExtStr,glExtStr);
+	}
+
+	/* extract the extensions */
+	for ( a=0;a<totalExtStrLen;a++ )
+	{
+		b=0;
+		while (extStr[a]!=' ' && a<totalExtStrLen && b<1022)
+		{
+			extensionName[b]=extStr[a];
+			b++; a++;
+		}
+		if (b==1023)
+		{
+			__GLeeWriteError("Extension name exceeds 1023 characters.");
+			free((void *)extStr);
+			return GL_FALSE;
+		}
+
+		extensionName[b]='\0'; 
+
+		/* add the extension */
+		__GLeeExtList_add(extList,extensionName);
+	}
+	free((void *)extStr);
+	return GL_TRUE;
+}
+
+GLboolean __GLeeCheckExtension(const char * name, ExtensionList *extensionNames)
+{
+	int n=extensionNames->numNames;
+	int a;
+    for (a=0;a<n;a++)
+	{
+		if (strcmp(extensionNames->names[a],name)==0)
+			return GL_TRUE;
+	}
+	return GL_FALSE;
+}
+
+GLEE_EXTERN GLint __GLeeGetExtensionNumber(const char *extensionName, int type)
+{
+	int a;
+	switch (type)
+	{
+	case 0:
+		for (a=0;a<__GLeeGLNumExtensions;a++)
+			if (strcmp(extensionName,__GLeeGLExtensionNames[a])==0)	return a;
+		return -1;
+#ifdef WIN32
+	case 1:
+		for (a=0;a<__GLeeWGLNumExtensions;a++)
+			if (strcmp(extensionName,__GLeeWGLExtensionNames[a])==0) return a;
+		return -1;
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+#else
+	case 2:
+		for (a=0;a<__GLeeGLXNumExtensions;a++)
+			if (strcmp(extensionName,__GLeeGLXExtensionNames[a])==0) return a;
+		return -1;
+#endif
+	}
+	return -1;
+}
+
+/*****************************************************************
+ * GLee external functions 
+ *****************************************************************/
+
+#ifdef WIN32
+GLEE_EXTERN const char * GLeeGetExtStrWGL( void )
+{
+	return __GLeeGetExtStrPlat();
+}
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+#else
+GLEE_EXTERN const char * GLeeGetExtStrGLX( void )	
+{
+	return __GLeeGetExtStrPlat();
+}
+#endif
+
+GLEE_EXTERN const char * GLeeGetExtStrGL( void )
+{
+	return (const char *)glGetString(GL_EXTENSIONS);
+}
+
+GLEE_EXTERN const char * GLeeGetErrorString( void )
+{
+	return GLeeErrorString;
+}
+
+GLboolean __GLeeInitedLoadFunctions=GL_FALSE;
+
+GLEE_EXTERN GLint GLeeForceLink(const char * extensionName)
+{
+	int type=0; 
+	int extNum;
+	int len=strlen(extensionName);
+	if (len<5) return GLEE_LINK_FAIL;
+	if (!__GLeeInitedLoadFunctions)
+	{
+		if (!__GLeeInited) GLeeInit();
+		initGLLoadFunctions();
+#ifdef WIN32
+		initWGLLoadFunctions();
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+#else
+		initGLXLoadFunctions();
+#endif
+		__GLeeInitedLoadFunctions=GL_TRUE;
+	}
+	if (extensionName[0]=='W') type=1;
+	else if (extensionName[2]=='X') type=2;	
+	extNum=__GLeeGetExtensionNumber(extensionName,type);
+	if (extNum==-1) return GLEE_LINK_FAIL;
+	if (type==0) return __GLeeGLLoadFunction[extNum]();
+#ifdef WIN32
+	if (type==1) return __GLeeWGLLoadFunction[extNum]();
+#elif defined(__APPLE__) || defined(__APPLE_CC__)	
+#else
+	if (type==2) return __GLeeGLXLoadFunction[extNum]();
+#endif
+	return GLEE_LINK_FAIL;
+}
+
+GLEE_EXTERN GLboolean GLeeEnabled(GLboolean * extensionQueryingVariable)
+{
+	if (!__GLeeInited) GLeeInit();
+	return *extensionQueryingVariable;	
+}
+
+GLEE_EXTERN GLboolean GLeeInit( void )
+{
+	int version;
+	ExtensionList extensionNames;
+	
+	if (__GLeeInited) 
+	{
+		return GL_FALSE;
+	}
+
+	__GLeeExtList_init(&extensionNames);
+	if (!__GLeeGetExtensions(&extensionNames)) 
+	{
+		__GLeeWriteError("GL extension querying failed.");
+		__GLeeExtList_clean(&extensionNames);
+		return GL_FALSE;
+	}
+
+	version=__GLeeGetVersionNumber((char *)glGetString(GL_VERSION));
+
+	__GLeeInited = GL_TRUE;
+
+
+/*****************************************************************
+ * Autogenerated linking functions
+ *****************************************************************/

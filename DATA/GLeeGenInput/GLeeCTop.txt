@@ -1,0 +1,50 @@
+#ifdef _MSC_VER
+	#pragma optimize( "g", off )
+#endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "GLee.h"
+
+#if defined(__APPLE__) || defined(__APPLE_CC__)
+	#include <Carbon/Carbon.h>
+#endif
+
+typedef GLuint(*GLEE_LINK_FUNCTION)(void);
+
+GLboolean __GLeeInited=GL_FALSE;
+
+#ifndef _WIN32
+	#define __stdcall  /* nothing */
+#endif 
+
+void * __GLeeGetProcAddress(const char *extname)
+{
+#ifdef WIN32
+	return (void*)wglGetProcAddress(extname);
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+    CFBundleRef bundle;
+    CFURLRef bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/System/Library/Frameworks/OpenGL.framework"), kCFURLPOSIXPathStyle, true);
+
+    CFStringRef functionName = CFStringCreateWithCString(kCFAllocatorDefault, extname, kCFStringEncodingASCII);
+
+    void *function;
+
+    bundle = CFBundleCreate(kCFAllocatorDefault, bundleURL);
+    assert(bundle != NULL);
+
+    function = CFBundleGetFunctionPointerForName(bundle, functionName);
+
+    CFRelease(bundleURL);
+    CFRelease(functionName);
+    CFRelease(bundle);
+
+    return function;
+#else
+	return (void*)glXGetProcAddressARB((const GLubyte *)extname);
+#endif
+}
+
+
+

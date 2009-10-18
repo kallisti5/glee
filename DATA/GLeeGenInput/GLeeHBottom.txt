@@ -1,0 +1,23 @@
+
+/*****************************************************************
+ * GLee functions
+ *****************************************************************/
+ 
+GLEE_EXTERN GLboolean GLeeInit( void );
+GLEE_EXTERN GLint GLeeForceLink(const char * extensionName);
+GLEE_EXTERN const char * GLeeGetErrorString( void );
+GLEE_EXTERN const char * GLeeGetExtStrGL( void );
+GLEE_EXTERN GLboolean GLeeEnabled(GLboolean * extensionQueryingVariable);
+
+#ifdef WIN32
+GLEE_EXTERN const char * GLeeGetExtStrWGL( void );
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+#else 
+GLEE_EXTERN const char * GLeeGetExtStrGLX( void );
+#endif
+
+#ifdef __cplusplus
+}	/* end C linkage */
+#endif
+
+#endif /* __glee_h_ defined */

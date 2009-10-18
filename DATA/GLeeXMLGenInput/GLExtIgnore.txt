@@ -1,0 +1,14 @@
+GLX_SGIX_video_source 
+GLX_SGIX_dmbuffer
+GLX_SGIX_dm_buffer
+GLX_ARB_get_proc_address
+GLX_SGIS_color_range
+GL_EXT_vertex_array_setXXX
+GL_EXT_vertex_array_set
+GL_EXT_static_vertex_array
+GL_SGIX_fragment_specular_lighting
+GL_SGIX_fog_texture
+GL_NV_fragment_program4
+GL_NV_vertex_program4
+GL_NV_geometry_program4
+WGL_NV_video_out

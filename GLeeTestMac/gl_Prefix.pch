@@ -1,0 +1,5 @@
+//
+// Prefix header for all source files of the 'GLCarbonAGLWindow' target in the 'GLCarbonAGLWindow' project.
+//
+
+#include <Carbon/Carbon.h>

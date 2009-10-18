@@ -1,0 +1,155 @@
+
+/*****************************************************************
+ * Additional types needed for extensions
+ *****************************************************************/
+
+/* Used for GLSL shader text */
+#ifndef GL_VERSION_2_0
+	typedef char GLchar; 
+#endif
+
+#include <stddef.h>
+
+#ifndef GL_VERSION_1_5
+	typedef ptrdiff_t GLintptr;
+	typedef ptrdiff_t GLsizeiptr;
+#endif
+
+#ifndef GL_NV_half_float
+	typedef unsigned short GLhalfNV;
+#endif
+
+#ifndef GL_ARB_vertex_buffer_object
+	typedef ptrdiff_t GLintptrARB;
+	typedef ptrdiff_t GLsizeiptrARB;
+#endif
+
+#ifndef GL_ARB_shader_objects
+	typedef int GLhandleARB;
+	typedef char GLcharARB;
+#endif
+
+#ifndef GL_EXT_timer_query
+	typedef signed long long GLint64EXT;
+	typedef unsigned long long GLuint64EXT;
+#endif
+
+/* Platform-specific */
+
+#ifdef WIN32    
+
+	/* WGL */
+
+	#ifndef WGL_ARB_pbuffer
+	    DECLARE_HANDLE(HPBUFFERARB);
+	#endif
+	
+	#ifndef WGL_EXT_pbuffer
+	    DECLARE_HANDLE(HPBUFFEREXT);
+	#endif
+	
+    #ifndef WGL_NV_video_output
+        DECLARE_HANDLE(HPVIDEODEV);
+    #endif
+    
+    #ifndef WGL_NV_present_video
+        DECLARE_HANDLE(HVIDEOOUTPUTDEVICENV);
+    #endif    
+
+    #ifndef WGL_NV_gpu_affinity
+        DECLARE_HANDLE(HPGPUNV);
+        DECLARE_HANDLE(HGPUNV);
+
+        typedef struct _GPU_DEVICE {
+            DWORD  cb;
+            CHAR   DeviceName[32];
+            CHAR   DeviceString[128];
+            DWORD  Flags;
+            RECT   rcVirtualScreen;
+        } GPU_DEVICE, *PGPU_DEVICE;
+    #endif
+	
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
+
+	/* Mac OS X */
+
+#else          
+
+	/* GLX */
+
+	typedef void (*__GLXextFuncPtr)(void);
+
+	#ifndef GLX_ARB_get_proc_address 
+	#define GLX_ARB_get_proc_address 1
+	    extern __GLXextFuncPtr glXGetProcAddressARB (const GLubyte *);
+	    extern void ( * glXGetProcAddressARB (const GLubyte *procName))(void);
+	    typedef __GLXextFuncPtr ( * PFNGLXGETPROCADDRESSARBPROC) (const GLubyte *procName);
+	#endif
+
+	#ifndef GLX_SGIX_fbconfig
+	    typedef XID GLXFBConfigIDSGIX;
+	    typedef struct __GLXFBConfigRec *GLXFBConfigSGIX;
+	#endif
+
+	#ifndef GLX_SGIX_pbuffer
+	typedef XID GLXPbufferSGIX;
+	typedef struct {
+		int type;
+		unsigned long serial;
+		Bool send_event;
+		Display *display;
+		GLXDrawable drawable;
+		int event_type;		  
+		int draw_type;		  
+		unsigned int mask;	  
+		int x, y;
+		int width, height;
+		int count;
+	} GLXBufferClobberEventSGIX;
+	#endif
+
+	#ifndef GLX_SGIX_hyperpipe
+		#define _GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX 80
+		typedef struct 
+		{
+			char  pipeName[_GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX];
+			int  networkId;
+		} GLXHyperpipeNetworkSGIX;
+
+		typedef struct 
+		{
+			char pipeName[_GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX];
+			int channel;
+			unsigned int participationType;
+			int timeSlice;
+		} GLXHyperpipeConfigSGIX;
+
+		typedef struct 
+		{
+			char pipeName[_GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX];
+			int srcXOrigin;
+			int srcYOrigin;
+			int srcWidth;
+			int srcHeight;
+			int destXOrigin;
+			int destYOrigin;
+			int destWidth;
+			int destHeight;
+		} GLXPipeRect;
+
+		typedef struct 
+		{
+			char pipeName[_GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX];
+			int XOrigin; 
+			int YOrigin;
+			int maxHeight;
+			int maxWidth;
+		} GLXPipeRectLimits;
+	#endif 
+	
+	#ifndef GLX_NV_video_output
+    typedef unsigned int GLXVideoDeviceNV;
+    #endif // GLX_NV_video_output
+    	
+#endif /* end platform specific */
+

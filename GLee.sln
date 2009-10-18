@@ -1,0 +1,53 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLeeLib", "Lib\GLeeLib.vcproj", "{4FF8B38D-EFC2-42E8-923C-F8EBE72A6ACF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLeeXMLGen", "GLeeXMLGen\GLeeXMLGen.vcproj", "{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLeeGen", "GLeeGen\GLeeGen.vcproj", "{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLeeTest", "GLeeTest\GLeeTest.vcproj", "{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLeeScripts", "GLeeScripts\GLeeScripts.vcproj", "{E59BAD7A-D2C1-4C3B-9C69-B94C909DFE0B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{4FF8B38D-EFC2-42E8-923C-F8EBE72A6ACF}.Debug.ActiveCfg = Release|Win32
+		{4FF8B38D-EFC2-42E8-923C-F8EBE72A6ACF}.Debug.Build.0 = Release|Win32
+		{4FF8B38D-EFC2-42E8-923C-F8EBE72A6ACF}.Release.ActiveCfg = Release|Win32
+		{4FF8B38D-EFC2-42E8-923C-F8EBE72A6ACF}.Release.Build.0 = Release|Win32
+		{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}.Debug.ActiveCfg = Debug|Win32
+		{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}.Debug.Build.0 = Debug|Win32
+		{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}.Release.ActiveCfg = Release|Win32
+		{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}.Release.Build.0 = Release|Win32
+		{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}.Debug.ActiveCfg = Debug|Win32
+		{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}.Debug.Build.0 = Debug|Win32
+		{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}.Release.ActiveCfg = Debug|Win32
+		{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}.Release.Build.0 = Debug|Win32
+		{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}.Debug.ActiveCfg = Debug|Win32
+		{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}.Debug.Build.0 = Debug|Win32
+		{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}.Release.ActiveCfg = Release|Win32
+		{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}.Release.Build.0 = Release|Win32
+		{E59BAD7A-D2C1-4C3B-9C69-B94C909DFE0B}.Debug.ActiveCfg = Debug|Win32
+		{E59BAD7A-D2C1-4C3B-9C69-B94C909DFE0B}.Debug.Build.0 = Debug|Win32
+		{E59BAD7A-D2C1-4C3B-9C69-B94C909DFE0B}.Release.ActiveCfg = Release|Win32
+		{E59BAD7A-D2C1-4C3B-9C69-B94C909DFE0B}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
