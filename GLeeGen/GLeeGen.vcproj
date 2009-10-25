@@ -1,74 +1,106 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="9.00"
 	Name="GLeeGen"
 	ProjectGUID="{54AEBCC8-61D8-48ED-8B6B-35C40F6A0F26}"
-	SccProjectName=""
-	SccLocalPath="">
+	TargetFrameworkVersion="131072"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\bin"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TypeLibraryName=".\Debug/GLeeGen.tlb"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;C:\Documents and Settings\Administrator\My Documents\PROJECTS\Mirage\source\core&quot;;&quot;C:\Documents and Settings\Administrator\My Documents\PROJECTS\Mirage\source\modules&quot;"
 				PreprocessorDefinitions="WIN32,_DEBUG,_CONSOLE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="5"
+				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/GLeeGen.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile="$(OutDir)/GLeeGen.exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="TRUE"
-				GenerateDebugInformation="TRUE"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/GLeeGen.pdb"
-				SubSystem="1"/>
+				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
 			<Tool
-				Name="VCMIDLTool"
-				TypeLibraryName=".\Debug/GLeeGen.tlb"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="2057"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -76,70 +108,91 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
 			<File
-				RelativePath="..\Common\ArrayList.h">
+				RelativePath="..\Common\ArrayList.h"
+				>
 			</File>
 			<File
-				RelativePath=".\GLeeGen.cpp">
+				RelativePath=".\GLeeGen.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\GleeGen.h">
+				RelativePath=".\GleeGen.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Common\stdafx.h">
+				RelativePath="..\Common\stdafx.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Common\String.cpp">
+				RelativePath="..\Common\String.cpp"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+						ObjectFile="$(IntDir)/$(InputName)1.obj"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Common\String.h">
+				RelativePath="..\Common\String.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Common\XMLFile.cpp">
+				RelativePath="..\Common\XMLFile.cpp"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+						ObjectFile="$(IntDir)/$(InputName)1.obj"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Common\XMLFile.h">
+				RelativePath="..\Common\XMLFile.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Input files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\Data\GLeeGenInput\exceptions.txt">
+				RelativePath="..\Data\GLeeGenInput\exceptions.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\extensions.xml">
+				RelativePath="..\Data\GLeeGenInput\extensions.xml"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\GLeeCTop.txt">
+				RelativePath="..\Data\GLeeGenInput\GLeeCTop.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\GLeeFunctions.txt">
+				RelativePath="..\Data\GLeeGenInput\GLeeFunctions.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\GLeeHBottom.txt">
+				RelativePath="..\Data\GLeeGenInput\GLeeHBottom.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\gleehtop.txt">
+				RelativePath="..\Data\GLeeGenInput\gleehtop.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\GLeeVersion.txt">
+				RelativePath="..\Data\GLeeGenInput\GLeeVersion.txt"
+				>
 			</File>
 			<File
-				RelativePath="..\Data\GLeeGenInput\License.txt">
+				RelativePath="..\Data\GLeeGenInput\License.txt"
+				>
 			</File>
 		</Filter>
 	</Files>
