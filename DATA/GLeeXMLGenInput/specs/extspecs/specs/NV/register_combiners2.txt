@@ -30,8 +30,6 @@ Version
 
     NVIDIA Date: December 13, 2004
     Version 1.2
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_register_combiners2.txt#7 $
 
 Number
 

@@ -24,9 +24,8 @@ Status
 
 Version
 
-    NVIDIA Date: January 18, 2001
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_fog_distance.txt#14 $
+    NVIDIA Date:   January 18, 2001
+    Version:       1.0
 
 Number
 

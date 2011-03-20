@@ -20,8 +20,8 @@ IP Status
 
 Version
 
-    NVIDIA Date: March 5, 2007
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_shader3.txt#11 $
+    NVIDIA Date:  March 5, 2007
+    Version:      11
 
 Number
 

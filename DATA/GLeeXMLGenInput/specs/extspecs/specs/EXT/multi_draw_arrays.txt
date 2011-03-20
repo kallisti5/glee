@@ -24,18 +24,18 @@ Status
 
 Version
 
-    $Date: 1999/12/28 01:40:37 $ $Revision: 1.6 $
-    SUN Date: 99/06/25 15:07:37  Revision: 1.2
+    Version 3, August 6, 2010
 
 Number
 
     148
+    OpenGL ES Extension #69
 
 Dependencies
 
     OpenGL 1.1 is required. The language is written against the OpenGL 1.2
     specification.
-
+    
 Overview
 
     These functions behave identically to the standard OpenGL 1.1 functions
@@ -47,8 +47,8 @@ Overview
 New Procedures and Functions
 
     void glMultiDrawArraysEXT( GLenum mode,
-			       GLint *first,
-			       GLsizei *count,
+			       const GLint *first,
+			       const GLsizei *count,
 			       GLsizei primcount)
     Parameters
     ----------
@@ -104,8 +104,8 @@ Additions to Chapter 2 of the 1.2 Specification (OpenGL Operation)
     The command
 
 	void glMultiDrawArraysEXT( GLenum mode,
-				   GLint* first,
-				   GLsizei *count,
+				   const GLint* first,
+				   const GLsizei *count,
 				   GLsizei primcount)
 
     Behaves identically to DrawArrays except that a list of arrays is
@@ -171,6 +171,16 @@ New State
 
     None
 
+OpenGL ES interactions
+    This extension can also be implemented against OpenGL ES 1.x or 
+	OpenGL ES 2.0. In those cases, remove references to glBegin, glEnd,
+	and to GL_QUAD_STRIP, GL_QUADS, and GL_POLYGON.
+
+
 Revision History
 
+    Version 3, 2010/08/06 - Added 'const' to MultiDrawArrays pointer
+	arguments to match the core GL entry point.
+    30/09/09 - Added fields from the new extension template and
+        interactions with OpenGL ES.
     6/24/99 - Added fields from the new extension template.

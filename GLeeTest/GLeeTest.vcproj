@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="GLeeTest"
 	ProjectGUID="{4E40CA90-DA94-4C2B-8163-0F640BEC57C8}"
+	RootNamespace="GLeeTest"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -73,7 +74,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib ..\DATA\output\GLee.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib ..\DATA\output\GLee.lib"
 				OutputFile=".\Debug/GLeeTest.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -164,10 +165,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib glee.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib glee.lib"
 				OutputFile=".\Release/lesson1.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\DATA\output"
 				ProgramDatabaseFile=".\Release/GLeeTest.pdb"
 				SubSystem="2"
 				RandomizedBaseAddress="1"

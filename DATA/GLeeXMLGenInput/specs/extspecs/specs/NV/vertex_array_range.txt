@@ -27,8 +27,6 @@ Status
 Version
 
     NVIDIA Date: September 17, 2001 (version 1.1)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_vertex_array_range.txt#25 $
 
 Number
 

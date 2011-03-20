@@ -16,7 +16,7 @@ Status
 
 Version
 
-    Date: 02/20/2008   Revision: 1.0
+    Date: 09/08/2009   Revision: 1.0
 
 Number
 
@@ -58,21 +58,21 @@ Issues
 New Procedures and Functions
 
     BOOL wglJoinSwapGroupNV(HDC hDC,
-                         GLuint group);
+                            GLuint group);
 
     BOOL wglBindSwapBarrierNV(GLuint group,
-                           GLuint barrier);
+                              GLuint barrier);
 
     BOOL wglQuerySwapGroupNV(HDC hDC,
-                          GLuint *group);
-                          GLuint *barrier);
+                             GLuint *group,
+                             GLuint *barrier);
 
     BOOL wglQueryMaxSwapGroupsNV(HDC hDC,
-                              GLuint *maxGroups,
-                              GLuint *maxBarriers);
+                                 GLuint *maxGroups,
+                                 GLuint *maxBarriers);
 
     BOOL wglQueryFrameCountNV(HDC hDC,
-                           GLuint *count);
+                              GLuint *count);
 
     BOOL wglResetFrameCountNV(HDC hDC);
 

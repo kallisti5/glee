@@ -24,8 +24,8 @@ Status
 
 Version
 
-    NVIDIA Date: March 13, 2007
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_shader.txt#30 $
+    NVIDIA Date:  March 13, 2007
+    Version:      30
 
 Number
 

@@ -19,17 +19,17 @@ GLboolean __GLeeInited=GL_FALSE;
 	#define __stdcall  /* nothing */
 #endif 
 
-void * __GLeeGetProcAddress(const char *extname)
+GLEE_FUNC __GLeeGetProcAddress(const char *extname)
 {
 #ifdef WIN32
-	return (void*)wglGetProcAddress(extname);
+    return (GLEE_FUNC)wglGetProcAddress(extname);
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
     CFBundleRef bundle;
     CFURLRef bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/System/Library/Frameworks/OpenGL.framework"), kCFURLPOSIXPathStyle, true);
 
     CFStringRef functionName = CFStringCreateWithCString(kCFAllocatorDefault, extname, kCFStringEncodingASCII);
 
-    void *function;
+    GLEE_FUNC function;
 
     bundle = CFBundleCreate(kCFAllocatorDefault, bundleURL);
     assert(bundle != NULL);
@@ -42,7 +42,7 @@ void * __GLeeGetProcAddress(const char *extname)
 
     return function;
 #else
-	return (void*)glXGetProcAddressARB((const GLubyte *)extname);
+    return (GLEE_FUNC)glXGetProcAddressARB((const GLubyte *)extname);
 #endif
 }
 

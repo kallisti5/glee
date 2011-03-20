@@ -8,7 +8,7 @@
 <title>OpenGL&reg; Registry</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="description" content="OpenGL Developer Web Site" />
-<meta name="copyright" content="Copyright (c) 2000 - 2009 OpenGL ARB" />
+<meta name="copyright" content="Copyright (c) 2000 - 2010 Khronos Group" />
 <meta name="author" content="Khronos Group" />
 <link rel="stylesheet" href="/css/global.css" type="text/css" media="screen" />
 <link href="/css/nav.css" rel="stylesheet" type="text/css" />
@@ -31,32 +31,32 @@
 </head>
 
 <body>
+<div id="masthead">
+<a href="http://khronos.org/"><img src="http://www.khronos.org/images/masthead/khronos_group_masthead.gif" width="287" height="20" alt="Part of the Khronos Group" /></a>
+</div>
+
 <div id="wrap">
 
 <div id="header-frame">
 <div id="header">
-<table border="0" class="branding"><tr>
-<td>
-<a href="http://www.opengl.org"><img src="/img/opengl_animated.gif" alt="OpenGL.org" height="60" width="128" /></a>
+<div style="position:relative;">
+<table border="0" class="branding"><tr><td>
+<a href="http://www.opengl.org"><img src="/img/opengl_logo.jpg" alt="OpenGL.org" title="The Industry's Foundation for High Performance Graphics" height="97" width="220" /></a>
 </td><td>
-<script language='JavaScript' type='text/javascript' src='http://opengl.org/ads/adx.js'></script>
-<script language='JavaScript' type='text/javascript'>
-<!--
-   if (!document.phpAds_used) document.phpAds_used = ',';
-   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
-   
-   document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
-   document.write ("http://opengl.org/ads/adjs.php?n=" + phpAds_random);
-   document.write ("&amp;what=zone:1");
-   document.write ("&amp;exclude=" + document.phpAds_used);
-   if (document.referrer)
-      document.write ("&amp;referer=" + escape(document.referrer));
-   document.write ("'><" + "/script>");
-//-->
-</script><noscript><a href='http://opengl.org/ads/adclick.php?n=a1710b2a' target='_blank'><img src='http://opengl.org/ads/adview.php?what=zone:1&amp;n=a1710b2a' border='0' alt=''></a></noscript>
+<div id="search_inner">
+  <form id="searchbox_017055583490642512057:hwpumfa180i" action="http://www.opengl.org/search/">
+    <input type="hidden" name="cx" value="017055583490642512057:hwpumfa180i" />
+    <input type="hidden" name="cof" value="FORID:9" />
+    <input name="q" type="text" size="18" />
+    <input type="submit" name="sa" value="Search" />
+  </form>
+  <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=searchbox_017055583490642512057%3Ahwpumfa180i"></script>
+</div>
 
-</td>
-</tr></table>
+<h1>The Industry's Foundation for High Performance Graphics</h1>
+<h4>from games to virtual reality, mobile phones to supercomputers</h4>
+</td></tr></table>
+</div>
 	
 <div id="nav" class="clearfix">
 
@@ -66,9 +66,11 @@
 
 <li><a href="/documentation/">Documentation</a>
 <ul>
-	<li><a href="/documentation/current_version/">About OpenGL 2.1</a></li>
+	<li><a href="/documentation/current_version/">About OpenGL 4.1</a></li>
 	<li><a href="/documentation/specs/">Specifications</a></li>
 	<li><a href="/documentation/specs/feedback">Spec Feedback Form</a></li>
+    <li><a href="/sdk/docs/man4/">OpenGL 4.1 Reference Pages</a></li>
+    <li><a href="/sdk/docs/man3/">OpenGL 3.3 Reference Pages</a></li>
 	<li><a href="/sdk/docs/man/">OpenGL 2.1 Reference Pages</a></li>
 	<li><a href="/documentation/glsl/">OpenGL Shading Language</a></li>
 	<li><a href="/registry/">OpenGL Extension Registry</a></li>
@@ -107,7 +109,7 @@
 
 <li><a href="/community/">Community</a>
 <ul>
-	<li><a href="/message_boards/">Message Boards</a></li>
+	<li><a href="/discussion_boards/">Message Boards</a></li>
 	<li><a href="/community/newsgroups/">Mailing Lists &amp; News Groups</a></li>
 	<li><a href="/jobs/">Job Classifieds</a></li>
 	<li><a href="/community/advertising/">OpenGL.org Advertising</a></li>
@@ -138,32 +140,38 @@
 <div id="container">
 <div id="main">
 <div id="content" class="floatclear">
-<h1 style="text-align:center">
-    OpenGL&reg; Extension Registry</h1>
 
-<p> Many OpenGL extensions, as well as extensions to related APIs like
-    GLU, GLX, and WGL, have been defined by vendors and groups of
-    vendors. The extension registry is maintained by Khronos and
-    contains specifications for all known extensions, written as
-    modifications to the appropriate
-    <a href="http://www.opengl.org/documentation/specs/">
-    specification documents</a>. The registry also defines naming
-    conventions, guidelines for creating new extensions and writing
-    suitable extension specifications, and other related documentation.
+<h1 style="text-align:center">
+    OpenGL&reg; Registry</h1>
+
+<p> The OpenGL Registry contains specifications, header files, and
+    related documentation for OpenGL and related APIs including GLU,
+    GLX, and WGL. In addition to the core API specifications, many
+    extensions to these APIs have been defined by vendors, groups of
+    vendors, and the ARB. The Registry also contains specifications and
+    header files for all registered extensions, written as modifications
+    to the appropriate core API specifications. </p>
+
+<p> The Registry also includes naming conventions, guidelines for
+    creating new extensions and writing suitable extension
+    specifications, and other documentation related to these APIs.
+
     </p>
 
 <p> <b>Table of Contents</b>
 <ul>
-<li> <a href="#abi">OpenGL Application Binary Interface for Linux</a>
-     </li>
-<li> <a href="#headers">Extension Header Files</a> </li>
-<li> <a href="#specfiles">Enumerant and Function Registry</a> </li>
+<li> <b><a href="#apispecs">OpenGL API and Shading Language
+     Specifications and Reference Pages</a></b> </li>
 <li> <a href="#policies">Adding to the Registry and Requesting Enumerant
      Allocations</a> </li>
-<li> <b> Specifications </b>
+<li> <a href="#abi">OpenGL Application Binary Interface for Linux</a>
+     </li>
+<li> <a href="#headers">Core API and Extension Header Files</a> </li>
+<li> <a href="#specfiles">Registry of Reserved Enumerants and
+     Functions</a> </li>
+
+<li> <b> Extension Specifications </b>
     <ul>
-    <li> <a href="#apispecs">API Specifications and Other Documents</a>
-	 </li>
     <li> <a href="#arbextspecs">ARB Extensions by number</a> </li>
     <li> <a href="#otherextspecs">Vendor and EXT Extensions by number</a>
 	 </li>
@@ -172,13 +180,153 @@
 
 <hr>
 
+<h6> <a name="apispecs"></a>
+     OpenGL API and Shading Language Specifications and Reference Pages
+     </h6>
+
+<ul>
+<li> <b> Current Specifications (OpenGL 4.1) </b>
+<li> <a href="doc/glspec41.core.20100725.pdf"> OpenGL 4.1 Core Profile
+     Specification (updated July 25, 2010) </a> </li>
+<li> <a href="doc/glspec41.core.20100725.withchanges.pdf"> OpenGL 4.1
+     Core Profile Specification with changes marked (updated July 25,
+     2010) </a> </li>
+<li> <a href="doc/glspec41.compatibility.20100725.pdf"> OpenGL 4.1
+     Compatibility Profile Specification (updated July 25, 2010) </a>
+     </li>
+<li> <a href="doc/glspec41.compatibility.20100725.withchanges.pdf">
+     OpenGL 4.1 Compatibility Profile Specification with changes marked
+     (updated July 25, 2010) </a> </li>
+<li> <a href="doc/GLSLangSpec.4.10.6.clean.pdf"> OpenGL Shading Language
+     4.10.6 Specification (updated July 24, 2010) </a> </li>
+<li> <a href="doc/GLSLangSpec.4.10.6.pdf"> OpenGL Shading Language
+     4.10.6 Specification (updated July 24, 2010) with changes marked
+     </a> </li>
+
+<li> <b> Reference Pages </b>
+<li> <a href="http://www.opengl.org/sdk/docs/man/"> OpenGL 2.1 Reference
+     Pages </a> </li>
+
+<li> <b> Older API and GLSL Specifications </b>
+
+<li> <b> OpenGL 4.0 </b>
+<li> <a href="doc/glspec40.core.20100311.pdf"> OpenGL 4.0 Core Profile
+     Specification (updated March 11, 2010) </a> </li>
+<li> <a href="doc/glspec40.core.20100311.withchanges.pdf"> OpenGL 4.0
+     Core Profile Specification with changes marked (updated March 11,
+     2010) </a> </li>
+<li> <a href="doc/glspec40.compatibility.20100311.pdf"> OpenGL 4.0
+     Compatibility Profile Specification (updated March 11, 2010) </a>
+     </li>
+<li> <a href="doc/glspec40.compatibility.20100311.withchanges.pdf">
+     OpenGL 4.0 Compatibility Profile Specification with changes marked
+     (updated March 11, 2010) </a> </li>
+<li> <a href="doc/GLSLangSpec.4.00.9.clean.pdf"> OpenGL Shading Language
+     4.00.9 Specification (updated July 24, 2010) </a> </li>
+
+<li> <b> OpenGL 3.3 </b>
+<li> <a href="doc/glspec33.core.20100311.pdf"> OpenGL 3.3 Core Profile
+     Specification (updated March 11, 2010) </a> </li>
+<li> <a href="doc/glspec33.core.20100311.withchanges.pdf"> OpenGL 3.3
+     Core Profile Specification with changes marked (updated March 11,
+     2010) </a> </li>
+<li> <a href="doc/glspec33.compatibility.20100311.pdf"> OpenGL 3.3
+     Compatibility Profile Specification (updated March 11, 2010) </a>
+     </li>
+<li> <a href="doc/glspec33.compatibility.20100311.withchanges.pdf">
+     OpenGL 3.3 Compatibility Profile Specification with changes marked
+     (updated March 11, 2010) </a> </li>
+<li> <a href="doc/GLSLangSpec.3.30.6.clean.pdf"> OpenGL Shading Language
+     3.30.6 Specification (updated March 11, 2010) </a> </li>
+
+<li> <b> OpenGL 3.2 </b>
+<li> <a href="doc/glspec32.core.20091207.pdf"> OpenGL 3.2 Core Profile
+     Specification (updated December 7, 2009) </a> </li>
+<li> <a href="doc/glspec32.core.20091207.withchanges.pdf"> OpenGL 3.2
+     Core Profile Specification with changes marked (updated December 7,
+     2009) </a> </li>
+<li> <a href="doc/glspec32.compatibility.20091207.pdf"> OpenGL 3.2
+     Compatibility Profile Specification (updated December 7, 2009) </a>
+     </li>
+<li> <a href="doc/glspec32.compatibility.20091207.withchanges.pdf">
+     OpenGL 3.2 Compatibility Profile Specification with changes marked
+     (updated December 7, 2009) </a> </li>
+<li> <a href="doc/GLSLangSpec.1.50.11.pdf"> OpenGL Shading Language
+     1.50.11 Specification (updated December 4, 2009) </a> </li>
+
+<li> <b> OpenGL 3.1 </b>
+<li> <a href="doc/glspec31.20090528.pdf"> OpenGL 3.1 Specification
+     (updated May 28, 2009) </a> </li>
+<li> <a href="doc/glspec31undep.20090528.pdf"> OpenGL 3.1 Specification
+     with GL_ARB_compatibility extension (updated May 28, 2009) </a>
+     </li>
+<li> <a href="doc/GLSLangSpec.Full.1.40.08.pdf"> OpenGL Shading Language
+     1.40.08 Specification (updated November 22, 2009) </a> </li>
+
+<li> <b> OpenGL 3.0 </b>
+<li> <a href="doc/glspec30.20080923.pdf"> OpenGL 3.0 Specification
+     (updated September 23, 2008) </a> </li>
+<li> <a href="doc/glspec30.20080811.withchanges.pdf"> OpenGL 3.0
+     Specification (August 11, 2008) with changes marked </a> </li>
+<li> <a href="doc/GLSLangSpec.Full.1.30.10.pdf"> OpenGL Shading Language
+     1.30.10 Specification (updated November 22, 2009) </a> </li>
+
+<li> <b> OpenGL 2.1 </b>
+<li> <a href="doc/glspec21.20061201.pdf"> OpenGL 2.1 Specification
+     (December 1, 2006) </a> </li>
+<li> <a href="doc/GLSLangSpec.Full.1.20.8.pdf"> OpenGL Shading Language
+     1.20.8 Specification (September 7, 2006) </a> </li>
+
+<li> <b> Older Shading Language Specifications </b>
+
+<li> <a href="doc/GLSLangSpec.Full.1.10.59.pdf"> OpenGL Shading Language
+     1.10.59 Specification (April 30, 2004) </a> </li>
+</ul>
+
+<h6> IP Disclosure Statements </h6>
+
+<p> <a href="https://www.khronos.org/files/ip-disclosures/opengl/"> IP
+    Disclosure Statements </a> from Khronos Members which bear on OpenGL
+    are available. </p>
+
+<h6> <a name="policies"></a>
+     Adding to the Registry and Requesting Enumerant Allocations </h6>
+
+<p> If you want to add an extension specification to the Registry,
+    correct an existing specification, request allocation of enumerants
+    and other controlled resources in the OpenGL / GLX / WGL namespaces,
+    or otherwise change the Registry, please
+    <a href="http://www.khronos.org/bugzilla/createaccount.cgi">create a
+    Bugzilla account</a> on the public Khronos.org Bugzilla, and submit
+    your request there against Product &quot;OpenGL&quot;, Component
+    &quot;Registry&quot;. You can use
+    <a href="http://www.khronos.org/bugzilla/enter_bug.cgi?assigned_to=developer%40oddhack.org&attachurl=&blocked=&bug_file_loc=http%3A%2F%2F&bug_severity=normal&bug_status=NEW&comment=Please%20provide%20details%20here.%20If%20you%20are%20submitting%20an%20extension%20specification%20for%20addition%20to%20the%20registry%2C%20attach%20it%20to%20the%20bug%20below.%20If%20you%20are%20requesting%20allocation%20of%20OpenGL%20enumarant%20ranges%20or%20other%20controlled%20resources%2C%20please%20review%20the%20policy%20documents%20linked%20from%20the%20Registry%20%28http%3A%2F%2Fwww.opengl.org%2Fregistry%2F%29%20first%2C%20particularly%20%22How%20to%20Create%20Extensions%22%20and%20%22Enumerant%20Allocation%20Policies%22%2C%20and%20follow%20those%20guidelines%20in%20making%20your%20request.&component=Registry&contenttypeentry=&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&data=&deadline=&dependson=&description=&estimated_time=0.0&form_name=enter_bug&keywords=&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=All&priority=P3&product=OpenGL&qa_contact=&rep_platform=All&short_desc=Please%20summarize%20your%20OpenGL%20Registry%20request%20here&target_milestone=---&version=unspecified">
+    this Bugzilla link</a>, which fills in many fields for you. </p>
+
+<p> Please review the documents linked below, especially
+    <a href="http://www.opengl.org/registry/doc/rules.html"> How to
+    Create Extensions</a> and
+    <a href="http://www.opengl.org/registry/doc/enums.html"> Enumerant
+    Allocation Policies</a>, before making your request. </p>
+
+<ul>
+<li> <a href="doc/rules.html"> How to Create Extensions </a> </li>
+<li> <a href="doc/enums.html"> Enumerant Allocation Policies </a> </li>
+<li> <a href="doc/template.txt"> Extension Template </a> </li>
+<li> <a href="doc/promoting.html"> Extension Promotion Guidelines </a> </li>
+<li> <a href="doc/reserved.txt"> Enumerant/Opcode Registry </a> </li>
+<li> <a href="doc/syntaxrules.txt"> OpenGL Syntax Rules (updated 2006/12/13) </a> </li>
+<li> <a href="doc/GLSLExtensionRules.txt"> OpenGL Shading Language Extension Conventions (updated 2006/12/18) </a> </li>
+<li> <a href="doc/fog_coord.txt"> Extension Specification Example </a> </li>
+</ul>
+
 <h6> <a name="abi"></a>
     OpenGL Application Binary Interface for Linux </h6>
 
 <p> The current version of the <a href="ABI/">OpenGL Application Binary
     Interface for Linux</a> is also available. </p>
 
-<h6> <a name="headers"></a> Extension Header Files </h6>
+<h6> <a name="headers"></a> Core API and Extension Header Files </h6>
 
 <p> Because extensions vary from platform to platform and driver to
     driver, OpenGL developers can't expect interfaces for all extensions
@@ -189,10 +337,30 @@
     <tt><a href="api/wglext.h">wglext.h</a></tt> - are provided here.
     </p>
 
+<p> <b> NOTE 2010/08/09:</b> the .spec files and headers have been
+    updated to OpenGL 4.1 level and a variety of bugs in the headers
+    identified in the public Bugzilla have been fixed. </p>
+
 <p> These headers define interfaces (enumerants, prototypes, and for
     platforms supporting dynamic runtime extension queries, such as
     Linux and Microsoft Windows, function pointer typedefs) for all
     registered extensions. </p>
+
+<p> <b>Draft <tt>gl3.h</tt> Header</b> </p>
+
+<p> We are releasing a draft version of a new header file, <tt><a
+    href="api/gl3.h">gl3.h</a></tt> for public feedback. This header is
+    described in appendix H.2 of the OpenGL 3.1 Specification and is
+    intended for use with core OpenGL 3.1 implementations. It does not
+    include interfaces that were removed from core OpenGL 3.1. </p>
+
+<p> We will create a <tt>gl3ext.h</tt> if and when there are separately
+    developed extensions shipping against core OpenGL 3.1, but at
+    present there are no such extensions and no need for this header.
+    Please read the release notes near the top of gl3.h before
+    attempting to use it. Again, this is not a production-quality header
+    and we're only putting it out for developer feedback at present, not
+    for general use. </p>
 
 <h6> <a name="specfiles"></a> Enumerant and Function Registry </h6>
 
@@ -270,46 +438,7 @@
 <p> <i>(Yes, these databases should be moved to a modern XML-based
     format. Patience.)</i> </p>
 
-<h6> <a name="policies"></a>
-     Adding to the Registry and Requesting Enumerant Allocations </h6>
-
-<p> If you want to add an extension specification to the Registry,
-    correct an existing specification, request allocation of enumerants
-    and other controlled resources in the OpenGL / GLX / WGL namespaces,
-    or otherwise change the Registry, please
-    <a href="http://www.khronos.org/bugzilla/createaccount.cgi">create a
-    Bugzilla account</a> on the public Khronos.org Bugzilla, and submit
-    your request there against Product &quot;OpenGL&quot;, Component
-    &quot;Registry&quot;. You can use
-    <a href="http://www.khronos.org/bugzilla/enter_bug.cgi?assigned_to=developer%40oddhack.org&attachurl=&blocked=&bug_file_loc=http%3A%2F%2F&bug_severity=normal&bug_status=NEW&comment=Please%20provide%20details%20here.%20If%20you%20are%20submitting%20an%20extension%20specification%20for%20addition%20to%20the%20registry%2C%20attach%20it%20to%20the%20bug%20below.%20If%20you%20are%20requesting%20allocation%20of%20OpenGL%20enumarant%20ranges%20or%20other%20controlled%20resources%2C%20please%20review%20the%20policy%20documents%20linked%20from%20the%20Registry%20%28http%3A%2F%2Fwww.opengl.org%2Fregistry%2F%29%20first%2C%20particularly%20%22How%20to%20Create%20Extensions%22%20and%20%22Enumerant%20Allocation%20Policies%22%2C%20and%20follow%20those%20guidelines%20in%20making%20your%20request.&component=Registry&contenttypeentry=&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&data=&deadline=&dependson=&description=&estimated_time=0.0&form_name=enter_bug&keywords=&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=All&priority=P3&product=OpenGL&qa_contact=&rep_platform=All&short_desc=Please%20summarize%20your%20OpenGL%20Registry%20request%20here&target_milestone=---&version=unspecified">
-    this Bugzilla link</a>, which fills in many fields for you. </p>
-
-<p> Please review the documents below, especially
-    <a href="http://www.opengl.org/registry/doc/rules.html"> How to
-    Create Extensions</a> and
-    <a href="http://www.opengl.org/registry/doc/enums.html"> Enumerant
-    Allocation Policies</a>, before making your request. </p>
-
-<h6> <a name="apispecs"></a>
-     API Specifications and Other Documents </h6>
-
-<ul>
-<li> <a href="doc/glspec30.20080923.pdf"> OpenGL 3.0 Specification (updated September 23, 2008) </a> </li>
-<li> <a href="doc/glspec30.20080811.withchanges.pdf"> OpenGL 3.0 Specification with changes marked (August 11, 2008) </a> </li>
-<li> <a href="doc/glspec21.20061201.pdf"> OpenGL 2.1 Specification (December 1, 2006) </a> </li>
-<li> <a href="doc/GLSLangSpec.Full.1.30.08.pdf"> OpenGL Shading Language Specification (version 1.30.08, August 7, 2008) </a> </li>
-<li> <a href="doc/GLSLangSpec.Full.1.30.08.withchanges.pdf"> OpenGL Shading Language Specification with changes marked (version 1.30.08, August 7, 2008) </a> </li>
-<li> <a href="doc/GLSLangSpec.Full.1.20.8.pdf"> OpenGL Shading Language Specification (version 1.20.8, September 7, 2006) </a> </li>
-<li> <a href="doc/GLSLangSpec.Full.1.10.59.pdf"> OpenGL Shading Language Specification (version 1.10.59, April 30, 2004) </a> </li>
-<li> <a href="doc/rules.html"> How to Create Extensions </a> </li>
-<li> <a href="doc/enums.html"> Enumerant Allocation Policies </a> </li>
-<li> <a href="doc/template.txt"> Extension Template </a> </li>
-<li> <a href="doc/promoting.html"> Extension Promotion Guidelines </a> </li>
-<li> <a href="doc/reserved.txt"> Enumerant/Opcode Registry </a> </li>
-<li> <a href="doc/syntaxrules.txt"> OpenGL Syntax Rules (updated 2006/12/13) </a> </li>
-<li> <a href="doc/GLSLExtensionRules.txt"> OpenGL Shading Language Extension Conventions (updated 2006/12/18) </a> </li>
-<li> <a href="doc/fog_coord.txt"> Extension Specification Example </a> </li>
-</ul>
+<hr>
 <h6> <a name="arbextspecs"></a>
      ARB Extensions by number</h6>
 <ol>
@@ -430,6 +559,106 @@
 <li value=55> <a href="specs/ARB/wgl_create_context.txt">WGL_ARB_create_context</a>
 </li>
 <li value=56> <a href="specs/ARB/glx_create_context.txt">GLX_ARB_create_context</a>
+</li>
+<li value=57> <a href="specs/ARB/uniform_buffer_object.txt">GL_ARB_uniform_buffer_object</a>
+</li>
+<li value=58> <a href="specs/ARB/compatibility.txt">GL_ARB_compatibility</a>
+</li>
+<li value=59> <a href="specs/ARB/copy_buffer.txt">GL_ARB_copy_buffer</a>
+</li>
+<li value=60> <a href="specs/ARB/shader_texture_lod.txt">GL_ARB_shader_texture_lod</a>
+</li>
+<li value=61> <a href="specs/ARB/depth_clamp.txt">GL_ARB_depth_clamp</a>
+</li>
+<li value=62> <a href="specs/ARB/draw_elements_base_vertex.txt">GL_ARB_draw_elements_base_vertex</a>
+</li>
+<li value=63> <a href="specs/ARB/fragment_coord_conventions.txt">GL_ARB_fragment_coord_conventions</a>
+</li>
+<li value=64> <a href="specs/ARB/provoking_vertex.txt">GL_ARB_provoking_vertex</a>
+</li>
+<li value=65> <a href="specs/ARB/seamless_cube_map.txt">GL_ARB_seamless_cube_map</a>
+</li>
+<li value=66> <a href="specs/ARB/sync.txt">GL_ARB_sync</a>
+</li>
+<li value=67> <a href="specs/ARB/texture_multisample.txt">GL_ARB_texture_multisample</a>
+</li>
+<li value=68> <a href="specs/ARB/vertex_array_bgra.txt">GL_ARB_vertex_array_bgra</a>
+</li>
+<li value=69> <a href="specs/ARB/draw_buffers_blend.txt">GL_ARB_draw_buffers_blend</a>
+</li>
+<li value=70> <a href="specs/ARB/sample_shading.txt">GL_ARB_sample_shading</a>
+</li>
+<li value=71> <a href="specs/ARB/texture_cube_map_array.txt">GL_ARB_texture_cube_map_array</a>
+</li>
+<li value=72> <a href="specs/ARB/texture_gather.txt">GL_ARB_texture_gather</a>
+</li>
+<li value=73> <a href="specs/ARB/texture_query_lod.txt">GL_ARB_texture_query_lod</a>
+</li>
+<li value=74> <a href="specs/ARB/wgl_create_context.txt">WGL_ARB_create_context_profile</a>
+</li>
+<li value=75> <a href="specs/ARB/glx_create_context.txt">GLX_ARB_create_context_profile</a>
+</li>
+<li value=76> <a href="specs/ARB/shading_language_include.txt">GL_ARB_shading_language_include</a>
+</li>
+<li value=77> <a href="specs/ARB/texture_compression_bptc.txt">GL_ARB_texture_compression_bptc</a>
+</li>
+<li value=78> <a href="specs/ARB/blend_func_extended.txt">GL_ARB_blend_func_extended</a>
+</li>
+<li value=79> <a href="specs/ARB/explicit_attrib_location.txt">GL_ARB_explicit_attrib_location</a>
+</li>
+<li value=80> <a href="specs/ARB/occlusion_query2.txt">GL_ARB_occlusion_query2</a>
+</li>
+<li value=81> <a href="specs/ARB/sampler_objects.txt">GL_ARB_sampler_objects</a>
+</li>
+<li value=82> <a href="specs/ARB/shader_bit_encoding.txt">GL_ARB_shader_bit_encoding</a>
+</li>
+<li value=83> <a href="specs/ARB/texture_rgb10_a2ui.txt">GL_ARB_texture_rgb10_a2ui</a>
+</li>
+<li value=84> <a href="specs/ARB/texture_swizzle.txt">GL_ARB_texture_swizzle</a>
+</li>
+<li value=85> <a href="specs/ARB/timer_query.txt">GL_ARB_timer_query</a>
+</li>
+<li value=86> <a href="specs/ARB/vertex_type_2_10_10_10_rev.txt">GL_ARB_vertex_type_2_10_10_10_rev</a>
+</li>
+<li value=87> <a href="specs/ARB/draw_indirect.txt">GL_ARB_draw_indirect</a>
+</li>
+<li value=88> <a href="specs/ARB/gpu_shader5.txt">GL_ARB_gpu_shader5</a>
+</li>
+<li value=89> <a href="specs/ARB/gpu_shader_fp64.txt">GL_ARB_gpu_shader_fp64</a>
+</li>
+<li value=90> <a href="specs/ARB/shader_subroutine.txt">GL_ARB_shader_subroutine</a>
+</li>
+<li value=91> <a href="specs/ARB/tessellation_shader.txt">GL_ARB_tessellation_shader</a>
+</li>
+<li value=92> <a href="specs/ARB/texture_buffer_object_rgb32.txt">GL_ARB_texture_buffer_object_rgb32</a>
+</li>
+<li value=93> <a href="specs/ARB/transform_feedback2.txt">GL_ARB_transform_feedback2</a>
+</li>
+<li value=94> <a href="specs/ARB/transform_feedback3.txt">GL_ARB_transform_feedback3</a>
+</li>
+<li value=95> <a href="specs/ARB/ES2_compatibility.txt">GL_ARB_ES2_compatibility</a>
+</li>
+<li value=96> <a href="specs/ARB/get_program_binary.txt">GL_ARB_get_program_binary</a>
+</li>
+<li value=97> <a href="specs/ARB/separate_shader_objects.txt">GL_ARB_separate_shader_objects</a>
+</li>
+<li value=98> <a href="specs/ARB/shader_precision.txt">GL_ARB_shader_precision</a>
+</li>
+<li value=99> <a href="specs/ARB/vertex_attrib_64bit.txt">GL_ARB_vertex_attrib_64bit</a>
+</li>
+<li value=100> <a href="specs/ARB/viewport_array.txt">GL_ARB_viewport_array</a>
+</li>
+<li value=101> <a href="specs/ARB/glx_create_context_robustness.txt">GLX_ARB_create_context_robustness</a>
+</li>
+<li value=102> <a href="specs/ARB/wgl_create_context_robustness.txt">WGL_ARB_create_context_robustness</a>
+</li>
+<li value=103> <a href="specs/ARB/cl_event.txt">GL_ARB_cl_event</a>
+</li>
+<li value=104> <a href="specs/ARB/debug_output.txt">GL_ARB_debug_output</a>
+</li>
+<li value=105> <a href="specs/ARB/robustness.txt">GL_ARB_robustness</a>
+</li>
+<li value=106> <a href="specs/ARB/shader_stencil_export.txt">GL_ARB_shader_stencil_export</a>
 </li>
 </ol>
 <h6> <a name="otherextspecs"></a>
@@ -1033,10 +1262,12 @@
 <li value=346> <a href="specs/NV/conditional_render.txt">GL_NV_conditional_render</a>
 </li>
 <li value=347> <a href="specs/NV/present_video.txt">GL_NV_present_video</a>
+     <br> <a href="specs/NV/present_video.txt">GLX_NV_present_video</a>
+     <br> <a href="specs/NV/present_video.txt">WGL_NV_present_video</a>
 </li>
-<li value=348> <a href="specs/NV/glx_video_out.txt">GLX_NV_video_out</a>
+<li value=348> <a href="specs/NV/glx_video_out.txt">GLX_NV_video_output</a>
 </li>
-<li value=349> <a href="specs/NV/wgl_video_out.txt">WGL_NV_video_out</a>
+<li value=349> <a href="specs/NV/wgl_video_out.txt">WGL_NV_video_output</a>
 </li>
 <li value=350> <a href="specs/NV/glx_swap_group.txt">GLX_NV_swap_group</a>
 </li>
@@ -1055,6 +1286,98 @@
 <li value=357> <a href="specs/NV/explicit_multisample.txt">GL_NV_explicit_multisample</a>
 </li>
 <li value=358> <a href="specs/NV/transform_feedback2.txt">GL_NV_transform_feedback2</a>
+</li>
+<li value=359> <a href="specs/ATI/meminfo.txt">GL_ATI_meminfo</a>
+</li>
+<li value=360> <a href="specs/AMD/performance_monitor.txt">GL_AMD_performance_monitor</a>
+</li>
+<li value=361> <a href="specs/AMD/wgl_gpu_association.txt">WGL_AMD_gpu_association</a>
+</li>
+<li value=362> <a href="specs/AMD/texture_texture4.txt">GL_AMD_texture_texture4</a>
+</li>
+<li value=363> <a href="specs/AMD/vertex_shader_tessellator.txt">GL_AMD_vertex_shader_tessellator</a>
+</li>
+<li value=364> <a href="specs/EXT/provoking_vertex.txt">GL_EXT_provoking_vertex</a>
+</li>
+<li value=365> <a href="specs/EXT/texture_snorm.txt">GL_EXT_texture_snorm</a>
+</li>
+<li value=366> <a href="specs/AMD/draw_buffers_blend.txt">GL_AMD_draw_buffers_blend</a>
+</li>
+<li value=367> <a href="specs/APPLE/texture_range.txt">GL_APPLE_texture_range</a>
+</li>
+<li value=368> <a href="specs/APPLE/float_pixels.txt">GL_APPLE_float_pixels</a>
+</li>
+<li value=369> <a href="specs/APPLE/vertex_program_evaluators.txt">GL_APPLE_vertex_program_evaluators</a>
+</li>
+<li value=370> <a href="specs/APPLE/aux_depth_stencil.txt">GL_APPLE_aux_depth_stencil</a>
+</li>
+<li value=371> <a href="specs/APPLE/object_purgeable.txt">GL_APPLE_object_purgeable</a>
+</li>
+<li value=372> <a href="specs/APPLE/row_bytes.txt">GL_APPLE_row_bytes</a>
+</li>
+<li value=373> <a href="specs/APPLE/rgb_422.txt">GL_APPLE_rgb_422</a>
+</li>
+<li value=374> <a href="specs/NV/video_capture.txt">GL_NV_video_capture</a>
+     <br> <a href="specs/NV/video_capture.txt">GLX_NV_video_capture</a>
+     <br> <a href="specs/NV/video_capture.txt">WGL_NV_video_capture</a>
+</li>
+<li value=375> <a href="specs/EXT/swap_control.txt">GL_EXT_swap_control</a>
+</li>
+<li value=376> <a href="specs/NV/copy_image.txt">GL_NV_copy_image</a>
+     <br> <a href="specs/NV/copy_image.txt">WGL_NV_copy_image</a>
+     <br> <a href="specs/NV/copy_image.txt">GLX_NV_copy_image</a>
+</li>
+<li value=377> <a href="specs/EXT/separate_shader_objects.txt">GL_EXT_separate_shader_objects</a>
+</li>
+<li value=378> <a href="specs/NV/parameter_buffer_object2.txt">GL_NV_parameter_buffer_object2</a>
+</li>
+<li value=379> <a href="specs/NV/shader_buffer_load.txt">GL_NV_shader_buffer_load</a>
+</li>
+<li value=380> <a href="specs/NV/vertex_buffer_unified_memory.txt">GL_NV_vertex_buffer_unified_memory</a>
+</li>
+<li value=381> <a href="specs/NV/texture_barrier.txt">GL_NV_texture_barrier</a>
+</li>
+<li value=382> <a href="specs/AMD/shader_stencil_export.txt">GL_AMD_shader_stencil_export</a>
+</li>
+<li value=383> <a href="specs/AMD/seamless_cubemap_per_texture.txt">GL_AMD_seamless_cubemap_per_texture</a>
+</li>
+<li value=384> <a href="specs/INTEL/swap_event.txt">GLX_INTEL_swap_event</a>
+</li>
+<li value=385> <a href="specs/AMD/conservative_depth.txt">GL_AMD_conservative_depth</a>
+</li>
+<li value=386> <a href="specs/EXT/shader_image_load_store.txt">GL_EXT_shader_image_load_store</a>
+</li>
+<li value=387> <a href="specs/EXT/vertex_attrib_64bit.txt">GL_EXT_vertex_attrib_64bit</a>
+</li>
+<li value=388> <a href="specs/NV/gpu_program5.txt">GL_NV_gpu_program5</a>
+</li>
+<li value=389> <a href="specs/NV/gpu_shader5.txt">GL_NV_gpu_shader5</a>
+</li>
+<li value=390> <a href="specs/NV/shader_buffer_store.txt">GL_NV_shader_buffer_store</a>
+</li>
+<li value=391> <a href="specs/NV/tessellation_program5.txt">GL_NV_tessellation_program5</a>
+</li>
+<li value=392> <a href="specs/NV/vertex_attrib_integer_64bit.txt">GL_NV_vertex_attrib_integer_64bit</a>
+</li>
+<li value=393> <a href="specs/NV/multisample_coverage.txt">GL_NV_multisample_coverage</a>
+</li>
+<li value=394> <a href="specs/AMD/name_gen_delete.txt">GL_AMD_name_gen_delete</a>
+</li>
+<li value=395> <a href="specs/AMD/debug_output.txt">GL_AMD_debug_output</a>
+</li>
+<li value=396> <a href="specs/NV/vdpau_interop.txt">GL_NV_vdpau_interop</a>
+</li>
+<li value=397> <a href="specs/AMD/transform_feedback3_lines_triangles.txt">GL_AMD_transform_feedback3_lines_triangles</a>
+</li>
+<li value=398> <a href="specs/AMD/glx_gpu_association.txt">GLX_AMD_gpu_association</a>
+</li>
+<li value=399> <a href="specs/EXT/glx_create_context_es2_profile.txt">GLX_EXT_create_context_es2_profile</a>
+</li>
+<li value=400> <a href="specs/EXT/wgl_create_context_es2_profile.txt">WGL_EXT_create_context_es2_profile</a>
+</li>
+<li value=401> <a href="specs/AMD/depth_clamp_separate.txt">GL_AMD_depth_clamp_separate</a>
+</li>
+<li value=402> <a href="specs/EXT/texture_sRGB_decode.txt">GL_EXT_texture_sRGB_decode</a>
 </li>
 </ol>
 <h6>Other Extensions</h6>
@@ -1083,15 +1406,20 @@
 <h2>Documentation</h2>
 <div id="sectionnav">
 <ul>
-<li><a href="/documentation/current_version/">About OpenGL 2.1</a></li>
+<li><a href="/documentation/current_version/">About OpenGL 4.1</a></li>
 <li><a href="/documentation/specs/">Specifications</a></li>
 <li class="indent"><a href="/documentation/specs/feedback">Spec Feedback Form</a></li>
+<li><a href="/sdk/docs/man4/">OpenGL 4.1 Reference Pages</a></li>
+<li><a href="/sdk/docs/man3/">OpenGL 3.3 Reference Pages</a></li>
 <li><a href="/sdk/docs/man/">OpenGL 2.1 Reference Pages</a></li>
 <li><a href="/documentation/glsl/">OpenGL Shading Language</a></li>
+<li><a href="/sdk/docs/manglsl/">GLSL Reference Pages</a></li>
 <li><a href="/documentation/extensions/">About OpenGL Extensions</a></li>
 <li class="indent"><a href="/registry/">OpenGL Extension Registry</a></li>
 <li><a href="/documentation/implementations/">OS/Platform Implementations</a></li>
-<li><a href="/documentation/blue_book/">OpenGL Reference Manual</a></li>
+<li><a href="/sdk/">OpenGL SDK</a></li>
+<li><a href="http://www.khronos.org/files/opengl-quick-reference-card.pdf">OpenGL 3.2 & GLSL 1.5 Quick Reference Card</a></li>
+<li><a href="http://www.khronos.org/files/opengl41-quick-reference-card.pdf">OpenGL 4.1 & GLSL 4.1 Quick Reference Card</a></li>
 <li><a href="/documentation/red_book/">OpenGL Programming Guide</a></li>
 <li><a href="/documentation/books/">OpenGL Books</a></li>
 </ul>
@@ -1108,20 +1436,30 @@
       <ul id="footer-menu">
         <li><a href="/about/">About Us</a></li>
         <li><a href="/legal/">Privacy Policy</a></li>
-        <li><a href="/accessibility/">Access Keys</a></li>
       </ul>
       <p class="small-print">OpenGL is a registered trademark of <a href="http://www.sgi.com">SGI</a></p>
-      <p class="small-print">Website Copyright 1997 - 2009 OpenGL.org. All rights reserved.</p>
-	<p class="small-print">OpenGL.org organization managed by <A href="http://www.goldstandardgroup.com">Gold Standard Group</a> and website maintained by <a href="http://www.outofcontrol.ca">OOC</a></p>
+      <p class="small-print">Website Copyright 1997 - 2011 <a href="http://khronos.org" title="Visit the Khronos Group website">Khronos Group</a>. All rights reserved.</p>
+	<p class="small-print">OpenGL.org organization managed by <A href="http://www.goldstandardgroup.com">Gold Standard Group</a> and website maintained by <a href="http://www.outofcontrol.ca">Out of Control&reg;</a></p>
          </div>   
 	  </div>
     </div>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
+
 <script type="text/javascript">
-_uacct = "UA-1759693-2";
-urchinTracker();
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1759693-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>
+
+<!-- <a href="http://www.opengl.org/_inc/furry.php">temperature-friend</a> -->
+<div style="position: absolute; top: -250px; left: -250px;"><a href="http://www.opengl.org/_inc/furry.php">temperature-friend</a></div>
 </div> <!--wrap -->   
 </body>
 </html>

@@ -25,7 +25,7 @@ Status
 
 Version
 
-    Last Modified:      $Date: 2005/06/16 $
+    Last Modified:      2005/06/16
     NVIDIA Revision:    4
 
 Number

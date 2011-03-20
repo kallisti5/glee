@@ -136,7 +136,7 @@ Additions to Chapter 3 of the 1.2.1 Specification (Rasterization)
 
 	  "If the pixel storage parameter UNPACK_CLIENT_STORAGE_APPLE is false the
 	  image indicated to the GL by the image pointer is decoded and copied into
-	  the GLÕs internal memory."
+	  the GL's internal memory."
     
     - (3.8.1, p. 118) Add paragraphs before to last paragraph in section:
 

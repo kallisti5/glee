@@ -24,7 +24,7 @@ Status
 
 Version
 
-    NVIDIA Date:        September 27, 2004
+    NVIDIA Date:        March 31, 2009
     Revision:           1.10
 
 Number
@@ -1060,9 +1060,9 @@ New Procedures and Functions
                                const float *params);
 
     void ProgramParameters4dvNV(enum target, uint index,
-                                uint num, const double *params);
+                                sizei num, const double *params);
     void ProgramParameters4fvNV(enum target, uint index,
-                                uint num, const float *params);
+                                sizei num, const float *params);
 
     void TrackMatrixNV(enum target, uint address,
                        enum matrix, enum transform);
@@ -4091,11 +4091,6 @@ Errors
     The error INVALID_OPERATION is generated if ExecuteProgramNV executes
     a program that is not a vertex state program.
 
-    The error INVALID_OPERATION is generated if Begin, RasterPos, or a
-    command that performs an explicit Begin is called when vertex program
-    mode is enabled and the currently bound vertex program writes program
-    parameters that are currently being tracked.  
-
     The error INVALID_OPERATION is generated if ExecuteProgramNV is called
     and the vertex state program to execute writes program parameters
     that are currently being tracked.  
@@ -4131,10 +4126,10 @@ Errors
     where <len> is negative.
 
     The error INVALID_VALUE is generated if ProgramParameters4dvNV or
-    ProgramParameters4fvNV are called where <count> is negative.
+    ProgramParameters4fvNV are called where <num> is negative.
 
     The error INVALID_VALUE is generated if
-    VertexAttribs{1,2,3,4}{d,f,s}vNV is called where <count> is negative.
+    VertexAttribs{1,2,3,4}{d,f,s}vNV is called where <n> is negative.
 
     The error INVALID_ENUM is generated if BindProgramNV,
     GetProgramParameterfvNV, GetProgramParameterdvNV, GetTrackMatrixivNV,

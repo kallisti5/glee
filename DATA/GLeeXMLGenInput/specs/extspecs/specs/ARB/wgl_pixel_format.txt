@@ -17,8 +17,8 @@ Status
 
 Version
 
-    Last Modified Date: July 29, 2008
-    Author Revision: 1.2
+    Last Modified Date: March 25, 2009
+    Author Revision: 1.3
 
 Number
 
@@ -563,8 +563,8 @@ Additions to the WGL Specification
     must allocate this array and it must have at least <nMaxFormats>
     entries.
 
-    <nNumFormats> returns the number of matching formats. This value may
-    be larger than <nMaxFormats>.
+    <nNumFormats> returns the number of matching formats. The returned
+    value is guaranteed to be no larger than <nMaxFormats>.
 
     If the function succeeds, the return value is TRUE. If the function
     fails the return value is FALSE. To get extended error information,
@@ -708,3 +708,6 @@ Changes from EXT_pixel_format:
 
     07/29/2008  1.2
         - Updated contact information.
+
+    03/25/2009  1.3
+        - mjk: Fixed <nNumFormats> description

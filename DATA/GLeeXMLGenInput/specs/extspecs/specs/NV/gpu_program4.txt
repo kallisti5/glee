@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Last Modified Date:         07/29/2008
-    NVIDIA Revision:            7
+    Last Modified Date:         12/14/2009
+    NVIDIA Revision:            10
 
 Number
 
@@ -1129,7 +1129,10 @@ Additions to Chapter 2 of the OpenGL 1.5 Specification (OpenGL Operation)
     mantissa.  If no size modifier is provided, the GL will automatically
     select component sizes.  Implementations are not required to support more
     than one component size, so "SHORT", "LONG", and the default could all
-    refer to the same component size.
+    refer to the same component size.  The "LONG" modifier is supported only
+    for declarations of temporary variables ("TEMP").  The "SHORT" modifier is
+    supported only for declarations of temporary variables and result
+    variables ("OUTPUT").
 
     Each variable declaration can include at most one data type and one
     storage size modifier.  A program will fail to load if it specifies
@@ -3392,6 +3395,10 @@ Additions to Chapter 2 of the OpenGL 1.5 Specification (OpenGL Operation)
     MOD supports both signed and unsigned integer data type modifiers.  If no
     data type modifier is specified, both operands and the result are treated
     as signed integers.
+    
+    A result component is undefined if the corresponding component of the
+    first operand is negative or if the second operand is less than or equal
+    to zero.
 
 
     Section 2.X.8.Z, MOV:  Move
@@ -4842,8 +4849,188 @@ Additions to the AGL/GLX/WGL Specifications
 
 GLX Protocol
 
-    None.
+    The following new rendering commands are sent to the server as part
+    of a glXRender request.
 
+    ProgramLocalParameterI4ivNV
+
+        2           28               rendering command length
+        2           4303             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           INT32            params[0]
+        4           INT32            params[1]
+        4           INT32            params[2]
+        4           INT32            params[3]
+
+    ProgramLocalParameterI4uivNV
+
+        2           28               rendering command length
+        2           4305             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           CARD32           params[0]
+        4           CARD32           params[1]
+        4           CARD32           params[2]
+        4           CARD32           params[3]
+
+    ProgramEnvParameterI4ivNV
+
+        2           28               rendering command length
+        2           4307             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           INT32            params[0]
+        4           INT32            params[1]
+        4           INT32            params[2]
+        4           INT32            params[3]
+
+    ProgramEnvParameterI4uivNV
+
+        2           28               rendering command length
+        2           4309             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           CARD32           params[0]
+        4           CARD32           params[1]
+        4           CARD32           params[2]
+        4           CARD32           params[3]
+
+    Following new rendering commands are added. These can be sent as a 
+    glXRender or glXRenderLarge request.
+
+    ProgramLocalParametersI4ivNV
+
+        2           16+count*4*4     rendering command length
+        2           4304             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           CARD32           count
+        4*count*4   LISTofINT32      params
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+count*4*4     rendering command length
+        4           4304             rendering command opcode
+
+    ProgramLocalParametersI4uivNV
+
+        2           16+count*4*4     rendering command length
+        2           4306             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           CARD32           count
+        4*count*4   LISTofCARD32     params
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+count*4*4     rendering command length
+        4           4306             rendering command opcode
+
+    ProgramEnvParametersI4ivNV
+
+        2           16+count*4*4     rendering command length
+        2           4308             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           CARD32           count
+        4*count*4   LISTofCARD32     params
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+count*4*4     rendering command length
+        4           4308             rendering command opcode
+
+    ProgramEnvParametersI4uivNV
+
+        2           16+count*4*4     rendering command length
+        2           4310             rendering command opcode
+        4           ENUM             target
+        4           CARD32           index
+        4           INT32            count
+        4*count*4   LISTofCARD32     params
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+count*4*4     rendering command length
+        4           4310             rendering command opcode
+
+    The remaining commands are non-rendering commands.  These commands
+    are sent separately (i.e., not as part of a glXRender or
+    glXRenderLarge request), using the glXVendorPrivateWithReply
+    request:
+
+    GetProgramLocalParameterIivNV
+        1           CARD8            opcode (X assigned)
+        1           17               GLX opcode (X_GLXVendorPrivateWithReply)
+        2           5                request length
+        4           1365             vendor specific opcode
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             target
+        4           CARD32           index
+      =>
+        1           1                reply
+        1           CARD8            unused
+        2           CARD16           sequence number
+        4           4                reply length
+        24          CARD32           unused
+        16          INT32            params
+
+    GetProgramLocalParameterIuivNV
+        1           CARD8            opcode (X assigned)
+        1           17               GLX opcode (X_GLXVendorPrivateWithReply)
+        2           5                request length
+        4           1366             vendor specific opcode
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             target
+        4           CARD32           index
+      =>
+        1           1                reply
+        1           CARD8            unused
+        2           CARD16           sequence number
+        4           4                reply length
+        24          CARD32           unused
+        16          CARD32           params
+
+    GetProgramEnvParameterIivNV
+        1           CARD8            opcode (X assigned)
+        1           17               GLX opcode (X_GLXVendorPrivateWithReply)
+        2           5                request length
+        4           1367             vendor specific opcode
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             target
+        4           CARD32           index
+      =>
+        1           1                reply
+        1           CARD8            unused
+        2           CARD16           sequence number
+        4           4                reply length
+        24          CARD32           unused
+        16          INT32            params
+
+    GetProgramEnvParameterIuivNV
+        1           CARD8            opcode (X assigned)
+        1           17               GLX opcode (X_GLXVendorPrivateWithReply)
+        2           5                request length
+        4           1368             vendor specific opcode
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             target
+        4           CARD32           index
+      =>
+        1           1                reply
+        1           CARD8            unused
+        2           CARD16           sequence number
+        4           4                reply length
+        24          CARD32           unused
+        16          CARD32           params
 
 Errors
 
@@ -6072,6 +6259,18 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  --------------------------------------------
+     10   12/14/09  mgodse    Added GLX protocol.
+
+     9    10/29/09  pbrown    Add language for previously undocumented errors
+                              when using "SHORT" and "LONG" modifiers on
+                              variable declarations.  They're allowed only on
+                              "TEMP" statements, except that "SHORT" is 
+                              allowed for "OUTPUT" as well.
+
+     8    08/11/08  jbreton   Clarified that when a MOD instruction is 
+                              performed on negative operands the result is 
+                              undefined.
+                               
      7    07/29/08  pbrown    Discovered additional issues with texture wrap 
                               handling, replaced with logic that applies wrap
                               modes per sample.  Add a few instruction

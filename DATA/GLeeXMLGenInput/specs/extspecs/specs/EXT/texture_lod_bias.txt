@@ -26,19 +26,20 @@ Status
 
 Version
 
-    NVIDIA Date: August 27, 2003
-    $Date: 2003/08/27 $ $Revision: #13 $
-    $Id: //sw/main/docs/OpenGL/specs/GL_EXT_texture_lod_bias.txt#13 $
+    Last Modified Date: June 23, 2009
 
 Number
 
-    186
+    OpenGL Extension #186
+    OpenGL ES Extension #60
 
 Dependencies
 
     Written based on the wording of the OpenGL 1.2 specification.
 
     Affects ARB_multitexture.
+    
+    Interacts with OpenGL ES 1.1.
 
 Overview
 
@@ -217,6 +218,10 @@ Additions to the GLX Specification
 
      None
 
+Dependencies on OpenGL ES 1.1
+
+     If the GL is OpenGL ES 1.1, omit reference to GetDoublev.
+
 Errors
 
      INVALID_ENUM is generated when TexEnv is called with a <pname> of
@@ -246,7 +251,11 @@ MAX_TEXTURE_LOD_BIAS_EXT     R+      GetFloatv     4.0             Maximum      
 
 Revision History
 
-    8/27/03 - updated status to mention OpenGL 1.4 functionality
+    6/23/09 (Jon Leech) - assign OpenGL ES extension number.
+
+    4/29/09 (Benj Lipchak) - add interaction with OpenGL ES 1.1.
+
+    8/27/03 - updated status to mention OpenGL 1.4 functionality.
 
     8/26/03 - fixed incorrect enum name (TEXTURE_FILTER_CONTROL_EXT is
     correct) in the Errors section.

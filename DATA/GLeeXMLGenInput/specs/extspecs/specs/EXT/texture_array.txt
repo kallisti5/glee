@@ -10,14 +10,19 @@ Contact
 
     Pat Brown, NVIDIA Corporation (pbrown 'at' nvidia.com)
 
+Contributors
+
+    Jon Leech, Khronos
+    Mark Kilgard, NVIDIA
+
 Status
 
     Shipping for GeForce 8 Series (November 2006, Release 95)
 
 Version
 
-    Last Modified Date:         8/07/2008
-    Author revision:            7
+    Last Modified Date:         9/16/2008
+    Author revision:            8
 
 Number
 
@@ -79,7 +84,7 @@ New Procedures and Functions
 New Tokens
 
     Accepted by the <target> parameter of TexParameteri, TexParameteriv,
-    TexParameterf, TexParameterfv, and BindTexture:
+    TexParameterf, TexParameterfv, GenerateMipmapEXT, and BindTexture:
 
         TEXTURE_1D_ARRAY_EXT                            0x8C18
         TEXTURE_2D_ARRAY_EXT                            0x8C1A
@@ -1228,6 +1233,7 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  -----------------------------------------
+      8   09/16/08  mjk       Document GenerateMipmapEXT allows array targets
       7   08/07/08  jleech    Corrected token MAX_TEXTURE_ARRAY_LAYERS_EXT in
                               state table to MAX_ARRAY_TEXTURE_LAYERS_EXT.
 

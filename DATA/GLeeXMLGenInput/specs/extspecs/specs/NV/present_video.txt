@@ -28,8 +28,8 @@ Status
 
 Version
 
-    Last Modified Date: February 20, 2008
-    Author Revision: 6
+    Last Modified Date: February 20, 2009
+    Author Revision: 7
     $Date$ $Revision$
 
 Number
@@ -94,8 +94,6 @@ New Procedures and Functions
     void GetVideoi64vNV(uint video_slot, enum pname, int64EXT *params);
     void GetVideoui64vNV(uint video_slot, enum pname,
                          uint64EXT *params);
-    void VideoParameterivNV(uint video_slot, enum pname,
-                            const int *params);
 
 
     unsigned int *glXEnumerateVideoDevicesNV(Display *dpy, int screen,
@@ -922,6 +920,9 @@ Issues
         satisfy the line choosing rules as they are specified currently.
 
 Revision History
+
+    Revision 7, 2009/2/20
+        -Remove unused VideoParameterivNV command.
 
     Revision 6, 2008/2/20
         -Public specification

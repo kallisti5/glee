@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Last Modified Date:         07/29/2008
-    NVIDIA Revision:            10
+    Last Modified Date:         12/14/09
+    NVIDIA Revision:            13
 
 Number
 
@@ -102,9 +102,13 @@ New Procedures and Functions
 
 New Tokens
 
-    Accepted by the <cap> parameter of Disable, Enable, and IsEnabled, and by
+    Accepted by the <cap> parameter of Disable, Enable, and IsEnabled, by
     the <pname> parameter of GetBooleanv, GetIntegerv, GetFloatv, and
-    GetDoublev:
+    GetDoublev, and by the <target> parameter of ProgramStringARB,
+    BindProgramARB, ProgramEnvParameter4[df][v]ARB,
+    ProgramLocalParameter4[df][v]ARB, GetProgramEnvParameter[df]vARB, 
+    GetProgramLocalParameter[df]vARB, GetProgramivARB and
+    GetProgramStringARB:
 
         GEOMETRY_PROGRAM_NV                             0x8C26
 
@@ -906,15 +910,15 @@ Additions to Chapter 2 of the OpenGL 1.5 Specification (OpenGL Operation)
     EMIT        - - - - - -  -          -    emit vertex
     ENDPRIM     - - - - - -  -          -    end of primitive
 
-    (add the following subsection to section 2.X.5, Program Options.)
+    (add the following subsection to section 2.X.6, Program Options.)
 
-    Section 2.X.5.Y, Geometry Program Options
+    Section 2.X.6.Y, Geometry Program Options
 
     No options are supported at present for geometry programs.
 
-    (add the following subsection to section 2.X.6, Program Declarations.)
+    (add the following subsection to section 2.X.7, Program Declarations.)
 
-    Section 2.X.6.Y, Geometry Program Declarations
+    Section 2.X.7.Y, Geometry Program Declarations
 
     Geometry programs support three types of declaration statements, as
     described below.  Each of the three must be included exactly once in the
@@ -939,9 +943,9 @@ Additions to Chapter 2 of the OpenGL 1.5 Specification (OpenGL Operation)
     positive integer.  A vertex program that emits more than the specified
     number of vertices may terminate abnormally.
 
-    (add the following subsections to section 2.X.7, Program Instruction Set.)
+    (add the following subsections to section 2.X.8, Program Instruction Set.)
 
-    Section 2.X.7.Z, EMIT:  Emit Vertex
+    Section 2.X.8.Z, EMIT:  Emit Vertex
 
     The EMIT instruction emits a new vertex to be added to the current output
     primitive of a geometry program.  The attributes of the emitted vertex are
@@ -949,7 +953,7 @@ Additions to Chapter 2 of the OpenGL 1.5 Specification (OpenGL Operation)
     EMIT instruction completes, a new vertex is started and all result
     variables become undefined.
 
-    Section 2.X.7.Z, ENDPRIM:  End of Primitive
+    Section 2.X.8.Z, ENDPRIM:  End of Primitive
 
     A geometry program can emit multiple primitives in a single invocation.
     The ENDPRIM instruction is used in a geometry program to signify the end
@@ -1035,7 +1039,22 @@ Additions to the AGL/GLX/WGL Specifications
 
 GLX Protocol
 
-    None.
+    The following rendering commands are sent to the server as part of a
+    glXRender request:
+
+    ProgramVertexLimitNV
+
+        2           12               rendering command length
+        2           4312             rendering command opcode
+        4           ENUM             target
+        4           INT32            limit
+
+
+    The extension EXT_geometry_shader4 defines GLX protocol for
+    the following non-rendering commands:
+
+        FramebufferTextureEXT, FramebufferTextureLayerEXT,
+        FramebufferTextureFaceEXT.
 
 Errors
 
@@ -1290,12 +1309,12 @@ Dependencies on EXT_framebuffer_object
     geometry program has no effect if the framebuffer is not layered.
 
     When fragments are written to a layered framebuffer, the fragment's layer
-    number selects an image from the array of images at each attachment point
-    from which to obtain the destination R, G, B, A values for blending
-    (Section 4.1.8) and to which to write the final color values for that
-    attachment.  If the fragment's layer number is negative or greater than
-    the number of layers attached, the effects of the fragment on the
-    framebuffer contents are undefined.
+    number selects a single image from the array of images at each attachment
+    point to use for the stencil test (section 4.1.5), depth buffer test
+    (section 4.1.6), and for blending and color buffer writes (section 4.1.8).
+    If the fragment's layer number is negative or greater than the number of
+    layers attached, the effects of the fragment on the framebuffer contents
+    are undefined.
 
     When the Clear command is used to clear a layered framebuffer attachment,
     all layers of the attachment are cleared.
@@ -1927,6 +1946,18 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  --------------------------------------------
+    13    12/14/09  mgodse    Added GLX protocol.
+    
+    12    07/21/09  pbrown    Clarify that when doing layered rendering,
+                              a layer specified in the shader is used to
+                              select the depth and stencil layers accessed.
+
+                              Also document several additional entry points
+                              that accept GEOMETRY_PROGRAM_NV.
+
+    11    03/11/09  pbrown    Fix section numbers for option/declaration
+                              sections.
+
     10    07/29/08  pbrown    Clean up garbled language describing vertex
                               output limits.
 

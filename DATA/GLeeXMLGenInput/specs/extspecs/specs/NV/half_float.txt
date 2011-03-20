@@ -137,12 +137,6 @@ New Procedures and Functions
     void MultiTexCoord3hvNV(enum target, const half *v);
     void MultiTexCoord4hNV(enum target, half s, half t, half r, half q);
     void MultiTexCoord4hvNV(enum target, const half *v);
-    void FogCoordhNV(half fog);
-    void FogCoordhvNV(const half *fog);
-    void SecondaryColor3hNV(half red, half green, half blue);
-    void SecondaryColor3hvNV(const half *v);
-    void VertexWeighthNV(half weight);
-    void VertexWeighthvNV(const half *weight);
     void VertexAttrib1hNV(uint index, half x);
     void VertexAttrib1hvNV(uint index, const half *v);
     void VertexAttrib2hNV(uint index, half x, half y);
@@ -155,6 +149,21 @@ New Procedures and Functions
     void VertexAttribs2hvNV(uint index, sizei n, const half *v);
     void VertexAttribs3hvNV(uint index, sizei n, const half *v);
     void VertexAttribs4hvNV(uint index, sizei n, const half *v);
+
+    (added if EXT_fog_coord is supported)
+
+    void FogCoordhNV(half fog);
+    void FogCoordhvNV(const half *fog);
+
+    (added if EXT_secondary_color is supported)
+
+    void SecondaryColor3hNV(half red, half green, half blue);
+    void SecondaryColor3hvNV(const half *v);
+
+    (added if EXT_vertex_weighting is supported)
+
+    void VertexWeighthNV(half weight);
+    void VertexWeighthvNV(const half *weight);
 
 New Tokens
 
@@ -597,8 +606,16 @@ Dependencies on EXT_fog_coord, EXT_secondary_color, and EXT_vertex_weighting
 
     If EXT_fog_coord, EXT_secondary_color, or EXT_vertex_weighting are not
     supported, references to FogCoordPointerEXT, SecondaryColorPointerEXT, and
-    VertexWeightEXT, respectively, should be removed.
+    VertexWeightPointerEXT, respectively, should be removed.
 
+    If EXT_fog_coord is not supported, remove language adding immediate mode
+    FogCoordh[v]NV APIs.
+
+    If EXT_secondary_color is not supported, remove language adding immediate
+    mode SecondaryColor3h[v]NV APIs.
+
+    If EXT_vertex_weighting is not supported, remove language adding immediate
+    mode VertexWeighth[v]NV APIs.
 
 Dependencies on NV_vertex_program
 
@@ -625,6 +642,12 @@ Revision History
 
     Rev.    Date    Author   Changes
     ----  -------- --------  --------------------------------------------
+     10   03/21/10  pbrown   Clarify that FogCoord*, SecondaryColor*, and 
+                             VertexWeight* APIs are supported only if
+                             corresponding extensions are also supported.
+                             Recent NVIDIA drivers and GPUs do not support
+                             EXT_vertex_weighting.
+
       9   02/25/04  pbrown   Fixed incorrect language using division by zero
                              as an example of something producing a NaN.
 

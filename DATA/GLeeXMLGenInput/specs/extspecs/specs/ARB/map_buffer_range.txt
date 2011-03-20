@@ -9,7 +9,7 @@ Name Strings
 Contributors
 
     Chris Niederauer, Apple (ccn 'at' apple.com)
-    Rob Barris, Blizzard Entertainment (rbarris 'at' blizzard.com)
+    Rob Barris (rbarris 'at' gmail.com)
     Michael Gold, NVIDIA
 
 Status

@@ -26,7 +26,7 @@ Status
 
 Version
 
-    Last Modified Date:  $Date: 2005/05/24 $
+    Last Modified Date:  2005/05/24
     NVIDIA Revision:     73
 
 Number
@@ -4066,7 +4066,7 @@ GLX Protocol
     sent separately (i.e., not as part of a glXRender or glXRenderLarge
     request), using the glXVendorPrivateWithReply request:
 
-        GetProgramNamedParameter4fvNV
+        GetProgramNamedParameterfvNV
             1           CARD8           opcode (X assigned)
             1           17              GLX opcode (glXVendorPrivateWithReply)
             2           4+(len+p)/4     request length
@@ -4096,7 +4096,7 @@ GLX Protocol
             24                          unused
 
 
-        GetProgramNamedParameter4dvNV
+        GetProgramNamedParameterdvNV
             1           CARD8           opcode (X assigned)
             1           17              GLX opcode (glXVendorPrivateWithReply)
             2           4+(len+p)/4     request length

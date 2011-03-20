@@ -25,8 +25,6 @@ Status
 Version
 
     NVIDIA Date: November 7, 2002 (version 1.0)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_pixel_data_range.txt#5 $
 
 Number
 

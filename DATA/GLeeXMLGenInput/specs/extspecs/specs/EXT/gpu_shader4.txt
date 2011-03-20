@@ -19,8 +19,8 @@ Status
 
 Version
 
-    Last Modified Date:         07/29/2008
-    Author revision:            14
+    Last Modified Date:         12/14/2009
+    Author revision:            16
 
 Number
 
@@ -498,7 +498,7 @@ Operation)
     level, excluding a possible border, are then returned. If the computed
     texture image level is outside the range [level_base, level_max], the
     results are undefined. When querying the size of an array texture, both
-    the dimensions and the layer index are returned. Note that buffer textures
+    the dimensions and the layer count are returned. Note that buffer textures
     do not support mipmapping, therefore the previous lod discussion does not
     apply to buffer textures
 
@@ -1038,6 +1038,178 @@ Interactions with EXT_draw_instanced
 
     If EXT_draw_instanced is not supported, the value of gl_InstanceID
     is always zero.
+
+GLX Protocol
+
+    The following rendering commands are sent to the server as part of a
+    glXRender request:
+
+    Uniform1uiEXT
+
+        2           12               rendering command length
+        2           269              rendering command opcode
+        4           INT32            location
+        4           CARD32           v0
+
+    Uniform2uiEXT
+
+        2           16               rendering command length
+        2           270              rendering command opcode
+        4           INT32            location
+        4           CARD32           v0
+        4           CARD32           v1
+
+    Uniform3uiEXT
+
+        2           20               rendering command length
+        2           271              rendering command opcode
+        4           INT32            location
+        4           CARD32           v0
+        4           CARD32           v1
+        4           CARD32           v2
+
+    Uniform4uiEXT
+
+        2           24               rendering command length
+        2           272              rendering command opcode
+        4           INT32            location
+        4           CARD32           v0
+        4           CARD32           v1
+        4           CARD32           v2
+        4           CARD32           v3
+
+    BindFragDataLocationEXT
+
+        2           12+n+p           rendering command length
+        2           273              rendering command opcode
+        4           CARD32           program
+        4           CARD32           color
+        n           LISTofBYTE       name, n = strlen(name) + 1
+        p                            padding, p=pad(n)
+
+    The following rendering commands are sent sent to the server as part
+    of a glXRender request or as a glXRenderLarge request.
+
+    Uniform1uivEXT
+
+        2           12+count*4       rendering command length
+        2           274              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count     LISTofCARD32     value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4       rendering command length
+        4           274              rendering command opcode
+
+    Uniform2uivEXT
+
+        2           12+count*4*2     rendering command length
+        2           275              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        2*4*count   LISTofCARD32     value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*2     rendering command length
+        4           275              rendering command opcode
+
+    Uniform3uivEXT
+
+        2           12+count*4*3     rendering command length
+        2           276              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        3*4*count   LISTofCARD32     value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4       rendering command length
+        4           276              rendering command opcode
+
+    Uniform4uivEXT
+
+        2           12+count*4*4     rendering command length
+        2           277              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*4*count   LISTofCARD32     value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*4     rendering command length
+        4           277              rendering command opcode
+
+    The following non-rendering commands are added.
+
+    GetUniformuivEXT
+
+        1           CARD8            opcode (X assigned)
+        1           182              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           program
+        4           INT32            location
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = (n == 1 ? 0 : n)
+        4           CARD32           unused
+        4           CARD32           n
+
+        if  (n = 1) this follows:
+
+        4           CARD32           params
+        12                           unused
+
+        otherwise this follows:
+
+        16          CARD32           unused
+        4*n         CARD32           params
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetFragDataLocationEXT
+
+        1           CARD8            opcode (X assigned)
+        1           183              GLX opcode
+        2           3+(n+p)/4        request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           program
+        n           LISTofBYTE       name, n = strlen(name) + 1
+        p                            padding, p=pad(n)
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           0                reply length
+        4           CARD32           retval
+        20                           unused
+
+    GLX protocol for following commands is defined in the
+    NV_vertex_program4 extension:
+
+        VertexAttribI1iEXT, VertexAttribI2iEXT, VertexAttribI3iEXT,
+        VertexAttribI4iEXT, VertexAttribI1uiEXT, VertexAttribI2uiEXT,
+        VertexAttribI3uiEXT, VertexAttribI4uiEXT, VertexAttribI1ivEXT,
+        VertexAttribI2ivEXT, VertexAttribI3ivEXT, VertexAttribI4ivEXT,
+        VertexAttribI1uivEXT, VertexAttribI2uivEXT, VertexAttribI3uivEXT,
+        VertexAttribI4uivEXT, VertexAttribI4bvEXT, VertexAttribI4svEXT,
+        VertexAttribI4ubvEXT, VertexAttribI4usvEXT, GetVertexAttribIivEXT,
+        GetVertexAttribIuivEXT
+
+    VertexAttribIPointerEXT is an entirely client-side command.
 
 Errors
 
@@ -2289,6 +2461,11 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  -----------------------------------------
+     16   12/14/09  mgodse    Added GLX protocol.
+
+     15   04/09/09  pbrown    Fixed a typo in the texture size query spec
+                              language - returns a layer count, not "index".
+
      14   07/29/08  pbrown    Discovered additional issues with texture wrap 
                               handling, replaced with logic that applies wrap
                               modes per sample.
@@ -2313,3 +2490,4 @@ Revision History
                               as apparently called for per convention.
 
       8      --               Pre-release revisions.
+

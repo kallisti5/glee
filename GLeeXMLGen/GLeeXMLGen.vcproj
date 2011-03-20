@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="GLeeXMLGen"
 	ProjectGUID="{A2D619C5-E471-4921-963E-CBD8CA2ECEA0}"
+	RootNamespace="GLeeXMLGen"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -119,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="C:\boost"
+				AdditionalIncludeDirectories="$(BOOST_ROOT)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -138,9 +139,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="libboost_regex-vc90-s-1_44.lib"
 				OutputFile="$(OutDir)/GLeeXMLGen.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="C:\boost\libs\regex\build\vc71\"
+				AdditionalLibraryDirectories="$(BOOST_ROOT)\lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

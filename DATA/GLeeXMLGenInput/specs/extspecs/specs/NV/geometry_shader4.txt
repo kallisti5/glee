@@ -17,8 +17,8 @@ Status
 
 Version
 
-    Last Modified Date:         01/10/2007
-    Author revision:            16
+    Last Modified Date:         11/09/2009
+    Author revision:            17
 
 Number
 
@@ -56,6 +56,19 @@ New Tokens
     None
 
 Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
+
+    Modify Section 2.15.2 Program Objects, p. 73
+
+    Change the language below the LinkProgram command on p. 74 as follows:
+
+    ... Linking can fail for a variety of reasons as specified in the OpenGL
+    Shading Language Specification. Linking will also fail if one or more of
+    the shader objects, attached to <program> are not compiled successfully,
+    or if more active uniform or active sampler variables are used in
+    <program> than allowed (see sections 2.15.3 and 2.16.3). Linking will also
+    fail if the program object contains objects to form a geometry shader (see
+    section 2.16), but no objects to form a vertex shader. If LinkProgram
+    failed, ...
 
     Modify Section 2.16.1, Geometry shader Input Primitives, of the
     EXT_geometry_shader4 specification as follows:
@@ -259,6 +272,21 @@ Issues
       (For example, the triangulation of 4-vertex polygons might match that
       used for QUADS.)
 
+   4. Should this extension maintain the link error when GEOMETRY_VERTICES_OUT
+      is zero at link time stipulated by EXT/ARB_geometry_shader?
+
+      RESOLVED: No. While a link error is helpful to indicate the problem
+      earlier and with additional information, the way this extension is meant
+      to be used is more consistent with allowing the vertices out to remain
+      unspecified until render time rather than demanding a potentially bogus
+      value for it just to satisfy the linker.
+
+
 Revision History
 
-    None
+
+      Rev.    Date      Author    Changes
+      ----  ----------  --------  -------------------------------------------
+       17   10/09/2009  groth     Added explicit language excluding error for
+                                  linking with zero GEOMETRY_VERTICES_OUT.
+       16   01/10/2007  pbrown    Initial public revision.

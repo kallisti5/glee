@@ -8,7 +8,7 @@ Name Strings
 
 Version
 
-    $Date: 1997/03/20 02:19:31 $ $Revision: 1.28 $
+    Version 1.29, 2009/11/19
 
 Number
 
@@ -552,7 +552,7 @@ GLX Protocol
     One new event is added:
 
 	BEC is the base event code for the extension, as returned by
-	QueryExtension.
+	XQueryExtension.
 
 	GLX_BUFFER_CLOBBER_MASK_SGIX
 	    1		BEC+16		code
@@ -592,3 +592,11 @@ New State
 New Implementation Dependent State
 
     None
+
+Revision History
+
+    Version 1.29, 2009/11/19 - clarify that BEC in the
+    GLX_BUFFER_CLOBBER_MASK_SGIX event protocol is returned from
+    XQueryExtension, matching the GLX_ARB_create_context spec language.
+
+    Version 1.28, 1997/03/20 - final spec as shipped by SGI.

@@ -21,8 +21,8 @@ Status
 
 Version
 
-    Last Modified Date:         08/06/2008
-    NVIDIA Revision:            9
+    Last Modified Date:         07/27/2010
+    NVIDIA Revision:            10
 
 Number
 
@@ -41,6 +41,8 @@ Dependencies
     This extension modifies EXT_depth_bounds_test.
 
     This extension modifies NV_copy_depth_to_color.
+
+    This extension interacts with ARB_depth_buffer_float.
 
     This extension is written against the OpenGL 2.0 specification.
 
@@ -398,7 +400,8 @@ Additions to the AGL/GLX/WGL Specifications
 
 GLX Protocol
 
-    None.
+
+    UNDER DEVELOPMENT
 
 Dependencies on EXT_depth_bounds_test:
 
@@ -428,6 +431,18 @@ Dependencies on EXT_depth_bounds_test:
     whether the test is enabled or disabled.  In the initial state, 
     zmin and zmax are set to 0.0 and 1.0 respectively; and the depth 
     bounds test is disabled.
+
+Interactions with ARB_depth_buffer_float
+
+    The ARB and NV internal formats for floating-point depth buffers
+    behave identically.  This extension optionally relaxes the clamping
+    behavior of ARB_depth_buffer_float when using the NV entry points.
+    If an ARB internal format is used to define a depth buffer, the
+    values passed to DepthRangedNV, ClearDepthdNV, and DepthBoundsdNV
+    are not clamped to [0,1].
+
+    Additionally, querying DEPTH_BUFFER_FLOAT_MODE_NV is allowed on a
+    floating-point depth buffer created with an ARB internal format.
 
 Errors
 
@@ -530,12 +545,14 @@ Issues
 
 Revision History
 
-    Rev.    Date    Author    Changes
-    ----  --------  --------  -----------------------------------------
-     9    08/06/08  jleech    Fix missing _REV in some token names.
+    Rev.    Date    Author       Changes
+    ----  --------  --------     -----------------------------------------
+    10    01/30/09  rsrinivasiah Define interaction with ARB_depth_buffer_float
 
-     8    02/09/07  pbrown    Updated status section (now released).
+     9    08/06/08  jleech       Fix missing _REV in some token names.
 
-     7    10/11/06  pbrown    Rename the extension from EXT to NV.
+     8    02/09/07  pbrown       Updated status section (now released).
 
-     6                        Internal spec revisions.
+     7    10/11/06  pbrown       Rename the extension from EXT to NV.
+
+     6                           Internal spec revisions.

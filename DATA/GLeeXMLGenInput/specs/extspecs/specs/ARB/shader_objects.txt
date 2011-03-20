@@ -15,9 +15,11 @@ Contributors
     Pat Brown
     Matt Craighead
     Cass Everitt
+    Mandar Godse
     Evan Hart
     Phil Huxley
     Deron Dann Johnson
+    James Jones
     Dale Kirkland
     John Kessenich
     Steve Koren
@@ -31,6 +33,7 @@ Contributors
     Teri Morrison
     Jeremy Morris
     Glenn Ortner
+    Ian Romanick
     Randi Rost
     Jeremy Sandmel
     Folker Schamel
@@ -53,8 +56,8 @@ Status
 
 Version
 
-    Last Modified Date: April 6, 2004
-    Author Revision: 0.89
+    Last Modified Date: December 14, 2009
+    Author Revision: 0.90
 
 Number
 
@@ -1929,6 +1932,592 @@ Additions to the AGL/GLX/WGL Specifications
     itself is not destroyed until it is no longer attached to any program
     object in any context.
 
+GLX Protocol
+
+    The following rendering commands are sent to the server as part of a
+    glXRender request:
+
+    DeleteObjectARB
+
+        2           8                rendering command length
+        2           238              rendering command opcode
+        4           CARD32           obj
+
+    DetachObjectARB
+
+        2           12               rendering command length
+        2           239              rendering command opcode
+        4           CARD32           containerObj
+        4           CARD32           attachedObj
+
+    CompileShaderARB
+
+        2           8                rendering command length
+        2           240              rendering command opcode
+        4           CARD32           shaderObj
+
+    AttachObjectARB
+
+        2           12               rendering command length
+        2           241              rendering command opcode
+        4           CARD32           containerObj
+        4           CARD32           obj
+
+    LinkProgramARB
+
+        2           8                rendering command length
+        2           242              rendering command opcode
+        4           CARD32           programObj
+    
+    UseProgramObjectARB
+
+        2           8                rendering command length
+        2           243              rendering command opcode
+        4           CARD32           programObj
+
+    ValidateProgramARB
+
+        2           8                rendering command length
+        2           244              rendering command opcode
+        4           CARD32           programObj
+
+    Uniform1fARB
+
+        2           12               rendering command length
+        2           245              rendering command opcode
+        4           INT32            location
+        4           FLOAT32          v0
+
+    Uniform2fARB
+
+        2           16               rendering command length
+        2           246              rendering command opcode
+        4           INT32            location
+        4           FLOAT32          v0
+        4           FLOAT32          v1
+
+    Uniform3fARB
+
+        2           20               rendering command length
+        2           247              rendering command opcode
+        4           INT32            location
+        4           FLOAT32          v0
+        4           FLOAT32          v1
+        4           FLOAT32          v2
+
+    Uniform4fARB
+        2           24               rendering command length
+        2           248              rendering command opcode
+        4           INT32            location
+        4           FLOAT32          v0
+        4           FLOAT32          v1
+        4           FLOAT32          v2
+        4           FLOAT32          v3
+
+    Uniform1iARB
+
+        2           12               rendering command length
+        2           249              rendering command opcode
+        4           INT32            location
+        4           INT32            v0 
+
+    Uniform2iARB
+
+        2           16               rendering command length
+        2           250              rendering command opcode
+        4           INT32            location
+        4           INT32            v0
+        4           INT32            v1
+
+    Uniform3iARB
+
+        2           20               rendering command length
+        2           251              rendering command opcode
+        4           INT32            location
+        4           INT32            v0
+        4           INT32            v1
+        4           INT32            v2
+
+    Uniform4iARB
+
+        2           24               rendering command length
+        2           252              rendering command opcode
+        4           INT32            location
+        4           INT32            v0
+        4           INT32            v1
+        4           INT32            v2
+        4           INT32            v3
+
+    The following rendering commands are sent to the server as part of a
+    glXRender request or as a glXRenderLarge request:
+
+    ShaderSourceARB
+
+        2           12+(count*4)+n+p rendering command length
+        2           253              rendering command opcode
+        4           CARD32           shaderObj
+        4           CARD32           count
+        4*count     LISTofINT32      length
+        n           LISTofBYTE       string.  n is described below
+        p                            unused, p=pad(n)
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+(count*4)+n+p rendering command length
+        4           253              rendering command opcode
+
+    n is the sum of the length of all the strings in the array passed
+    in as <string>.  The length of each string i, where i = [0, <count>),
+    is strlen(<string[i]>) if <length> is NULL or if <length[i]> is
+    negative.  Otherwise, the length of string i is <length[i]>.  If
+    <count> is 0, n is 0.
+
+    Uniform1fvARB
+
+        2           12+count*4       rendering command length
+        2           254              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count     LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4       rendering command length
+        4           254              rendering command opcode
+
+    Uniform2fvARB
+
+        2           12+count*4*2     rendering command length
+        2           255              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*2   LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*2     rendering command length
+        4           255              rendering command opcode
+
+    Uniform3fvARB
+
+        2           12+count*4*3     rendering command length
+        2           256              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*3   LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*3     rendering command length
+        4           256              rendering command opcode
+
+    Uniform4fvARB
+
+        2           12+count*4*4     rendering command length
+        2           257              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*4   LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*4     rendering command length
+        4           257              rendering command opcode
+
+    Uniform1ivARB
+
+        2           12+count*4       rendering command length
+        2           258              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count     LISTofINT32      value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4       rendering command length
+        4           258              rendering command opcode
+
+    Uniform2ivARB
+
+        2           12+count*4*2     rendering command length
+        2           259              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*2   LISTofINT32      value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*2     rendering command length
+        4           259              rendering command opcode
+
+    Uniform3ivARB
+
+        2           12+count*4*3     rendering command length
+        2           260              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*3   LISTofINT32      value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*3     rendering command length
+        4           260              rendering command opcode
+
+    Uniform4ivARB
+
+        2           12+count*4*4     rendering command length
+        2           261              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        4*count*4   LISTofINT32      value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           16+count*4*4     rendering command length
+        4           261              rendering command opcode
+
+    UniformMatrix2fvARB
+
+        2           16+4*count*2*2   rendering command length
+        2           262              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        1           CARD8            transpose
+        3           CARD8            unused
+        4*count*2*2 LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+4*count*2*2   rendering command length
+        4           262              rendering command opcode
+
+    UniformMatrix3fvARB
+
+        2           16+4*count*3*3   rendering command length
+        2           263              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        1           CARD8            transpose
+        3           CARD8            unused
+        4*count*3*3 LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+4*count*3*3   rendering command length
+        4           263              rendering command opcode
+
+    UniformMatrix4fvARB
+
+        2           16+4*count*4*4   rendering command length
+        2           264              rendering command opcode
+        4           INT32            location
+        4           CARD32           count
+        1           CARD8            transpose
+        3           CARD8            unused
+        4*count*4*4 LISTofFLOAT32    value
+
+    If the command is encoded in a glXRenderLarge request, the
+    command opcode and command length fields above are expanded to
+    4 bytes each:
+
+        4           20+4*count*4*4   rendering command length
+        4           264              rendering command opcode
+
+
+    The following non-rendering commands are added.
+
+    GetHandleARB
+
+        1           CARD8            opcode (X assigned)
+        1           167              GLX opcode
+        2           3                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             pname
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           0                reply length
+        4           CARD32           return value
+        20                           unused
+
+    CreateShaderObjectARB
+
+        1           CARD8            opcode (X assigned)
+        1           168              GLX opcode
+        2           3                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           ENUM             shaderType
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           0                reply length
+        4           CARD32           return value
+        20                           unused
+
+    CreateProgramObjectARB
+
+        1           CARD8            opcode (X assigned)
+        1           169              GLX opcode
+        2           2                request length
+        4           GLX_CONTEXT_TAG  context tag
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           0                reply length
+        4           CARD32           return value
+        20                           unused
+
+    GetObjectParameterfvARB
+
+        1           CARD8            opcode (X assigned)
+        1           170              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           obj
+        4           ENUM             pname
+      =>
+        1           1                reply
+        1                            unused
+        1           CARD16           sequence number 
+        4           m                reply length, m = ((n == 1) ? 0 : n)
+        4                            unused
+        4           CARD32           n
+
+        if (n = 1) this follows:
+
+        4           FLOAT32          params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        n*4         LISTofFLOAT32    params
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetObjectParameterivARB
+
+        1           CARD8            opcode (X assigened)
+        1           171              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           obj
+        4           ENUM             pname
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number 
+        4           m                reply length, m = ((n == 1) ? 0 : n)
+        4                            unused
+        4           CARD32           n
+
+        if (n = 1) this follows:
+
+        4           INT32            params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        n*4         LISTofINT32      params
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetInfoLogARB
+
+        1           CARD8            opcode (X assigned)
+        1           172              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           obj
+        4           CARD32           maxLength
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = (n+p)/4
+        4                            unused
+        4           CARD32           n, as defined below.
+        16                           unused
+        n           LISTofBYTE       infoLog
+        p                            unused, p = pad(n)
+
+    n is calculated on the server as strlen(<infoLog>) + 1 on success, or
+    0 if there was an error retrieving the info log.  If <length> is not
+    NULL, it is set to max(1, n) - 1.
+
+    GetAttachedObjectsARB
+
+        1           CARD8            opcode (X assigned)
+        1           173              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           containerObj
+        4           CARD32           maxCount
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = (n == 1 ? 0 : n)
+        4                            unused
+        4           CARD32           count, n = count
+
+        if (n = 1) this follows:
+
+        4           CARD32           obj
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        4*n         LISTofCARD32     obj
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetUniformLocationARB
+        1           CARD8            opcode (X assigned)
+        1           174              GLX opcode
+        2           (12+n+p)/4       request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           programObj
+        n           LISTofBYTE       name, n = strlen(name)+1
+        p                            unused, p = pad(n)
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           0                reply length
+        4           CARD32           return value
+        20                           unused
+
+    GetActiveUniformARB
+
+        1           CARD8            opcode (X assigned)
+        1           175              GLX opcode
+        2           5                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           programObj
+        4           CARD32           index
+        4           CARD32           maxLength
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = (n+p)/4
+        4                            unused
+        4           CARD32           n, n = length+1
+        4           CARD32           size
+        4           ENUM             type
+        8                            unused
+        n           LISTofBYTE       name
+        p                            unused , p = pad(n)
+
+    n is calculated on the server as strlen(<name>) + 1 on success, or 0
+    if there was an error retrieving the active uniform's name.  If
+    <length> is not NULL, it is set to max(1, n) - 1.
+
+    GetUniformfvARB
+
+        1           CARD8            opcode (X assigned)
+        1           176              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context rag
+        4           CARD32           programObj
+        4           INT32            location
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = ((n == 1) ? 0 : n)
+        4                            unused
+        4           CARD32           n
+
+        if (n = 1) this follows:
+
+        4           FLOAT32          params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        4*n         LISTofFLOAT32    params
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetUniformivARB
+
+        1           CARD8            opcode (X assigned)
+        1           177              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context rag
+        4           CARD32           programObj
+        4           INT32            location
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = ((n == 1) ? 0 : n)
+        4                            unused
+        4           INT32            n
+
+        if (n = 1) this follows:
+
+        4           INT32            params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        4*n         LISTofINT32      params
+
+    Note that n may be zero, indicating that a GL error occured.
+
+    GetShaderSourceARB
+
+        1           CARD8            opcode (X assigned)
+        1           178              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           obj
+        4           CARD32           maxLength
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m = (n+p)/4
+        4                            unused
+        4           CARD32           length
+        16                           unused
+        n           LISTofBYTE       source, n = length+1
+        p                            unused, p = pad(n)
+
+    Note that n may be zero, indicating that a GL error occured.
+
 Errors
 
     The error INVALID_VALUE is generated by any command that takes one or
@@ -2422,3 +3011,6 @@ Revision History
         validation is allowed to fail. Previously these conditions were only
         in the Errors section, listed for glBegin().
       - ARB-GL2 workgroup approved version.
+    Revision: 0.90 12/14/2009
+      - Added GLX protocol 
+

@@ -29,8 +29,7 @@ Status
 
 Version
 
-    June 17, 2003
-    $Date: 2003/06/17 $ $Revision: #10 $
+    June 17, 2003 (version 1.0)
 
 Number
 

@@ -8,7 +8,8 @@ Name Strings
 
 Version
 
-    $Date: 1997/08/21 21:26:36 $ $Revision: 1.6 $
+    Revision Date: September 23, 2010
+    Version: 1.8
 
 Number
 
@@ -126,7 +127,7 @@ Issues
 New Procedures and Functions
 
     void glPointParameterfEXT ( GLenum pname, GLfloat param );
-    void glPointParameterfvEXT ( GLenum pname, GLfloat *params );
+    void glPointParameterfvEXT ( GLenum pname, const GLfloat *params );
 
 New Tokens
 
@@ -303,6 +304,9 @@ Backwards Compatibility
     20, 2000. The EXT version is now considered obsolete.
 
 Revision History
+
+    * 1.8 (September 23, 2010) pbrown - add "const" qualifier to <params>
+      argument to PointParameterfvARB.
 
     * 1.7 (March 12, 2002) - added GLX protocol, reverse engineered from
       SGI's GLX implementation.

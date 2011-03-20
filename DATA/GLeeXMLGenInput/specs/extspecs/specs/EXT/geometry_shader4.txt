@@ -19,8 +19,8 @@ Status
 
 Version
 
-    Last Modified Date:         07/29/2008
-    NVIDIA Revision:            20
+    Last Modified Date:         12/14/2009
+    NVIDIA Revision:            22
 
 Number
 
@@ -1244,12 +1244,12 @@ Dependencies on EXT_framebuffer_object
     framebuffer is not layered.
 
     When fragments are written to a layered framebuffer, the fragment's layer
-    number selects an image from the array of images at each attachment point
-    from which to obtain the destination R, G, B, A values for blending
-    (Section 4.1.8) and to which to write the final color values for that
-    attachment.  If the fragment's layer number is negative or greater than
-    the number of layers attached, the effects of the fragment on the
-    framebuffer contents are undefined.
+    number selects a single image from the array of images at each attachment
+    point to use for the stencil test (section 4.1.5), depth buffer test
+    (section 4.1.6), and for blending and color buffer writes (section 4.1.8).
+    If the fragment's layer number is negative or greater than the number of
+    layers attached, the effects of the fragment on the framebuffer contents
+    are undefined.
 
     When the Clear command is used to clear a layered framebuffer attachment,
     all layers of the attachment are cleared.
@@ -1335,9 +1335,46 @@ Dependencies on EXT_texture_buffer_object
     INVALID_OPERATION error if a buffer texture is passed to
     FramebufferTextureEXT should be removed.
 
-GLX protocol
+GLX Protocol
 
-    TBD
+    The following rendering command is sent to the server as part of a
+    glXRender request:
+
+    ProgramParameteriEXT
+        2           16               rendering command length
+        2           266              rendering command opcode
+        4           CARD32           program
+        4           ENUM             pname
+        4           INT32            value
+
+    FramebufferTextureEXT
+
+        2           20               rendering command length
+        2           267              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+
+    FramebufferTextureLayerEXT
+
+        2           24               rendering command length
+        2           237              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+        4           INT32            layer
+
+    FramebufferTextureFaceEXT
+
+        2           24               rendering command length
+        2           268              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+        4           ENUM             face
 
 Errors
 
@@ -2507,6 +2544,12 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  -----------------------------------------
+     22   12/14/09  mgodse    Added GLX protocol.
+     
+     21   07/21/09  pbrown    Clarify that when doing layered rendering,
+                              a layer specified in the shader is used to
+                              select the depth and stencil layers accessed.
+
      20   07/29/08  pbrown    Minor typo fix.
 
      19   04/04/08  pbrown    Changed MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT

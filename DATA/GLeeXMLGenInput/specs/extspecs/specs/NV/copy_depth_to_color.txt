@@ -24,9 +24,8 @@ Status
 
 Version
 
-    NVIDIA Date: October 17, 2001 (version 1.0)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_copy_depth_to_color.txt#3 $
+    Date:       October 17, 2001
+    Version:    1.0
 
 Number
 

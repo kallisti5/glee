@@ -77,6 +77,18 @@ New Tokens
 
     TEXTURE_SWIZZLE_RGBA_EXT            0x8E46
 
+
+Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
+
+    Modify Section 2.15.4 (Shader Execution), p. 84:
+
+    Texture Access
+    
+    ...and converts it to a texture source color Cs according to table 
+    3.20 (section 3.8.13), followed by application of the texture swizzle
+    as described in section 3.8.13. A four-component vector (Rs,Gs,Bs,As)
+    is returned to the vertex shader.
+
 Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
 
     Modify Section 3.8.4 (Texture Parameters), p. 168:
@@ -116,6 +128,15 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     }
 
     and similarly for Cs'[1], Cs'[2], and As'.
+
+    Modify Section 3.11.2 (Shader Execution), p. 197:
+
+    Texture Access
+    
+    ...and converts it to a texture source color Cs according to table 
+    3.20 (section 3.8.13), followed by application of the texture swizzle
+    as described in section 3.8.13. The GL returns a four-component 
+    vector (Rs,Gs,Bs,As) to the fragment shader...
 
 Additions to the AGL/EGL/GLX/WGL Specifications
 
@@ -238,3 +259,6 @@ Revision History
 
     Revision 1, 2008/08/21
      - Initial draft
+    Revision 2, 2009/01/28
+     - Add edits to fragment/vertex shader sections to clarify that the 
+       swizzle is applied in both.

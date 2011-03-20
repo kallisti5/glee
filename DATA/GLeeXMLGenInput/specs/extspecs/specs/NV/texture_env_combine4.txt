@@ -21,8 +21,7 @@ IP Status
 Version
 
     NVIDIA date: January 18, 2001
-    $Date: 1999/06/21 13:54:17 $ $Revision: 1.2 $
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_env_combine4.txt#14 $
+    Version:     14
 
 Number
 

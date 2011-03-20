@@ -18,8 +18,8 @@ Status
     Shipping since 2004 for NVIDIA Quadro SDI (Serial Digital Interface)
 
 Version 
-    Last Modified:      $Date: 2008/02/20 $
-    NVIDIA Revision:    $Revision: #5 $
+    Last Modified:      2008/02/20
+    NVIDIA Revision:    6
 
 Number 
 
@@ -107,7 +107,7 @@ New Types
     /*
      * GLXVideoDeviceNV is an opaque handle to a video device.
      */
-    typedef struct unsigned int GLXVideoDeviceNV;
+    typedef unsigned int GLXVideoDeviceNV;
 
 
 New Procedures and Functions 

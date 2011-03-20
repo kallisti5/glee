@@ -47,7 +47,7 @@ Contributors
 
 Contacts
 
-    Rob Barris, Blizzard Entertainment (rbarris 'at' blizzard.com)
+    Rob Barris (rbarris 'at' gmail.com)
     Daniel Koch, TransGaming Inc. 
 
 Status
@@ -56,8 +56,8 @@ Status
 
 Version
 
-    Last Modified Date: November 17, 2008
-    Revision: #28
+    Last Modified Date: July 21, 2010
+    Revision: #32
 
 Number
 
@@ -113,8 +113,8 @@ Overview
     
     - Reflect FBO-related functionality found in the OpenGL 3.0 specification.
     
-    - Integrate multiple disjoint extensions into a single ARB extension.  These
-    extensions are:
+    - Integrate multiple disjoint extensions into a single ARB extension.
+      These extensions are:
 
         EXT_framebuffer_object
         EXT_framebuffer_blit
@@ -122,9 +122,10 @@ Overview
         EXT_packed_depth_stencil    
         
     - Where appropriate, relax some of the constraints expressed by previous
-    FBO-related extensions.  In particular the requirement of matching attachment
-    dimensions and component sizes has been relaxed, to allow implementations
-    the freedom to support more flexible usages where possible.
+      FBO-related extensions. In particular the requirement of matching
+      attachment dimensions and component sizes has been relaxed, to allow
+      implementations the freedom to support more flexible usages where
+      possible.
 
 
     ARB_framebuffer_object defines an interface for drawing to rendering
@@ -208,13 +209,15 @@ Overview
     
     This extension differs from EXT_framebuffer_object by splitting the
     framebuffer object binding point into separate DRAW and READ
-    bindings.  This allows copying directly from one framebuffer to
-    another.  In addition, a new high performance blit function is
-    added to facilitate these blits and perform some data conversion
-    where allowed.
+    bindings (incorporating functionality introduced by
+    EXT_framebuffer_blit). This allows copying directly from one
+    framebuffer to another. In addition, a new high performance blit
+    function is added to facilitate these blits and perform some data
+    conversion where allowed.
  
     This extension also enables usage of multisampling in conjunction with
-    renderbuffers, as follows:
+    renderbuffers (incorporating functionality from
+    EXT_packed_depth_stencil), as follows:
 
     The new operation RenderbufferStorageMultisample() allocates
     storage for a renderbuffer object that can be used as a multisample
@@ -283,7 +286,8 @@ Overview
     resolve operation, we avoid both of these problems.
     
     This extension also enables usage of packed depth-stencil formats in 
-    renderbuffers, as follows:
+    renderbuffers (incorporating functionality from
+    EXT_packed_depth_stencil), as follows:
 
     Many OpenGL implementations have chosen to interleave the depth and
     stencil buffers into one buffer, often with 24 bits of depth
@@ -556,7 +560,7 @@ New Tokens
         SRGB                                          0x8C40
         UNSIGNED_NORMALIZED                           0x8C17
         FRAMEBUFFER_DEFAULT                           0x8218
-	INDEX					      0x8222
+        INDEX                                         0x8222
 
     Accepted by the <attachment> parameter of
     FramebufferTexture{1D|2D|3D}, FramebufferRenderbuffer, and
@@ -642,39 +646,38 @@ New Tokens
 
 Additions to Chapter 2 of the 2.1 Specification (OpenGL Operation)
 
-    "The GL interacts with two classes of framebuffers:
-    window system-provided and application-created.
-    There is at most one window system-provided
-    framebuffer at any time, referred to as the <default framebuffer>.
-    Application-created framebuffers, referred to as <framebuffer objects>, may be created
-    as desired.  These two types of framebuffer are distinguished
-    primarily by the interface for configuring and managing their state.
+    "The GL interacts with two classes of framebuffers: window
+    system-provided and application-created. There is at most one window
+    system-provided framebuffer at any time, referred to as the <default
+    framebuffer>. Application-created framebuffers, referred to as
+    <framebuffer objects>, may be created as desired. These two types of
+    framebuffer are distinguished primarily by the interface for configuring
+    and managing their state.
 
-    The effects of GL commands on the default framebuffer
-    are ultimately controlled by the window system, which allocates
-    framebuffer resources, determines what
-    portions of the default framebuffer the GL may access at any given
-    time, and communicates to the GL how those portions are
-    structured.  Therefore, there are no GL commands to initialize a
-    GL context or configure the default framebuffer.  Similarly, display of
-    framebuffer contents on a physical display device (including the transformation
-    of individual framebuffer values by such techniques as gamma
-    correction) is not addressed by the GL.
+    The effects of GL commands on the default framebuffer are ultimately
+    controlled by the window system, which allocates framebuffer resources,
+    determines what portions of the default framebuffer the GL may access at
+    any given time, and communicates to the GL how those portions are
+    structured. Therefore, there are no GL commands to initialize a GL
+    context or configure the default framebuffer. Similarly, display of
+    framebuffer contents on a physical display device (including the
+    transformation of individual framebuffer values by such techniques as
+    gamma correction) is not addressed by the GL.
 
-    Allocation and configuration of the default framebuffer occurs outside of
-    the GL in conjunction with the window system, using companion APIs such as
-    GLX, WGL, and AGL for GL implementations running on the X Window System,
-    Microsoft Windows, and MacOS X respectively.
+    Allocation and configuration of the default framebuffer occurs outside
+    of the GL in conjunction with the window system, using companion APIs
+    such as GLX, WGL, and AGL for GL implementations running on the X Window
+    System, Microsoft Windows, and MacOS X respectively.
 
     Allocation and initialization of GL contexts is also done using these
     companion APIs. GL contexts can typically be associated with different
-    default framebuffers, and some context state is determined at the time this
-    association is performed.
+    default framebuffers, and some context state is determined at the time
+    this association is performed.
 
     It is possible to use a GL context <without> a default framebuffer, in
-    which case a framebuffer object must be used to perform
-    all rendering. This is useful for applications neeting to perform
-    <offscreen rendering>."
+    which case a framebuffer object must be used to perform all rendering.
+    This is useful for applications needing to perform <offscreen
+    rendering>."
 
 
     Add to table 2.3, "Summary of GL errors":
@@ -771,8 +774,8 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     same values as the corresponding argument of ColorTable, with the
     exception of the values 1, 2, 3, and 4."
 
-    In section 3.6.3 "Pixel Transfer Modes", update the sectiond paragraph
-    in the subsection titled "Minmax Table Specification", in the definition 
+    In section 3.6.3 "Pixel Transfer Modes", update the second paragraph
+    in the subsection titled "Minmax Table Specification", in the definition
     of Minmax to say:
 
     "<internalformat> accepts the same values as the corresponding argument
@@ -976,7 +979,8 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
       ...                  ...           ...  ...  ...  ...  ...  ...  ...  ...
 
     In section 3.8.2 "Alternate Texture Image Specification Commands", 
-    update the second paragraph, in the definition of CopyTexImage2D, to say:
+    update the second paragraph, in the definition of CopyTexImage2D, to
+    say:
 
     "...The image is taken from the framebuffer exactly as if these
     arguments were passed to CopyPixels with argument type set to COLOR
@@ -998,9 +1002,9 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     beginning with clamping of the R, G, B, A, or depth values, and masking
     of the stencil index values from the resulting pixel groups..."
 
-    In section 3.8.2 "Alternate Texture Image Specification Commands", update 
-    the seventh paragraph, in the description of the CopyTexSubImage{2|3}D 
-    arguments, to say:
+    In section 3.8.2 "Alternate Texture Image Specification Commands",
+    update the seventh paragraph, in the description of the
+    CopyTexSubImage{2|3}D arguments, to say:
 
     "...except that the assignment of R, G, B, A, depth, and stencil
     pixel group values to the texture components is controlled by the
@@ -1023,8 +1027,8 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     texture filtering and application. The initial state for depth and
     depth/stencil textures treats them as LUMINANCE textures."
 
-    In section 3.8.8 "Texture Minification", add the following text immediately
-    before the subsection "Mipmapping":
+    In section 3.8.8 "Texture Minification", add the following text
+    immediately before the subsection "Mipmapping":
 
     "If all of the following conditions are satisfied, then the value of
     the selected Tau(ijk), Tau(ij), or Tau(i) in the above equations is
@@ -1048,8 +1052,7 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
         NEAREST_MIPMAP_LINEAR, LINEAR_MIPMAP_NEAREST, or
         LINEAR_MIPMAP_LINEAR, and the value of
         FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL for attachment point
-        <A> is within the the inclusive range from TEXTURE_BASE_LEVEL to
-        q."
+        <A> is within the inclusive range from TEXTURE_BASE_LEVEL to q."
 
     In subsection "Automatic Mipmap Generation" to section 3.8.8,
     replace the first paragraph with the following text and footnote:
@@ -1078,9 +1081,9 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
 
       void GenerateMipmap(enum target);
 
-    where <target> is one of TEXTURE_1D, TEXTURE_2D, TEXTURE_CUBE_MAP,
-    or TEXTURE_3D.  Mipmap generation affects the texture image attached
-    to <target>.  For cube map textures, an INVALID_OPERATION error is generated
+    where <target> is one of TEXTURE_1D, TEXTURE_2D, TEXTURE_CUBE_MAP, or
+    TEXTURE_3D. Mipmap generation affects the texture image attached to
+    <target>. For cube map textures, an INVALID_OPERATION error is generated
     if the texture bound to <target> is not cube complete, as defined in
     section 3.8.10.
 
@@ -1195,63 +1198,64 @@ Operations and the Framebuffer)
     objects is described in detail in section 4.4
 
     Corresponding bits from each pixel in the framebuffer are grouped
-    together into a bitplane; each bitplane contains a single bit from
-    each pixel.  These bitplanes are grouped into several logical
-    buffers.  These are the color, depth, stencil, and accumulation
+    together into a <bitplane>; each bitplane contains a single bit from
+    each pixel.  These bitplanes are grouped into several <logical
+    buffers>.  These are the color, accumulation, depth, and stencil
     buffers.  The color buffer actually consists of a number of buffers,
     and these color buffers serve related but slightly different
     purposes depending on whether the GL is bound to the default
     framebuffer or a framebuffer object.
 
-    For the default framebuffer, the color
-    buffers are the <front left> buffer, the <front right> buffer, the <back
-    left> buffer, the <back right> buffer, and some number of <auxiliary>
-    buffers.  Typically, the contents of the front buffers are displayed
-    on a color monitor while the contents of the back buffers are
-    invisible.  (Monoscopic contexts display only the front left buffer;
-    stereoscopic contexts display both the front left and the front
-    right buffers.)  The contents of the auxiliary buffers are never
-    visible.  All color buffers must have the same number of bitplanes,
-    although an implementation or context may choose not to provide
-    right buffers, back buffers, or auxiliary buffers at all.  Further,
-    an implementation or context may not provide depth, stencil, or
-    accumulation buffers.
-    If no default framebuffer is associated with the GL context, the framebuffer
-    is incomplete except when a framebuffer object is bound (see
-    sections 4.4.1 and 4.4.4).
+    For the default framebuffer, the color buffers are the <front left>
+    buffer, the <front right> buffer, the <back left> buffer, the <back
+    right> buffer, and some number of <auxiliary> buffers. Typically, the
+    contents of the front buffers are displayed on a color monitor while the
+    contents of the back buffers are invisible. (Monoscopic contexts display
+    only the front left buffer; stereoscopic contexts display both the front
+    left and the front right buffers.) The contents of the auxiliary buffers
+    are never visible. All color buffers must have the same number of
+    bitplanes, although an implementation or context may choose not to
+    provide right buffers, back buffers, or auxiliary buffers at all.
+    Further, an implementation or context may choose not to provide
+    accumulation, depth, or stencil buffers. If no default framebuffer is
+    associated with the GL context, the framebuffer is incomplete except
+    when a framebuffer object is bound (see sections 4.4.1 and 4.4.4).
 
-    For framebuffer objects, the color buffers are
-    not visible, and consequently the names of the color buffers are not
-    related to a display device.  The names of the color buffers of an
-    application-created framebuffer object are COLOR_ATTACHMENT0
-    through COLOR_ATTACHMENTn.  The names of the depth and stencil
-    buffers are DEPTH_ATTACHMENT and STENCIL_ATTACHMENT.  For
-    more information about the buffers of an application-created
-    framebuffer object, see section 4.4.2.  To be considered framebuffer
-    complete (see section 4.4.4), all color buffers attached to n
-    framebuffer object must have the same number of bitplanes. Depth and
-    stencil buffers may optionally be attached to application-created
-    framebuffers as well.
+    Framebuffer objects are not visible, and do not have any of the color
+    buffers present in the default framebuffer. Instead, the buffers of an
+    framebuffer object are specified by attaching individual textures or
+    renderbuffers (see section 4.4) to a set of attachment points. A
+    framebuffer object has an array of color buffer attachment points,
+    numbered zero through <n>, a depth buffer attachment point, and a
+    stencil buffer attachment point. In order to be used for rendering, a
+    framebuffer object must be complete, as described in section 4.4.4. Not
+    all attachments of a framebuffer object need to be populated.
 
-    Color buffers consist of either unsigned integer color indices or R,
-    G, B, and, optionally, A unsigned integer values.  The number of
-    bitplanes in each of the color buffers, the depth buffer, the
-    stencil buffer, and the accumulation buffer is dependent on the
-    currently bound framebuffer.
+    Each pixel in a color buffer consists of either an unsigned integer
+    color index or of up to four color components. The four color components
+    are named R, G, B, and A, in that order; color buffers are not required
+    to have all four color components. R, G, B, and A components may be
+    represented as signed or unsigned normalized fixed-point,
+    floating-point, or signed or unsigned integer values; all components
+    must have the same representation. Each pixel in a depth buffer consists
+    of a single unsigned integer value in the format described in section
+    2.12.1 or a floating-point value. Each pixel in a stencil buffer
+    consists of a single unsigned integer value. Each pixel in an
+    accumulation buffer consists of up to four color components. If an
+    accumulation buffer is present, it must have at least as many bitplanes
+    per component as in the color buffers.
 
-    For the default framebuffer, the
-    number of bitplanes is fixed.  For framebuffer
-    objects, however, the number of bitplanes in a given logical buffer
-    may change if the state of the corresponding framebuffer attachment
-    or attached image changes (see sections 4.4.2 and 4.4.5).  If an
-    accumulation buffer is provided, it must have at least as many
-    bitplanes per R, G, and B color component as do the color buffers.
+    The number of bitplanes in the accumulation, color, depth, and stencil
+    buffers is dependent on the currently bound framebuffer. For the default
+    framebuffer, the number of bitplanes is fixed. For framebuffer objects,
+    the number of bitplanes in a given logical buffer may change if the
+    image attached to the corresponding attachment point changes.
 
-    The GL has two active framebuffers; the <draw
-    framebuffer> is the destination for rendering operations, and the
-    <read framebuffer> is the source for readback operations.  The same
-    framebuffer may be used for both drawing and reading.  Section
-    4.4.1 describes the mechanism for controlling framebuffer usage."
+    The GL has two active framebuffers; the <draw framebuffer> is the
+    destination for rendering operations, and the <read framebuffer> is the
+    source for readback operations. The same framebuffer may be used for
+    both drawing and reading. Section 4.4.1 describes the mechanism for
+    controlling framebuffer usage."
 
     The default framebuffer is initially used as the draw and read
     framebuffer [fn1], and the initial state of all provided bitplanes is
@@ -1297,16 +1301,13 @@ Operations and the Framebuffer)
 
         void DrawBuffer( enum buf );
 
-    defines the set of color buffers to which fragment color zero is written.
-    <buf> must be one of the values from tables 4.4 or 10.nnn.
-    In addition, acceptable values for <buf>
-    depend on whether the GL is using the default
-    framebuffer (i.e., DRAW_FRAMEBUFFER_BINDING is zero), or a
-    framebuffer object (i.e.,
-    DRAW_FRAMEBUFFER_BINDING is non-zero).  In the initial state, the GL
-    is bound to the default framebuffer.  For more
-    information about framebuffer objects, see
-    section 4.4.
+    defines the set of color buffers to which fragment color zero is
+    written. <buf> must be one of the values from tables 4.4 or 10.nnn. In
+    addition, acceptable values for <buf> depend on whether the GL is using
+    the default framebuffer (i.e., DRAW_FRAMEBUFFER_BINDING is zero), or a
+    framebuffer object (i.e., DRAW_FRAMEBUFFER_BINDING is non-zero). In the
+    initial state, the GL is bound to the default framebuffer. For more
+    information about framebuffer objects, see section 4.4.
 
     If the GL is bound to the default framebuffer, then
     <buf> must be one the values listed in table 4.4, which summarizes
@@ -1328,7 +1329,7 @@ Operations and the Framebuffer)
     for writing.  Specifying COLOR_ATTACHMENTi enables drawing only
     to the image attached to the framebuffer at COLOR_ATTACHMENTi.
     Each COLOR_ATTACHMENTi adheres to COLOR_ATTACHMENTi =
-    COLOR_ATTACHMENT0 + i.  The intial value of DRAW_BUFFER for
+    COLOR_ATTACHMENT0 + i.  The initial value of DRAW_BUFFER for
     application-created framebuffer objects is COLOR_ATTACHMENT0.
 
 
@@ -1478,8 +1479,8 @@ Operations and the Framebuffer)
     of the paragraph defining <mask> for StencilMask and StencilMaskSeparate
     as follows: 
 
-    Modify the second to last paragraph of section 4.2.4 "The Accumulation Buffer"
-    as follows:
+    Modify the second to last paragraph of section 4.2.4 "The Accumulation
+    Buffer" as follows:
 
     "If there is no accumulation buffer, or if the DRAW_FRAMEBUFFER
     and READ_FRAMEBUFFER bindings (see section 4.4.4.2) do not refer to
@@ -1561,26 +1562,25 @@ Operations and the Framebuffer)
     framebuffer, nor legal for a
     framebuffer object, then the error INVALID_ENUM results.
 
-    When READ_FRAMEBUFFER_BINDING is zero, i.e. the default
-    framebuffer, <src> must be one of the values
-    listed in table 4.4, including NONE. FRONT_AND_BACK, FRONT, and LEFT refer to the
-    front left buffer, BACK refers to the back left buffer, and RIGHT
-    refers to the front right buffer. The other constants correspond
-    directly to the buffers that they name. If the requested buffer is
-    missing, then the error INVALID_OPERATION is generated. For the
-    default framebuffer, the initial setting for
-    ReadBuffer is FRONT if there is no back buffer and BACK otherwise.
+    When READ_FRAMEBUFFER_BINDING is zero, i.e. the default framebuffer,
+    <src> must be one of the values listed in table 4.4, including NONE.
+    FRONT_AND_BACK, FRONT, and LEFT refer to the front left buffer, BACK
+    refers to the back left buffer, and RIGHT refers to the front right
+    buffer. The other constants correspond directly to the buffers that they
+    name. If the requested buffer is missing, then the error
+    INVALID_OPERATION is generated. For the default framebuffer, the initial
+    setting for ReadBuffer is FRONT if there is no back buffer and BACK
+    otherwise.
 
-    When the GL is using a framebuffer object,
-    <src> must be one of the values listed in table 10.nnn, including
-    NONE.  In a manner analogous to how the DRAW_BUFFERs state is
-    handled, specifying COLOR_ATTACHMENTi enables reading from the
-    image attached to the framebuffer at COLOR_ATTACHMENTi.
-    For framebuffer objects, the initial setting for ReadBuffer is
-    COLOR_ATTACHMENT0.
+    When the GL is using a framebuffer object, <src> must be one of the
+    values listed in table 10.nnn, including NONE. In a manner analogous to
+    how the DRAW_BUFFERs state is handled, specifying COLOR_ATTACHMENTi
+    enables reading from the image attached to the framebuffer at
+    COLOR_ATTACHMENTi. For framebuffer objects, the initial setting for
+    ReadBuffer is COLOR_ATTACHMENT0.
 
-    ReadPixels generates an INVALID_OPERATION error if it attempts to select a
-    color buffer while READ_BUFFER is NONE.
+    ReadPixels generates an INVALID_OPERATION error if it attempts to select
+    a color buffer while READ_BUFFER is NONE.
 
     ReadPixels obtains values from the selected buffer from each pixel
     with lower left hand corner at (x+i, y+j) for (0 <= i < width) and
@@ -1642,8 +1642,8 @@ Operations and the Framebuffer)
     "CopyPixels transfers a rectangle of pixel values from one region
     of the read framebuffer to another in the draw framebuffer."
 
-    In section 4.3.3 "Copying Pixels", update the second and third paragraphs
-    to say:
+    In section 4.3.3 "Copying Pixels", update the second and third
+    paragraphs to say:
 
     "<type> is a symbolic constant that must be one of COLOR, STENCIL,
     DEPTH, or DEPTH_STENCIL, indicating that the values to be
@@ -1969,12 +1969,14 @@ Operations and the Framebuffer)
             implementation-dependent state variable AUX_BUFFERS is zero.
             
           - If the attachment sizes are not all identical, rendering will be
-            limited to the largest area that can fit in all of the attachments
-            (i.e. an intersection of rectangles having a lower left of (0,0)
-            and an upper right of (width,height) for each attachment)
+            limited to the largest area that can fit in all of the
+            attachments (i.e. an intersection of rectangles having a lower
+            left of (0,0) and an upper right of (width,height) for each
+            attachment)
             
-          - If the attachment sizes are not all identical, the values of pixels
-            outside the common intersection area after rendering are undefined.
+          - If the attachment sizes are not all identical, the values of
+            pixels outside the common intersection area after rendering are
+            undefined.
 
     Framebuffer objects are deleted by calling
 
@@ -2285,9 +2287,9 @@ Operations and the Framebuffer)
     TEXTURE_CUBE_MAP_POSITIVE_Z, TEXTURE_CUBE_MAP_NEGATIVE_X,
     TEXTURE_CUBE_MAP_NEGATIVE_Y, or TEXTURE_CUBE_MAP_NEGATIVE_Z, then
     <level> must be greater than or equal to zero and less than or equal
-    to log base 2 of the value of MAX_CUBE_MAP_TEXTURE_SIZE. For all other values of
-    <textarget>, <level> must be greater than or equal to zero and no
-    larger than log base 2 of the value of MAX_TEXTURE_SIZE.  Otherwise,
+    to log base 2 of the value of MAX_CUBE_MAP_TEXTURE_SIZE. For all other
+    values of <textarget>, <level> must be greater than or equal to zero and
+    no larger than log base 2 of the value of MAX_TEXTURE_SIZE. Otherwise,
     an INVALID_VALUE error is generated.
 
     <layer> specifies the layer of a 2-dimensional image within a
@@ -2421,7 +2423,7 @@ Operations and the Framebuffer)
           of NEAREST_MIPMAP_NEAREST, NEAREST_MIPMAP LINEAR, LINEAR
           MIPMAP_NEAREST, or LINEAR_MIPMAP_LINEAR, and the value of
           FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL for attachment point
-          <A> is within the the range specified by the current values of
+          <A> is within the range specified by the current values of
           TEXTURE_BASE_LEVEL to q, inclusive, for the texture object
           <T>.  (q is defined in the Mipmapping discussion of section
           3.8.8),
@@ -2436,10 +2438,9 @@ Operations and the Framebuffer)
         - FRAGMENT_PROGRAM_ARB is enabled and the currently bound
           fragment program contains any instructions that
           sample from the texture object <T> bound to <U>
-        - The active fragment or vertex shader contains
-          any instructions that might sample from the texture object <T> bound 
-          to <U> if even those instructions might only be executed
-          conditionally.
+        - The active fragment or vertex shader contains any instructions
+          that might sample from the texture object <T> bound to <U> if even
+          those instructions might only be executed conditionally.
 
     Note that if TEXTURE_BASE_LEVEL and TEXTURE_MAX_LEVEL exclude any
     levels containing image(s) attached to the currently bound
@@ -2470,8 +2471,9 @@ Operations and the Framebuffer)
     attachment points to which it can be attached.
 
         * The following base internal formats from table 3.15 are
-          <color-renderable>: ALPHA, RED, RG, RGB, RGBA, FLOAT_R_NV,
-          FLOAT_RG_NV, FLOAT_RGB_NV, and FLOAT_RGBA_NV. The sized
+          <color-renderable>: ALPHA, LUMINANCE, LUMINANCE_ALPHA,
+          INTENSITY, RED, RG, RGB, RGBA, FLOAT_R_NV, FLOAT_RG_NV,
+          FLOAT_RGB_NV, and FLOAT_RGBA_NV. The sized
           internal formats from table 3.16 that have a color-renderable
           base internal format are also color-renderable. No other
           formats, including compressed internal formats, are
@@ -2530,7 +2532,7 @@ Operations and the Framebuffer)
     4.4.4.
 
     The framebuffer object <target> is said to be "framebuffer complete" if
-    all the following conditons are true:
+    all the following conditions are true:
 
       * <target> is the default framebuffer, and the default framebuffer
         exists.
@@ -2733,11 +2735,11 @@ Operations and the Framebuffer)
     Conversion to RGBA Values
 
     When a color value is read or is used as the source of a logical
-    operation or blending while the read framebuffer binding is non-zero, the
-    components of the framebuffer-attachable image that is attached to
-    the logical buffer selected by READ_BUFFER are first converted to R,
-    G, B, and A values according to table 3.21 and the internal format
-    of the attached image."
+    operation or blending while the read framebuffer binding is non-zero,
+    the components of the framebuffer-attachable image that is attached to
+    the logical buffer selected by READ_BUFFER are first converted to R, G,
+    B, and A values according to table 3.21 and the internal format of the
+    attached image."
 
 
 Additions to Chapter 5 of the OpenGL 2.1 Specification (Special Functions)
@@ -3226,9 +3228,9 @@ New State
                                                                                                                 attached, if object
                                                                                                                 attached is texture.
 
-    FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE  Z+      GetFramebufferAttachmentParameteriv    TEXTURE_       cubemap face of         4.4.2.2 and   -
-                                                                                                 CUBE_MAP_      texture image           4.4.2.3
-                                                                                                 POSITIVE_X     attached, if object
+    FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE  Z+      GetFramebufferAttachmentParameteriv    NONE           cubemap face of         4.4.2.2 and   -
+                                                                                                                texture image           4.4.2.3
+                                                                                                                attached, if object
                                                                                                                 attached is cubemap
                                                                                                                 texture.
 
@@ -3491,7 +3493,7 @@ GLX Protocol
             2        24              rendering command length
             2        4321            rendering command opcode
             4        ENUM            target
-            4        ENUM            attachement
+            4        ENUM            attachment
             4        ENUM            textarget
             4        CARD32          texture
             4        CARD32          level
@@ -3500,7 +3502,7 @@ GLX Protocol
             2        24              rendering command length
             2        4322            rendering command opcode
             4        ENUM            target
-            4        ENUM            attachement
+            4        ENUM            attachment
             4        ENUM            textarget
             4        CARD32          texture
             4        CARD32          level
@@ -3509,7 +3511,7 @@ GLX Protocol
             2        28              rendering command length
             2        4323            rendering command opcode
             4        ENUM            target
-            4        ENUM            attachement
+            4        ENUM            attachment
             4        ENUM            textarget
             4        CARD32          texture
             4        CARD32          level
@@ -3519,7 +3521,7 @@ GLX Protocol
             2        24              rendering command length
             2        237             rendering command opcode
             4        ENUM            target
-            4        ENUM            attachement
+            4        ENUM            attachment
             4        CARD32          texture
             4        CARD32          level
             4        CARD32          layer
@@ -4190,7 +4192,8 @@ Issues
            via the ARB_texture_rg extension. L/A/LA/I will be
            left for a separate (trivial) extension.
 
-         * Gen'ed names must be used for framebuffer objects and renderbuffers.
+         * Gen'ed names must be used for framebuffer objects and
+           renderbuffers.
 
          * Added FramebufferTextureLayer.
     
@@ -4231,47 +4234,53 @@ Issues
            state.)
          * Added new queries for the sizes of the bit planes for color, 
            depth and stencil attachments at a framebuffer attachment point.
-         * Added new queries for framebuffer attachment component type and color encoding.
-         * Many other minor tweaks to synchronize with the GL3 framebuffer objects.
+         * Added new queries for framebuffer attachment component type and
+           color encoding.
+         * Many other minor tweaks to synchronize with the GL3 framebuffer
+           objects.
+         * ARB FBOs are not shareable.
           
-    (4) Do we need new enum values, or can we re-use the ones from the EXT versions?
+    (4) Do we need new enum values, or can we re-use the ones from the EXT
+        versions?
 
         RESOLVED. This extension is designed to be compatible with 
-        EXT_framebuffer_object, and thus we can reuse the enumerants.  There are 
-        also a number of additional enumerants added in this extension.
+        EXT_framebuffer_object, and thus we can reuse the enumerants. There
+        are also a number of additional enumerants added in this extension.
 
-    (5) What should a query of RED_BITS, GREEN_BITS, BLUE_BITS, ALPHA_BITS. 
-        return if the attached color-renderable images have different formats?
+    (5) What should a query of RED_BITS, GREEN_BITS, BLUE_BITS, ALPHA_BITS.
+        return if the attached color-renderable images have different
+        formats?
         
-        RESOLVED. The values of RED_BITS, GREEN_BIT, BLUE_BITS and ALPHA_BITS are 
-        only defined if all color attachements of the draw framebuffer have identical
-        formats, in which case the color component sizes of color attachement
-        zero are return. This is necessary for backwards compatibility with 
-        EXT_framebuffer_object.  The actual sizes of the color, depth, or 
-        stencil bit planes can be obtained by querying an attachment point
-        using GetFramebufferAttachmentParameteriv using the new
-        FRAMEBUFFER_ATTACHMENT_*_SIZE enumerants, or by querying the
-        object attached at that point. 
+        RESOLVED. The values of RED_BITS, GREEN_BIT, BLUE_BITS and
+        ALPHA_BITS are only defined if all color attachments of the draw
+        framebuffer have identical formats, in which case the color
+        component sizes of color attachment zero are return. This is
+        necessary for backwards compatibility with EXT_framebuffer_object.
+        The actual sizes of the color, depth, or stencil bit planes can be
+        obtained by querying an attachment point using
+        GetFramebufferAttachmentParameteriv using the new
+        FRAMEBUFFER_ATTACHMENT_*_SIZE enumerants, or by querying the object
+        attached at that point.
         
-    (6) What are the proper names for the 1 and 2 component fixed-point, float, and 
-        pure integer texture formats?
+    (6) What are the proper names for the 1 and 2 component fixed-point,
+        float, and pure integer texture formats?
         
-        RESOLVED: as introduced in the 3.0 spec, using RED and RG base internal format
-        terminology. The new RED/RG formats have also been spun out of 3.0 as the
-        ARB_texture_rg extension.
+        RESOLVED: as introduced in the 3.0 spec, using RED and RG base
+        internal format terminology. The new RED/RG formats have also been
+        spun out of 3.0 as the ARB_texture_rg extension.
 
-    (7) This extension and EXT_framebuffer_object both have "bind framebuffer"
-        functions (BindFramebuffer and BindFramebufferEXT).  Are there any
-        differences in functionality between the two functions?
+    (7) This extension and EXT_framebuffer_object both have "bind
+        framebuffer" functions (BindFramebuffer and BindFramebufferEXT). Are
+        there any differences in functionality between the two functions?
  
-        RESOLVED:  Yes.  Both extensions will create a new framebuffer object 
-        if called with an unused name.  However, BindFramebuffer defined in
+        RESOLVED: Yes. Both extensions will create a new framebuffer object
+        if called with an unused name. However, BindFramebuffer defined in
         this extension will generate an INVALID_OPERATION error if the name
-        provided has not been generated by GenFramebuffer.  That error did
-        not exist in EXT_framebuffer_object, and this extension does not modify
-        the behavior of BindFramebufferEXT.  This difference also applies to 
-        BindRenderbuffer from this extension vs BindRenderbufferEXT from
-        EXT_framebuffer_object.
+        provided has not been generated by GenFramebuffer. That error did
+        not exist in EXT_framebuffer_object, and this extension does not
+        modify the behavior of BindFramebufferEXT. This difference also
+        applies to BindRenderbuffer from this extension vs.
+        BindRenderbufferEXT from EXT_framebuffer_object.
  
     (8) Why don't the new tokens and entry points in this extension have
        "ARB" suffixes like other ARB extensions?
@@ -4283,6 +4292,67 @@ Issues
         possible behavior changes between the ARB extension and core
         features, source code compatibility is improved by not using
         suffixes on the extension.
+
+    (9) Should color-renderable textures be limited to a subset of
+        color base internal formats?
+
+        RESOLVED:  No, all color base internal formats and
+        sized internal formats should be supported by FBO; the FBO
+        status can report what works and doesn't work.
+
+        The glCheckFramebufferStatus provides a mechanism for FBOs to
+        report whether or not the FBO configuration is supported or
+        not (i.e. GL_FRAMEBUFFER_UNSUPPORTED).  If implementations
+        have issues supporting certain color formats for rendering,
+        the existing FBO mechanism is sufficient to report their lack
+        of support.
+
+        Prior to revision 29, the list of color-renderable base internal
+        formats did not include LUMINANCE, LUMINANCE_ALPHA, or INTENSITY
+        (and the EXT version of FBO did not list ALPHA either).
+
+        This lead to inconsistent operation of FBO.  For example, you
+        could use a glFramebufferTexture2D to attach a texture that
+        was LUMINANCE, LUMINANCE_ALPHA, or INTENSITY to an FBO and find
+        out via glCheckFramebufferStatus that this combination wasn't
+        considered color-renderable, but if an internal format for one of
+        these base internal formats was used with glRenderbufferStorage,
+        then an OpenGL error would be generated according to the
+        specification.  Such inconsistencies are undesirable and
+        unnecessarily limit the render-to-texture functionality exposed by
+        some implementations when hardware capable of rendering to
+        LUMINANCE, LUMINANCE_ALPHA, and INTENSITY textures does exist.
+
+        For this reason, revision 29 (specification version 1.1) adds
+        these previously missing based internal formats.  Developers are
+        warned that some implementations (specification version 1.0)
+        will report OpenGL errors if glRenderbufferStorage is called for
+        LUMINANCE, INTENSITY, LUMINANCE_ALPHA formats (or even possibly
+        ALPHA in the case of the EXT version of FBO).
+
+        Some thought was given to introducing a new, one-off extension
+        (instead of a version 1.1) to allow the LUMINANCE, INTENSITY,
+        LUMINANCE_ALPHA base internal formats and their respective
+        sized formats to be color-renderable (both otherwise introduce
+        no new API).  Given the existence of a mechanism for determine
+        whether or not an FBO is supported, simply providing this version
+        1.1 clarification was judged to be the most expedient approach.
+        This approach also provides consistency with other approved
+        ARB specifications such as ARB_framebuffer_sRGB which describes
+        (see its issue #9) that formats such as GL_SLUMINANCE8.
+
+   (10) Can ARB framebuffer objects be shared between contexts? 
+        ARB_framebuffer_object is supposed to be compatible with 
+        EXT_framebuffer_object, but also a subset of OpenGL 3.0. 
+        EXT_framebuffer_object (rev. 120) explicitly allows sharing in 
+        issue 76, but the 3.0 spec explicitly disallows it in Appendix D.
+
+        Resolved: No. ARB_framebuffer_object is intended to capture the 
+        functionality that went into GL 3.0.  Furthermore, given that the 
+        entry points and tokens in this extension and the core are identical
+        there is no way that an implementation could differentiate FBOs
+        created with this extension from those created by core GL.
+
 
 Revision History
 
@@ -4307,8 +4377,9 @@ Revision History
         - Add dependencies on more extensions.
 
     #4c April 28, 2008: dgkoch
-        - merge in framebuffer_blit and update other references to FRAMEBUFFER_EXT and 
-          FRAMEBUFFER_BINDING_EXT, eliminating all references to the obsolete bindings.
+        - merge in framebuffer_blit and update other references to
+          FRAMEBUFFER_EXT and FRAMEBUFFER_BINDING_EXT, eliminating all
+          references to the obsolete bindings.
           
     #5 May 2, 2008: rbarris, dgkoch
         - merge in framebuffer_multisample
@@ -4320,10 +4391,12 @@ Revision History
         - merge in packed_depth_stencil
         
     #8 May 8, 2008: dgkoch
-        - add caveat that MSAA to MSAA blit may have issues (khronos bug #3005)
+        - add caveat that MSAA to MSAA blit may have issues (khronos bug
+          #3005)
         
     #9 May 9, 2008: dgkoch
-        - renamed from EXT_fbo2 to ARB_fbo. Changed all suffixes to _ARB instead of _EXT.
+        - renamed from EXT_fbo2 to ARB_fbo. Changed all suffixes to _ARB
+          instead of _EXT.
 
    #10 May 19, 2008: rbarris
         - Bugzilla 3013: allow dimension mismatches (esp. depth)
@@ -4331,22 +4404,25 @@ Revision History
    #11 May 21, 2008: dgkoch
         - Bugzilla 3014: allow different color formats when using MRT.
         - added Issues 4, 5
-        - deleted FRAMEBUFFER_INCOMPLETE_FORMATS & FRAMEBUFFER_INCOMPLETE_DIMENSIONS
+        - deleted FRAMEBUFFER_INCOMPLETE_FORMATS &
+          FRAMEBUFFER_INCOMPLETE_DIMENSIONS
         - added text for proposed resolution of Issue (5)
         
    #12 May 22, 2008: dgkoch
-        - Bugzilla 3015: define one- and two- component formats to be color-renderable
+        - Bugzilla 3015: define one- and two- component formats to be
+          color-renderable
         - added Issue 6
 
    #13 May 29, 2008: Jon Leech
-    - Many updates and minor fixes for consistency with the 3.0 spec
-      draft. Replace DEPTH with DEPTH_COMPONENT in most uses. Increase
-      MAX_RENDERBUFFER_SIZE to 64 matching MAX_TEXTURE_SIZE (pending
-      resolution of bug 3454). Pose some open questions preceded by
-      "***".
+        - Many updates and minor fixes for consistency with the 3.0 spec
+          draft. Replace DEPTH with DEPTH_COMPONENT in most uses. Increase
+          MAX_RENDERBUFFER_SIZE to 64 matching MAX_TEXTURE_SIZE (pending
+          resolution of bug 3454). Pose some open questions preceded by
+          "***".
    
    #14 June 26: dgkoch
-    - change MAX_SAMPLES to 0, to indicate the multisampling is not required. (bug 3551) 
+        - change MAX_SAMPLES to 0, to indicate the multisampling is not
+          required. (bug 3551)
 
    #15 July 2: Jon Leech
         - More updates for 3.0 spec consistency. Define meaning of <src>
@@ -4356,7 +4432,7 @@ Revision History
           table 3.15. Start introducing RED and RG formats from 3.0 spec.
     
    #16 July 10: dgkoch
-    - backport error change for DrawBuffer in 4.2.1 (bug 3530)
+        - backport error change for DrawBuffer in 4.2.1 (bug 3530)
 
    #17 July 12, 2008: Jon Leech
         - Use 'layer' instead of 'zoffset' terminology. Add
@@ -4395,7 +4471,8 @@ Revision History
         - Tidy up introductory/overview section
 
     #19 July 16, 2008: Daniel Koch, Rob Barris
-        - add interactions with ARB_texture_rg, EXT_texture_array and NV_float_buffer
+        - add interactions with ARB_texture_rg, EXT_texture_array and
+          NV_float_buffer
         - restore FRAMEBUFFER enumerant and restore all the text where
           it had been accepted before (removed in version 4).
         - allow texture arrays via FramebufferTextureLayer
@@ -4403,8 +4480,8 @@ Revision History
         - updated resolution of issue (6)
     
     #20 July 16, 2008: Daniel Koch, Rob Barris
-        - simplification of language for logical operation when a FB-image is 
-          attached more than once
+        - simplification of language for logical operation when a FB-image
+          is attached more than once
         - add interactions with EXT_texture_integer and ARB_framebuffer_sRGB
         - Resolved issues (2), (4) and (5) 
         - Updated issue (3) (although the list is still not exhaustive)
@@ -4415,7 +4492,7 @@ Revision History
         - fix incorrect references to FRAMEBUFFER_BINDING
 
     #22 July 17, 2008: Jon Leech
-	- minor language cleanup for consistency with the 3.0 core spec.
+        - minor language cleanup for consistency with the 3.0 core spec.
 
     #23 July 24, 2008: Jon Leech
         - Use new GLX rendering opcodes for BindRenderbuffer and
@@ -4431,8 +4508,8 @@ Revision History
           encoding / size to state tables.
 
     #26 August 8, 2008: Jon Leech
-	- Add missing INDEX token for legacy default framebuffer
-	  color buffer component types.
+        - Add missing INDEX token for legacy default framebuffer
+          color buffer component types.
 
     #27 August 20, 2008: Jon Leech
         - Add ALPHA to list of color-renderable base internal formats to
@@ -4441,3 +4518,21 @@ Revision History
     #28 November 17, 2008: Mark Kilgard & Nigel Stewart
         - glFramebufferTexturLayerARB -> glFramebufferTextureLayerARB
           (add final e to Texture)
+
+    #29 March 12, 2009: Jon Leech
+        - Edits in chapter 4 intro for consistency with GL core spec
+          language, including removing the completeness requirement that all
+          color buffers of an FBO be the same depth. Reflow some text for
+          readability.
+
+    #30 March 31, 2009: Mark Kilgard & Jeff Juliano
+        - Change color-renderable to be any color texture format.
+          Fix some typos.
+
+    #31 May 27, 2009: Jon Leech
+        - Change default value of FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE
+          to NONE (bug 4407).
+
+    #32 July 21, 2010: Daniel Koch
+        - Add issue 10 clarifying that ARB fbos cannot be shared.
+

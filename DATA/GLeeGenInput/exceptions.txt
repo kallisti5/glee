@@ -8,7 +8,18 @@
 	typedef char GLchar; 
 #endif
 
-#include <stddef.h>
+#ifdef _MSC_VER
+  #if _MSC_VER >= 1600
+    #include <stdint.h>
+  #else
+	typedef __int32 int32_t;
+	typedef unsigned __int32 uint32_t;
+	typedef __int64 int64_t;
+	typedef unsigned __int64 uint64_t;
+  #endif
+#else
+  #include <stdint.h>
+#endif
 
 #ifndef GL_VERSION_1_5
 	typedef ptrdiff_t GLintptr;
@@ -32,6 +43,12 @@
 #ifndef GL_EXT_timer_query
 	typedef signed long long GLint64EXT;
 	typedef unsigned long long GLuint64EXT;
+#endif
+
+#ifndef GL_ARB_sync
+	typedef int64_t GLint64;
+	typedef uint64_t GLuint64;
+	typedef struct __GLsync *GLsync;
 #endif
 
 /* Platform-specific */

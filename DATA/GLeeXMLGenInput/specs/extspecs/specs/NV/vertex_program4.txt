@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Last Modified Date:         10/06/06
-    NVIDIA Revision:            5
+    Last Modified Date:         12/14/09
+    NVIDIA Revision:            7
 
 Number
 
@@ -512,9 +512,9 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
     active, the vertex program must write "result.id" or the vertex ID number
     is undefined.
 
-    (add the following subsection to section 2.X.5, Program Options.)
+    (add the following subsection to section 2.X.6, Program Options.)
 
-    Section 2.X.5.Y, Vertex Program Options
+    Section 2.X.6.Y, Vertex Program Options
 
     + Position-Invariant Vertex Programs (ARB_position_invariant)
 
@@ -534,9 +534,9 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
     instructions it contains exceeds the implementation-dependent limit minus
     four.
 
-    (add the following subsection to section 2.X.6, Program Declarations.)
+    (add the following subsection to section 2.X.7, Program Declarations.)
 
-    Section 2.X.6.1, Vertex Program Declarations
+    Section 2.X.7.Y, Vertex Program Declarations
 
     No declarations are supported at present for vertex programs.
 
@@ -590,7 +590,156 @@ Additions to the AGL/GLX/WGL Specifications
 
 GLX Protocol
 
-    TBD
+    The following rendering commands are sent to the server as part of a
+    glXRender request:
+
+    VertexAttribI1ivEXT
+        2           12               rendering command length
+        2           278              rendering command opcode
+        4           CARD32           index
+        4           INT32            v[0]
+
+    VertexAttribI2ivEXT
+        2           16               rendering command length
+        2           279              rendering command opcode
+        4           CARD32           index
+        4           INT32            v[0]
+        4           INT32            v[1]
+
+    VertexAttribI3ivEXT
+        2           20               rendering command length
+        2           280              rendering command opcode
+        4           CARD32           index
+        4           INT32            v[0]
+        4           INT32            v[1]
+        4           INT32            v[2]
+
+    VertexAttribI4ivEXT
+        2           24               rendering command length
+        2           281              rendering command opcode
+        4           CARD32           index
+        4           INT32            v[0]
+        4           INT32            v[1]
+        4           INT32            v[2]
+        4           INT32            v[3]
+
+    VertexAttribI1uivEXT
+        2           12               rendering command length
+        2           282              rendering command opcode
+        4           CARD32           index
+        4           CARD32           v[0]
+
+    VertexAttribI2uivEXT
+        2           16               rendering command length
+        2           283              rendering command opcode
+        4           CARD32           index
+        4           CARD32           v[0]
+        4           CARD32           v[1]
+
+    VertexAttribI3uivEXT
+        2           20               rendering command length
+        2           284              rendering command opcode
+        4           CARD32           index
+        4           CARD32           v[0]
+        4           CARD32           v[1]
+        4           CARD32           v[2]
+
+    VertexAttribI4uivEXT
+        2           24               rendering command length
+        2           285              rendering command opcode
+        4           CARD32           index
+        4           CARD32           v[0]
+        4           CARD32           v[1]
+        4           CARD32           v[2]
+        4           CARD32           v[3]
+
+    VertexAttribI4bvEXT
+        2           12               rendering command length
+        2           286              rendering command opcode
+        4           CARD32           index
+        1           INT8             v[0]
+        1           INT8             v[1]
+        1           INT8             v[2]
+        1           INT8             v[3]
+
+    VertexAttribI4svEXT
+        2           16               rendering command length
+        2           287              rendering command opcode
+        4           CARD32           index
+        2           INT16            v[0]
+        2           INT16            v[1]
+        2           INT16            v[2]
+        2           INT16            v[3]
+
+    VertexAttribI4ubvEXT
+        2           12               rendering command length
+        2           288              rendering command opcode
+        4           CARD32           index
+        1           CARD8            v[0]
+        1           CARD8            v[1]
+        1           CARD8            v[2]
+        1           CARD8            v[3]
+
+    VertexAttribI4usvEXT
+        2           16               rendering command length
+        2           289              rendering command opcode
+        4           CARD32           index
+        2           CARD16           v[0]
+        2           CARD16           v[1]
+        2           CARD16           v[2]
+        2           CARD16           v[3]
+
+    The following non-rendering commands are added.
+
+    GetVertexAttribIivEXT
+        1           CARD8            opcode (X assigned)
+        1           184              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           index
+        4           ENUM             pname
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m=(n==1?0:n)
+        4                            unused
+        4           CARD32           n
+
+        if (n=1) this follows:
+
+        4           INT32            params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        n*4         LISTofINT32      params
+
+    GetVertexAttribIuivEXT
+        1           CARD8            opcode (X assigned)
+        1           185              GLX opcode
+        2           4                request length
+        4           GLX_CONTEXT_TAG  context tag
+        4           CARD32           index
+        4           ENUM             pname
+      =>
+        1           1                reply
+        1                            unused
+        2           CARD16           sequence number
+        4           m                reply length, m=(n==1?0:n)
+        4                            unused
+        4           CARD32           n
+
+        if (n=1) this follows:
+
+        4           CARD32           params
+        12                           unused
+
+        otherwise this follows:
+
+        16                           unused
+        n*4         LISTofCARD32     params
 
 Errors
 
@@ -816,4 +965,11 @@ Issues
 
 Revision History
 
-    None
+    Rev.    Date    Author    Changes
+    ----  --------  --------  --------------------------------------------
+     7    09/15/08  jajones   Added GLX protocol.
+
+     6    03/11/09  pbrown    Fix section numbers for option/declaration
+                              sections.
+
+    1-5             pbrown    Internal spec development.

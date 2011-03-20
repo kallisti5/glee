@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Last Modified Data:         09/27/2006
-    NVIDIA Revision:            6
+    Last Modified Data:         10/12/2009
+    NVIDIA Revision:            7
 
 Number
 
@@ -131,10 +131,12 @@ Additions to Chapter 2 of the OpenGL 1.4 Specification (OpenGL Operation)
 
     <TexInstruction>        ::= <TEXop_instruction>
 
-    <ASTACKop_instruction>  ::= <ASTACKop> <instOperandAddrVNS>
+    <ASTACKop_instruction>  ::= <PUSHAop> <instOperandAddrVNS>
+                              | <POPAop> <instResultAddr>
 
-    <ASTACKop>              ::= "PUSHA"
-                              | "POPA"
+    <PUSHAop>               ::= "PUSHA"
+
+    <POPAop>                ::= "POPA"
 
     <TEXop_instruction>     ::= <TEXop> <instResult> "," <instOperandV> "," 
                                 <texTarget>
@@ -602,6 +604,10 @@ Additions to Chapter 2 of the OpenGL 1.4 Specification (OpenGL Operation)
         }
       }
 
+    POPA does not support non-default write masks; a program will fail to load
+    if it includes a component write mask other than ".xyzw" or a condition
+    code write mask test other than "TR".
+
     In the pseudocode, <callStackDepth> is the current depth of the call
     stack and <callStack> is an array holding the call stack.  
 
@@ -786,13 +792,13 @@ Dependencies on ARB_fragment_program_shadow
 
       OPTION ARB_fragment_program_shadow;
 
-    which enables the use of the SHADOW1D and SHADOW2D texture targets in
-    texture lookup instructions, as described in the
+    which enables the use of SHADOW1D, SHADOW2D, and SHADOWRECT texture
+    targets in texture lookup instructions, as described in the
     ARB_fragment_program_shadow specification.
 
     NVIDIA NOTE:  Drivers prior to September 2006 do not support the use of
-    this option, and will not accept texture lookups with SHADOW1D and
-    SHADOW2D targets.  Shadow mapping in vertex programs will result in
+    this option, and will not accept texture lookups with SHADOW1D, SHADOW2D,
+    and SHADOWRECT targets.  Shadow mapping in vertex programs will result in
     software fallbacks on GeForce 6 and GeForce 7 series GPUs, but may be done
     in hardware on future GPUs.
 
@@ -817,6 +823,14 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  --------------------------------------------
+    7     10/12/09  pbrown    Update grammar/documentation of PUSHA/POPA to
+                              reflect the implementation.  <instResultAddr> is
+                              used for POPA with some semantic checks.  Note
+                              that some driver versions erroneously allowed
+                              conditional write masks on POPA.  Also clarify
+                              that ARB_fragment_program_shadow includes
+                              support for "SHADOWRECT".
+
     6     09/27/06  pbrown    Document that ARB_fragment_program_shadow is
                               allowed, to enable the use of "SHADOW1D" and
                               "SHADOW2D" targets for texture lookups.

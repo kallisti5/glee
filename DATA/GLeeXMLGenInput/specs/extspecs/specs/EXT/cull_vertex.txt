@@ -60,14 +60,14 @@ New Tokens
    IsEnabled, and by the <pname> parameter of GetBooleanv,
    GetIntegerv, GetFloatv, and GetDoublev:
 
-       CULL_VERTEX_EXT
+       CULL_VERTEX_EXT                     0x81AA
 
    Accepted by the <pname> parameter of CullParameterfvEXT,
    CullParameterdvEXT, GetBooleanv, GetIntegerv, GetFloatv, and
    GetDoublev:
 
-       CULL_VERTEX_EYE_POSITION_EXT
-       CULL_VERTEX_OBJECT_POSITION_EXT
+       CULL_VERTEX_EYE_POSITION_EXT        0x81AB
+       CULL_VERTEX_OBJECT_POSITION_EXT     0x81AC
 
 Additions to Chapter 2 of the 1.1 Specification (OpenGL Operation)
 

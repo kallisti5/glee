@@ -565,6 +565,7 @@ bool readParams(const char *pos, XMLElement& funcXML)
 			}
 		}
 	}
+	return true;
 }
 
 /*
@@ -801,7 +802,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 	String glext;
 	FILE * file;
 
-	String startString,extBegin,extIfndef,extAPIENTRY,extAPIENTRYPtr,extProto;
+	String startString,protoStartString,extBegin,extIfndef,extAPIENTRY,extAPIENTRYPtr,extProto;
 
 	switch (fileType)
 	{
@@ -809,6 +810,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 			file=fopen(INFILE("specs\\headers\\glext.h"),"rt");
 
 			startString="#ifndef GL_VERSION_1_2";
+			protoStartString="#define GL_VERSION_1_2";
 			extBegin="GL_";
 			extProto="#ifdef GL_GLEXT_PROTOTYPES";
 			extAPIENTRY="APIENTRY ";
@@ -818,6 +820,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 			file=fopen(INFILE("specs\\headers\\wglext.h"),"rt");
 
 			startString="#ifndef WGL_ARB_buffer_region";
+			protoStartString="#define WGL_ARB_buffer_region";
 			extBegin="WGL_";
 			extProto="#ifdef WGL_WGLEXT_PROTOTYPES";
 			extAPIENTRY="WINAPI ";
@@ -826,6 +829,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 		case FT_GLXEXT:
 			file=fopen(INFILE("specs\\headers\\glxext.h"),"rt");
 			startString="#ifndef GLX_VERSION_1_3";
+			protoStartString="#define GLX_VERSION_1_3";
 			extBegin="GLX_";
 			extProto="#ifdef GLX_GLXEXT_PROTOTYPES";
 			break;
@@ -853,9 +857,22 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 	while(readIfBlock(blockPos, constantBlock, extIfndef, block)) 
 	{
 		//get the extension name
-		_Extension ext;
+		_Extension newext;
+		_Extension *pext = &newext;
 		int pos=0;
-		getChunk(pos,block,extBegin,"\n",ext.name);
+		getChunk(pos,block,extBegin,"\n",newext.name);
+		if (newext.name.search("_DEPRECATED") > 0) {
+			newext.name.resize(newext.name.length() - 11);
+			int c=0;
+			for (;c<extensions.size();c++)
+			{
+				if (extensions[c].name==newext.name) {
+					pext = &extensions[c];
+					break; 
+				}
+			}
+		}
+		_Extension &ext=*pext;
 
 		//read the constants
 		while (block.searchRep(pos,"#define"))
@@ -872,14 +889,14 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 			//getChunk(pos,block,String(""),"\n",constant.second);
 			ext.constants.push_back(constant);
 		}
-		if (!isIgnored(ext.name,ignoreList)) 
-			extensions.push_back(ext);
+		if (!isIgnored(ext.name,ignoreList) && pext == &newext) 
+			extensions.push_back(newext);
 	}
 
 
 	p=0;
 	//go to the start of the function prototypes 
-	p=glext.search(p,startString)+startString.getLength();
+	p=glext.search(p,protoStartString)-200;
 	p=glext.search(p,startString);
 //	getChunk(p,glext,startString,commentLine,constantBlock);
 
@@ -895,8 +912,11 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 		String ename;
 		getChunk(pos,block,extBegin,"\n",ename);
 
+		if (ename.search("_DEPRECATED") > 0)
+			ename.resize(ename.length() - 11);
 		//search for the matching extension
-		for (int c=0;c<extensions.size();c++)
+		int c=0;
+		for (;c<extensions.size();c++)
 		{
 			if (extensions[c].name==ename) break; 
 		}
@@ -979,7 +999,8 @@ bool searchForFuncStart(String &block, int &pPos, int& lineEndPos, int fileType,
 		p=block.search(p,String(");"));
 		lineEndPos=p+2;
 		int level=0;
-		for (int a=p;a>=0;a--)
+		int a=p;
+		for (;a>=0;a--)
 		{
 			if (block[a]==')') level++;
 			if (block[a]=='(') level--;

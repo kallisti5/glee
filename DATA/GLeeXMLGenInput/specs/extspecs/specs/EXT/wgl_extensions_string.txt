@@ -69,7 +69,7 @@ Additions to the WGL Specification
     wglGetExtensionsStringEXT is supported.  If it is supported then it
     can be used to determine which WGL extensions are supported by the device.
 
-	const char *wglGetExtensionsString(void);
+        const char *wglGetExtensionsString(void);
 
     If the function succeeds, it returns a list of supported
     extensions to WGL.  Although the contents of the string is

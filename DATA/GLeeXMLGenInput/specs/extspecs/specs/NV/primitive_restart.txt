@@ -26,8 +26,6 @@ Status
 Version
 
     NVIDIA Date: August 29, 2002 (version 0.1)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_primitive_restart.txt#4 $
 
 Number
 

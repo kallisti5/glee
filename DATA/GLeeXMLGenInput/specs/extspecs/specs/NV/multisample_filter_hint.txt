@@ -25,8 +25,7 @@ Status
 Version
 
     NVIDIA Date: May 16, 2001
-    $Date: 2002/04/03 $ $Revision: #3 $
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_multisample_filter_hint.txt#3 $
+    Version:     1
 
 Number
 

@@ -25,8 +25,6 @@ Status
 Version
 
     NVIDIA Date: February 6, 2002 (version 1.0)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_occlusion_query.txt#4 $
 
 Number
 

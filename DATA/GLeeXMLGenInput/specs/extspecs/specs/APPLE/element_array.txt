@@ -72,16 +72,16 @@ New Tokens
     Accepted by the <array> parameter of EnableClientState and
     DisableClientState and the <value> parameter of IsEnabled:
 
-        ELEMENT_ARRAY_APPLE             0x8768
+        ELEMENT_ARRAY_APPLE             0x8A0C
 
     Accepted by the <value> parameter of GetBooleanv, GetIntegerv,
     GetFloatv, and GetDoublev:
 
-        ELEMENT_ARRAY_TYPE_APPLE        0x8769
+        ELEMENT_ARRAY_TYPE_APPLE        0x8A0D
 
     Accepted by the <pname> parameter of GetPointerv:
 
-        ELEMENT_ARRAY_POINTER_APPLE     0x876A
+        ELEMENT_ARRAY_POINTER_APPLE     0x8A0E
 
 
 Additions to Chapter 2 of the GL Specification (OpenGL Operation)

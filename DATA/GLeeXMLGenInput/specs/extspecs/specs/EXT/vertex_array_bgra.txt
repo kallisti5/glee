@@ -12,6 +12,8 @@ Contributors
     Gavriel State, TransGaming
     Rob Barris, Blizzard
     Mark Krenek, Aspyr
+    Ryan Gordon, Destineer
+    Nicholas Vining, Destineer
 
 Contact
 
@@ -23,8 +25,8 @@ Status
 
 Version
 
-    Last Modified Date:  October 7, 2008
-    Version:             4
+    Last Modified Date:  October 28, 2008
+    Version:             5
 
 Number
 
@@ -215,7 +217,23 @@ Dependencies on ARB_vertex_program and ARB_vertex_shader
 
 New State
 
-    None
+    Change tables 6.6 and 6.7 to fix Type column by making the type
+    a k-valued integer where k is 3, 2, and 5 for color, secondary,
+    and vertex attrib arrays respectively.
+
+(table 6.6, "Vertex Array Data", p. 271)
+    Get Value                   Type  Get Command  Initial Value  Description            Sec Attribute
+    ---------                   ----  -----------  -------------  ---------------------  --- ---------
+    COLOR_ARRAY_SIZE            Z3    GetIntegerv  4              Color components       2.8 vertex-array
+                                                                  per vertex
+    SECONDARY_COLOR_ARRAY_SIZE  Z2    GetIntegerv  3              Secondary color        2.8 vertex-array
+                                                                  components per vertex
+
+(table 6.7, "Vertex Array Data (cont.)", p. 272)
+    Get Value                   Type  Get Command  Initial Value  Description            Sec Attribute
+    ---------                   ----  -----------  -------------  ---------------------  --- ---------
+    VERTEX_ATTRIB_ARRAY_SIZE    Z5    GetIntegerv  16+ x Z5       Vertex attrib array    2.8 vertex-array
+                                                                  size
 
 New Implementation Dependent State
 
@@ -339,3 +357,4 @@ Revision History
       3   7/16/08  mjk        Removed TexCoordPointer behavior
                               Added issues 10 and 11
       4   10/7/08  mjk        Implemented now
+      5   10/28/08 mjk        Provide state tabe updates

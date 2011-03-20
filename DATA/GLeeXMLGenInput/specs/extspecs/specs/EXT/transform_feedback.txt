@@ -26,8 +26,8 @@ Status
 
 Version
 
-    Last Modified Date:         02/28/2008
-    NVIDIA Revision:            5
+    Last Modified Date:         01/27/2011
+    NVIDIA Revision:            6
 
 Number
 
@@ -699,8 +699,7 @@ Requests)
     is generated if <index> not in the range 0 to
     MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS_EXT - 1.  If the parameter
     (starting offset or size) was not specified when the buffer object was
-    bound, zero is returned.  If no buffer object is bound to <index>, -1 is
-    returned.
+    bound, or if no buffer object is bound to <index>, zero is returned.
 
     (add to Section 6.1.14, Shader and Program Queries, p. 256)
 
@@ -723,6 +722,10 @@ Additions to Appendix A of the OpenGL 2.0 Specification (Invariance)
 Additions to the AGL/GLX/WGL Specifications
 
     None.
+
+GLX Protocol
+
+    UNDER DEVELOPMENT
 
 Interactions with NV_transform_feedback
 
@@ -1197,6 +1200,10 @@ Revision History
 
       Rev.    Date    Author    Changes
       ----  --------  --------  -----------------------------------------
+       6    01/27/11  Jon Leech Change return value for start/size queries
+                                when no buffer bound from -1 to zero, to
+                                match state tables (Bug 7318).
+
        5    02/28/08  pbrown    Merged in edits from Apple.  Update status to
                                 shipping.  Moved per-object query results into
                                 a separate table.

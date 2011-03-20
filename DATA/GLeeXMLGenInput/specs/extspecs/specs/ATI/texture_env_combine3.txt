@@ -4,7 +4,7 @@ Name
 
 Name Strings
 
-    ATI_texture_env_combine3
+    GL_ATI_texture_env_combine3
 
 Contact
 
@@ -203,6 +203,11 @@ New Implementation Dependent State
     None
 
 Revision History
+
+   Date: 3/29/2010
+   Revision: 1.03
+      - (pbrown @ NVIDIA) Fix the "Name Strings" section to include a "GL"
+        prefix. 
 
    Date: 11/4/2006
    Revision: 1.02

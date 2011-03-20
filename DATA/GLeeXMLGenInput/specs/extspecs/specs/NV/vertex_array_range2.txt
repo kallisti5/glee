@@ -24,9 +24,8 @@ Status
 
 Version
 
-    NVIDIA Date: April 13, 2001
-    $Date: 2001/04/13 $ $Revision: #2 $
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_vertex_array_range2.txt#2 $
+    NVIDIA Date:  April 13, 2001
+    Version:      2
 
 Number
 

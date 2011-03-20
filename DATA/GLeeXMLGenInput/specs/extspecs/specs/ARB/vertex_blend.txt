@@ -64,14 +64,14 @@ Issues
         Yes, this was an over-sight in the original spec. Integer
         formats allow for the potential to provide smaller data
         types to the API. Integer data types are always mapped
-                to floats in the same manner as colors.
+        to floats in the same manner as colors.
 
     Should the blending weights be forced to sum to 1?
 
         No, it should be provided as a convenience to developers,
-                since it is the most common case. Additionally, it should
-                be noted that even if the weights do not sum to one,
-                the result of the modelview transformation provides an
+        since it is the most common case. Additionally, it should
+        be noted that even if the weights do not sum to one,
+        the result of the modelview transformation provides an
         eye coordinate whose homogenous coordinate is equivalent
         to the homogeneous coordinate after the transformation
         had the weights been scaled to sum to one.
@@ -117,7 +117,7 @@ Issues
       scalars?
 
         Yes, this removes little flexibility and significantly
-                reduces the call overhead.
+        reduces the call overhead.
 
 
 New Procedures and Functions
@@ -125,9 +125,9 @@ New Procedures and Functions
     void Weight{bsifd ubusui}vARB(int size, T* weights)
 
     void WeightPointerARB(int size, enum type, sizei stride,
-                              void *pointer)
+                          void *pointer)
 
-        void VertexBlendARB(int count)
+    void VertexBlendARB(int count)
 
 
 New Tokens
@@ -136,14 +136,14 @@ New Tokens
     GetFloatv, and GetDoublev:
 
       MAX_VERTEX_UNITS_ARB            0x86A4
-          ACTIVE_VERTEX_UNITS_ARB         0x86A5
+      ACTIVE_VERTEX_UNITS_ARB         0x86A5
 
-        Accepted by the <cap> parameters of Enable and Disable, by the
+    Accepted by the <cap> parameters of Enable and Disable, by the
     <value> parameter of IsEnabled, GetBooleanv, GetIntegerv,
     GetFloatv, and GetDoublev:
 
-          WEIGHT_SUM_UNITY_ARB            0x86A6
-          VERTEX_BLEND_ARB                0x86A7
+      WEIGHT_SUM_UNITY_ARB            0x86A6
+      VERTEX_BLEND_ARB                0x86A7
 
     Accepted by the <mode> parameter of MatrixMode and by the
     <value> parameter of GetBooleanv, GetIntegerv, GetFloatv, and
@@ -192,7 +192,7 @@ New Tokens
 
       WEIGHT_ARRAY_TYPE_ARB           0x86A9
       WEIGHT_ARRAY_STRIDE_ARB         0x86AA
-          WEIGHT_ARRAY_SIZE_ARB           0x86AB
+      WEIGHT_ARRAY_SIZE_ARB           0x86AB
 
     Accepted by the <pname> parameter of GetPointerv:
       WEIGHT_ARRAY_POINTER_ARB        0x86AC

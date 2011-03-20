@@ -23,8 +23,8 @@ Status
 
 Version
 
-    Last Modified Date:  $Date: 2004/05/17 $
-    NVIDIA Revision: $Revision: #5 $
+    Last Modified Date:  2004/05/17
+    NVIDIA Revision:     5
 
 Number
 

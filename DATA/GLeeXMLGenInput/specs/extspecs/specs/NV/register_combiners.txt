@@ -25,7 +25,6 @@ Status
 Version
 
     NVIDIA Date: February 1, 2007 (version 1.7)
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_register_combiners.txt#56 $
 
 Number
 

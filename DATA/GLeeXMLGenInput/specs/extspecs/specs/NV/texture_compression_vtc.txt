@@ -21,8 +21,7 @@ IP Status
 Version
 
     NVIDIA Date: June 3, 2004
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_compression_vtc.txt#4 $
+    Version:     4
 
 Number
 

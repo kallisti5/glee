@@ -17,8 +17,8 @@ Status
 
 Version
 
-    Last Modified Date:         08/07/2008
-    Author Revision:            22
+    Last Modified Date:         01/21/2011
+    NVIDIA Revision:            26
 
 Number
 
@@ -46,6 +46,10 @@ Dependencies
     extension.
 
     This extension interacts with ARB_tranform_feedback.
+
+    This extension interacts with geometry shader support in OpenGL 3.2.
+
+    This extension interacts with ARB_uniform_buffer_object.
 
 Overview
 
@@ -639,13 +643,18 @@ Operation)
     Section 2.16.3 Geometry Shader Variables
 
     Geometry shaders can access uniforms belonging to the current program
-    object. The amount of storage available for geometry shader uniform
-    variables is specified by the implementation dependent constant
-    MAX_GEOMETRY_UNIFORM_COMPONENTS_ARB. This value represents the number of
-    individual floating-point, integer, or Boolean values that can be held in
-    uniform variable storage for a geometry shader.  A link error will be
+    object.  The amount of storage available for uniform variables in the
+    default uniform block accessed by a geometry shader is specified by the
+    value of the implementation-dependent constant
+    MAX_GEOMETRY_UNIFORM_COMPONENTS_ARB. The total amount of combined storage
+    available for uniform variables in all uniform blocks accessed by a
+    geometry shader (including the default uniform block) is specified by the
+    value of the implementation-dependent constant
+    MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS.  These values represent the
+    numbers of individual floating-point, integer, or boolean values that can
+    be held in uniform variable storage for a geometry shader. A link error is
     generated if an attempt is made to utilize more than the space available
-    for geometry shader uniform variables. Uniforms are manipulated as
+    for geometry shader uniform variables.  Uniforms are manipulated as
     described in section 2.15.3.  Geometry shaders also have access to
     samplers, to perform texturing operations, as described in sections 2.15.3
     and 3.8.
@@ -1242,12 +1251,12 @@ Dependencies on EXT_framebuffer_object
     framebuffer is not layered.
 
     When fragments are written to a layered framebuffer, the fragment's layer
-    number selects an image from the array of images at each attachment point
-    from which to obtain the destination R, G, B, A values for blending
-    (Section 4.1.8) and to which to write the final color values for that
-    attachment.  If the fragment's layer number is negative or greater than
-    the number of layers attached, the effects of the fragment on the
-    framebuffer contents are undefined.
+    number selects a single image from the array of images at each attachment
+    point to use for the stencil test (section 4.1.5), depth buffer test
+    (section 4.1.6), and for blending and color buffer writes (section 4.1.8).
+    If the fragment's layer number is negative or greater than the number of
+    layers attached, the effects of the fragment on the framebuffer contents
+    are undefined.
 
     When the Clear command is used to clear a layered framebuffer attachment,
     all layers of the attachment are cleared.
@@ -1333,9 +1342,105 @@ Dependencies on ARB_texture_buffer_object
     INVALID_OPERATION error if a buffer texture is passed to
     FramebufferTextureARB should be removed.
 
-GLX protocol
+Dependencies on OpenGL 3.2
 
-    TBD
+    If this extension and OpenGL 3.2 (and GLSL 1.50) are supported, two
+    slightly different versions of geometry shader support are available.
+
+    In this extension, the input and output primitive types and maximum output
+    vertex count are specified prior to linking, using the
+    ProgramParameteriARB command.  However, OpenGL 3.2 requires that these
+    properties be specified using the "layout" modifier in geometry shader
+    source and provides no program paramter state.  For implementations
+    supporting both features, there are potentially two different ways to set
+    these properties prior to linking a program.  If no geometry shader
+    enables this extension via "#extension", all three properties must be
+    specified in shader source as required by OpenGL 3.2.  Otherwise, these
+    properties need not be specified in source code, but still may be if
+    #version 150 or better is enabled.  If a given property is specified in
+    geometry shader source, the value from the source code is used; otherwise,
+    the value of the program parameter state is used.
+
+    Additionally, OpenGL 3.2 and ARB_geometry_shader have similarly-named
+    queries for the input and output primitive type and maximum vertex count.
+    In particular, the commands
+
+      glGetProgramiv(program, GL_GEOMETRY_VERTICES_OUT_ARB, &verticesOut);
+      glGetProgramiv(program, GL_GEOMETRY_INPUT_TYPE_ARB,   &inputType);
+      glGetProgramiv(program, GL_GEOMETRY_OUTPUT_TYPE_ARB,  &outputType);
+
+    query the program parameter state provided by this extension.  If the
+    program parameter state is changed without relinking, the new values will
+    be returned, even though old values will be in effect when the program is
+    used.  These queries are not supported by unextended OpenGL 3.2.  Instead,
+    OpenGL 3.2 supports the following queries:
+
+      glGetProgramiv(program, GL_GEOMETRY_VERTICES_OUT, &verticesOut);
+      glGetProgramiv(program, GL_GEOMETRY_INPUT_TYPE,   &inputType);
+      glGetProgramiv(program, GL_GEOMETRY_OUTPUT_TYPE,  &outputType);
+
+    The OpenGL 3.2 queries return the properties established when the program
+    is linked, and ignore the program parameter state.  Despite the very
+    similar names, there is no conflict -- neither the enumerant names nor the
+    values are exactly the same.
+
+    If OpenGL 3.2 is supported and layered framebuffer attachments are used,
+    the requirement that all layer counts match is removed and the
+    FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_ARB error condition will never be
+    generated.  Instead, rendering will use the minimum layer count for all
+    attachments as specified by OpenGL 3.2.  This change was made for
+    consistency with OpenGL 3.0's framebuffer object support, which similarly
+    lifted the requirement that framebuffer attachments have matching widths
+    and heights.
+
+Dependencies on ARB_uniform_buffer_object
+
+    If ARB_uniform_buffer_object (or OpenGL 3.1) is not supported, language
+    referring to MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS (defined in the
+    ARB_uniform_buffer_object spec) and the "default uniform block" should be
+    removed.
+
+
+GLX Protocol
+
+    The following rendering command is sent to the server as part of a
+    glXRender request:
+
+    ProgramParameteriARB
+        2           16               rendering command length
+        2           266              rendering command opcode
+        4           CARD32           program
+        4           ENUM             pname
+        4           INT32            value
+
+    FramebufferTextureARB
+
+        2           20               rendering command length
+        2           267              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+
+    FramebufferTextureLayerARB
+
+        2           24               rendering command length
+        2           237              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+        4           INT32            layer
+
+    FramebufferTextureFaceARB
+
+        2           24               rendering command length
+        2           268              rendering command opcode
+        4           ENUM             target
+        4           ENUM             attachment
+        4           CARD32           texture
+        4           INT32            level
+        4           ENUM             face
 
 Errors
 
@@ -2514,6 +2619,18 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  -----------------------------------------
+     26   01/21/11  pbrown    Add language describing MAX_COMBINED_
+                              GEOMETRY_UNIFORM_COMPONENTS from an interaction
+                              with ARB_uniform_buffer_object (bug 7027).
+
+     25   12/21/09  jjones    Add GLX protocol.
+
+     24   07/21/09  pbrown    Clarify that when doing layered rendering,
+                              a layer specified in the shader is used to
+                              select the depth and stencil layers accessed.
+
+     23   06/30/09  pbrown    Add interaction with OpenGL 3.2.
+
      22   08/07/08  jleech    Strip ARB suffix from a few tokens already
                               in OpenGL 3.0 (see issue 35).
 

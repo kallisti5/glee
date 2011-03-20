@@ -55,8 +55,7 @@ void __GLeeExtList_add(ExtensionList *extList, const char * extName)
 		extList->lengths=(int *)realloc((void *)extList->lengths, n*sizeof(int));
 		extList->names=(char **)realloc((void *)extList->names, n*sizeof(char *));
 	}
-	extList->names[i]=(char *)malloc(length*sizeof(char));
-	strcpy(extList->names[i],extName);
+	extList->names[i]=_strdup(extName);
 	extList->lengths[i]=length;
 	extList->numNames++;
 }
@@ -100,76 +99,55 @@ int __GLeeGetVersionNumber(char *versionStr)
 
 GLboolean __GLeeGetExtensions(ExtensionList* extList)
 {
-	const char * platExtStr;
-	const char * glExtStr;
-	char * extStr;
-	char emptyString[1] = ""; 
-	char extensionName[1024];
-	int a,b;
-	int totalExtStrLen;
-	int platExtStrLen;
-	int addASpace;
-	
-	/* read the platform specific extension string */
-	platExtStr=__GLeeGetExtStrPlat(); 
-	if (!platExtStr) platExtStr=emptyString;
+       const char * platExtStr;
+       const char * glExtStr;
+       char * extStr;
+       char * p;
+       int totalExtStrLen = 0;
+       int addASpace;
 
-	glExtStr=(const char *)glGetString(GL_EXTENSIONS);
-	if (glExtStr==0) 
+       /* read the platform specific extension string */
+       platExtStr=__GLeeGetExtStrPlat();
+       if (!platExtStr) platExtStr="";
+       else totalExtStrLen = strlen(platExtStr);
+
+       glExtStr=(const char *)glGetString(GL_EXTENSIONS);
+       if (glExtStr==0)
 	{
 		__GLeeWriteError("glGetString(GL_EXTENSIONS) failed.");
 		return GL_FALSE;
 	}
 
-	/* allocate the extension string */
-	platExtStrLen = strlen(platExtStr);
-	totalExtStrLen = platExtStrLen + strlen(glExtStr);
-	extStr=(char *)malloc( (totalExtStrLen+2) * sizeof(char) ); /* we add 2 to allow for an extra space and a null terminator */
+       /* If the last character of platExtStr is not a space, we need to add one when we concatenate the extension strings*/
+       addASpace = 0;
+       if ( totalExtStrLen )
+       {
+           if ( platExtStr[ totalExtStrLen-1 ] != ' ')
+               {
+                       addASpace = 1;
+                       totalExtStrLen++;
+               }
+       }
 
-	/* If the last character of platExtStr is not a space, we need to add one when we concatenate the extension strings*/
-	addASpace = 0;
-	if ( platExtStrLen > 2 )
-	{
-	    if ( platExtStr[ platExtStrLen-1 ] != ' ')
-		{
-			addASpace = 1;
-		}
-	}
-	
-	/* concatenate the two extension strings */
-	if ( addASpace )
-	{
-	    sprintf(extStr,"%s %s",platExtStr,glExtStr);
-	}
-	else
-	{
-	    sprintf(extStr,"%s%s",platExtStr,glExtStr);
-	}
+       /* allocate the extension string */
+       totalExtStrLen += strlen(glExtStr);
+       extStr=(char *)malloc( totalExtStrLen+1 ); /* allow for a null terminator */
 
-	/* extract the extensions */
-	for ( a=0;a<totalExtStrLen;a++ )
-	{
-		b=0;
-		while (extStr[a]!=' ' && a<totalExtStrLen && b<1022)
-		{
-			extensionName[b]=extStr[a];
-			b++; a++;
-		}
-		if (b==1023)
-		{
-			__GLeeWriteError("Extension name exceeds 1023 characters.");
-			free((void *)extStr);
-			return GL_FALSE;
-		}
+       /* concatenate the two extension strings */
+       sprintf_s(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
 
-		extensionName[b]='\0'; 
+       /* extract the extensions */
+       for (p = extStr + totalExtStrLen; p > extStr; --p) {
+               if (*p == ' ') {
+                       __GLeeExtList_add(extList,p+1);
+                       *p = 0;
+               }
+       }
+       __GLeeExtList_add(extList,extStr);
+       free((void *)extStr);
+       return GL_TRUE;
+ }
 
-		/* add the extension */
-		__GLeeExtList_add(extList,extensionName);
-	}
-	free((void *)extStr);
-	return GL_TRUE;
-}
 
 GLboolean __GLeeCheckExtension(const char * name, ExtensionList *extensionNames)
 {

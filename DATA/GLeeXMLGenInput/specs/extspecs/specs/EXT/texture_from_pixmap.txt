@@ -22,7 +22,7 @@ Status
 
 Version
 
-    16 (12 Sep 2006)
+    17 (10 Feb 2009)
 
 Number
 
@@ -205,7 +205,7 @@ Issues
     for texturing from pixmap surfaces on.  It replaced the
     WGL_ARB_render_texture specification, which provided a mechanism to
     texture from pbuffer surfaces.  However, this train of thought is another
-    side affect of the unfortunate naming of the WGL_ARB_render_texture
+    side effect of the unfortunate naming of the WGL_ARB_render_texture
     specification.  FBO and the orginal render_texture specification were
     two different solutions to the problem of how to render to and texture
     from the same surface.  WGL_ARB_render_texture provided a method to bind
@@ -787,3 +787,6 @@ Version History
 
     16. 12 Sep 2006 - JamesJ
         -Fix ordering of GLX protocol
+
+    17. 10 Feb 2009 - Jon Leech
+	-Fix typo reported by Jonathan Knispel.

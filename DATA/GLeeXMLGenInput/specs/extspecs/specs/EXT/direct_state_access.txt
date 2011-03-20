@@ -1,5 +1,4 @@
-Name
-
+Name 
     EXT_direct_state_access
 
 Name Strings
@@ -8,20 +7,25 @@ Name Strings
 
 Contributors
 
-    Cass Everitt, Id Software
+    Cass Everitt, NVIDIA
     Daniel Pageau, Blizzard
     Daniel Koch, TransGaming
     Ian Romanick, IBM
     Jason Green, TransGaming
-    John Carmack, Id Software
+    Johan Andersson, DICE/Electronic Arts
+    Jon Leech
     Mark Kilgard, NVIDIA
+    Nicholas Vining, Destineer
     Pat Brown, NVIDIA
     Patrick Doane, Blizzard
     Robert Barris, Blizzard
+    Ryan Gordon, Destineer
     Scott Nations, NVIDIA
     Yanjun Zhang, S3 Graphics
     Jeff Bolz, NVIDIA
     Jeff Juliano, NVIDIA
+    Jon Burgess, NVIDIA
+    Mike Marcin
 
 Contact
 
@@ -31,12 +35,14 @@ Status
 
     Complete, except for GLX protocol
 
-    Implemented by NVIDIA
+    Version 1.0 implemented by NVIDIA, shipping November 2008
+    Version 1.1 implemented by NVIDIA, shipping January 2009
 
 Version
 
-    Last Modified Date:         10/21/2008
-    Author revision:            24
+    Last Modified Date:         09/07/2010
+    Author revision:            34
+    Version                     1.1 (version 1.0 lacked OpenGL 3.0 support)
 
 Number
 
@@ -78,8 +84,22 @@ Dependencies
     This extension interacts with the GLSL uniform matrix commands
     standardized by OpenGL 2.1.
 
+    This extension interacts with the framebuffer object commands
+    introduced by EXT_framebuffer_object and standardized by OpenGL 3.0.
+
+    This extension interacts with the framebuffer blit commands introduced
+    by EXT_framebuffer_blit and standardized by OpenGL 3.0.
+
+    This extension interacts with the framebuffer multisample commands
+    introduced by EXT_framebuffer_multisample and standardized by
+    OpenGL 3.0.
+
+    This extension interacts with the vertex array object commands
+    introduced by APPLE_vertex_array_object and standardized by
+    OpenGL 3.0.
+
     This extension interacts with the integer texture parameter commands
-    introduced by EXT_texture_integer.
+    introduced by EXT_texture_integer and standardized by OpenGL 3.0.
 
     This extension interacts with the texture buffer commands introduced
     by EXT_texture_buffer_object.
@@ -98,19 +118,14 @@ Dependencies
     queries introduced by EXT_draw_buffers2, EXT_transform_feedback,
     and NV_transform_feedback.
 
-    This extension interacts with APPLE_vertex_array_object.
-
-    This extension interacts with EXT_framebuffer_object.
-
-    This extension interacts with EXT_framebuffer_multisample.
-
-    This extension interacts with EXT_framebuffer_blit.
-
     This extension interacts with NV_explicit_multisample.
 
     This extension trivially interacts with EXT_texture_array.
 
     This extension trivially interacts with NV_texture_cube_map_array.
+
+    This extension interacts with the buffer data copying command
+    introduced by  EXT_copy_buffer and standardized by OpenGL 3.0.
 
 Overview
 
@@ -316,7 +331,7 @@ Overview
         glPushClientAttribDefaultEXT(GL_CLIENT_PIXEL_STORE_BIT);
         glTextureImage2D(texobj, GL_TEXTURE_2D, 0, GL_RGB8,
                          width, height, GL_RGB, GL_FLOAT, data);
-        glPopClientAttrib(GL_CURRENT_PIXEL_STORE_BIT);
+        glPopClientAttrib();
       }
 
     Now loadTexture does not have to worry about inappropriately
@@ -582,15 +597,33 @@ New Procedures and Functions
         void EnableClientStateIndexedEXT(enum array, uint index);
         void DisableClientStateIndexedEXT(enum array, uint index);
 
+    <OpenGL 3.0: New indexed texture commands and queries append "i"
+    to name and add "uint index" parameter (to identify the texture
+    unit index) after state name parameters (if any) and before state
+    value parameters>
+
+        void EnableClientStateiEXT(enum array, uint index);
+        void DisableClientStateiEXT(enum array, uint index);
+
     <OpenGL 1.2.1: New indexed generic queries (added for indexed texture
     state) append "Indexed" to name and add "uint index" parameter
     (to identify the texture unit) after state name parameters (if any) and
     before state value parameters>
 
-        void GetFloatIndexedvEXT(enum pname, uint index, float *params);
-        void GetDoubleIndexedvEXT(enum pname, uint index, double *params);
+        void GetFloatIndexedvEXT(enum target, uint index, float *params);
+        void GetDoubleIndexedvEXT(enum target, uint index, double *params);
 
-        void GetPointerIndexedvEXT(enum pname, uint index, void **params);
+        void GetPointerIndexedvEXT(enum target, uint index, void **params);
+
+    <OpenGL 3.0: New indexed generic queries (added for indexed texture
+    state) replace "v" for "i_v" to name and add "uint index" parameter
+    (to identify the texture unit) after state name parameters (if any)
+    and before state value parameters>
+
+        void GetFloati_vEXT(enum pname, uint index, float *params);
+        void GetDoublei_vEXT(enum pname, uint index, double *params);
+
+        void GetPointeri_vEXT(enum pname, uint index, void **params);
 
     <OpenGL 1.2.1:  Extend the functionality of these EXT_draw_buffers2
     commands and queries for multitexture>
@@ -598,10 +631,10 @@ New Procedures and Functions
         void EnableIndexedEXT(enum cap, uint index);
         void DisableIndexedEXT(enum cap, uint index);
 
-        boolean IsEnabledIndexedEXT(enum cap, uint index);
+        boolean IsEnabledIndexedEXT(enum target, uint index);
 
-        void GetIntegerIndexedvEXT(enum pname, uint index, int *params);
-        void GetBooleanIndexedvEXT(enum pname, uint index,
+        void GetIntegerIndexedvEXT(enum target, uint index, int *params);
+        void GetBooleanIndexedvEXT(enum target, uint index,
                                    boolean *params);
 
     <ARB_vertex_program: New program commands and queries add "Named"
@@ -905,8 +938,8 @@ New Procedures and Functions
                                                   uint index,
                                                   uint *params);
 
-    <EXT_framebuffer_object: New renderbuffer commands add "Named" prefix
-    to name and replace "enum target" with "uint renderbuffer">
+    <OpenGL 3.0: New renderbuffer commands add "Named" prefix to name
+    and replace "enum target" with "uint renderbuffer">
 
         void NamedRenderbufferStorageEXT(uint renderbuffer,
                                          enum internalformat,
@@ -915,7 +948,7 @@ New Procedures and Functions
         void GetNamedRenderbufferParameterivEXT(uint renderbuffer,
                                                 enum pname, int *params);
 
-    <EXT_framebuffer_multisample: New renderbuffer commands add "Named"
+    <OpenGL 3.0: New renderbuffer commands add "Named"
     prefix to name and replace "enum target" with "uint renderbuffer">
 
         void NamedRenderbufferStorageMultisampleEXT(uint renderbuffer,
@@ -934,8 +967,8 @@ New Procedures and Functions
                                                             sizei width,
                                                             sizei height);
 
-    <EXT_framebuffer_object: New framebuffer commands add "Named" prefix
-    to name and replace "enum target" with "uint framebuffer">
+    <OpenGL 3.0: New framebuffer commands add "Named" prefix to name
+    and replace "enum target" with "uint framebuffer">
 
         enum CheckNamedFramebufferStatusEXT(uint framebuffer,
                                             enum target);
@@ -963,27 +996,32 @@ New Procedures and Functions
                                                          enum pname,
                                                          int *params);
 
-    <EXT_framebuffer_object: New texture commands add "Texture" within
-    name and replace "enum target" with "uint texture">
+    <OpenGL 3.0: New texture commands add "Texture" within name and
+    replace "enum target" with "uint texture">
 
         void GenerateTextureMipmapEXT(uint texture, enum target);
 
-    <EXT_framebuffer_object: New texture commands add "MultiTex" within
-    name and replace "enum target" with "enum texunit">
+    <OpenGL 3.0: New texture commands add "MultiTex" within name and
+    replace "enum target" with "enum texunit">
 
         void GenerateMultiTexMipmapEXT(enum texunit, enum target);
 
-    <EXT_framebuffer_object: New framebuffer commands>
+    <OpenGL 3.0: New framebuffer commands>
 
         void FramebufferDrawBufferEXT(uint framebuffer, enum mode);
         void FramebufferDrawBuffersEXT(uint framebuffer, sizei n,
                                        const enum *bufs)
         void FramebufferReadBufferEXT(uint framebuffer, enum mode);
 
-    <EXT_framebuffer_object: New framebuffer query>
+    <OpenGL 3.0: New framebuffer query>
 
         void GetFramebufferParameterivEXT(uint framebuffer, enum pname,
                                           int *param);
+
+    <OpenGL 3.0: New buffer data copy command>
+        void NamedCopyBufferSubDataEXT(uint readBuffer, uint writeBuffer, 
+                                       intptr readOffset, intptr writeOffset,
+                                       sizeiptr size);
 
     <EXT_geometry_shader4 or NV_gpu_program4: New framebuffer commands
     add "Named" prefix to name and replace "enum target" with "uint
@@ -1013,16 +1051,95 @@ New Procedures and Functions
         void MultiTexRenderbufferEXT(enum texunit, enum target,
                                      uint renderbuffer);
 
+    <OpenGL 3.0: New vertex array specification commands for vertex
+    array objects prefix "VertexArray", add initial "uint vaobj" and
+    "uint buffer" parameters, change "Pointer" suffix to "Offset",
+    and change the final parameter from "const void *" to "intptr offset">
+
+        void VertexArrayVertexOffsetEXT(uint vaobj, uint buffer,
+                                        int size, enum type, sizei stride,
+                                        intptr offset);
+        void VertexArrayColorOffsetEXT(uint vaobj, uint buffer,
+                                       int size, enum type, sizei stride,
+                                       intptr offset);
+        void VertexArrayEdgeFlagOffsetEXT(uint vaobj, uint buffer,
+                                          sizei stride, intptr offset);
+        void VertexArrayIndexOffsetEXT(uint vaobj, uint buffer,
+                                       enum type, sizei stride,
+                                       intptr offset);
+        void VertexArrayNormalOffsetEXT(uint vaobj, uint buffer,
+                                        enum type, sizei stride,
+                                        intptr offset);
+        void VertexArrayTexCoordOffsetEXT(uint vaobj, uint buffer,
+                                          int size, enum type, sizei stride,
+                                          intptr offset);
+        void VertexArrayMultiTexCoordOffsetEXT(uint vaobj, uint buffer,
+                                               enum texunit,
+                                               int size, enum type, sizei stride,
+                                               intptr offset);
+        void VertexArrayFogCoordOffsetEXT(uint vaobj, uint buffer,
+                                          enum type, sizei stride,
+                                          intptr offset);
+        void VertexArraySecondaryColorOffsetEXT(uint vaobj, uint buffer,
+                                                int size, enum type,
+                                                sizei stride, intptr offset);
+        void VertexArrayVertexAttribOffsetEXT(uint vaobj, uint buffer,
+                                              uint index, int size,
+                                              enum type, boolean normalized,
+                                              sizei stride, intptr offset);
+        void VertexArrayVertexAttribIOffsetEXT(uint vaobj, uint buffer,
+                                               uint index, int size,
+                                               enum type, sizei stride,
+                                               intptr offset);
+
+    <OpenGL 3.0: New vertex array enable commands for vertex array
+    objects change "ClientState" to "VertexArray" and add an initial
+    "uint vaobj" parameter>
+
+        void EnableVertexArrayEXT(uint vaobj, enum array);
+        void DisableVertexArrayEXT(uint vaobj, enum array);
+
+    <OpenGL 3.0: New vertex attrib array enable commands for vertex
+    array objects change "VertexAttribArray" to "VertexArrayAttrib"
+    and add an initial "uint vaobj" parameter>
+
+        void EnableVertexArrayAttribEXT(uint vaobj, uint index);
+        void DisableVertexArrayAttribEXT(uint vaobj, uint index);
+
+    <OpenGL 3.0: New queries for vertex array objects>
+
+        void GetVertexArrayIntegervEXT(uint vaobj, enum pname,
+                                       int *param);
+        void GetVertexArrayPointervEXT(uint vaobj, enum pname,
+                                       void **param);
+        void GetVertexArrayIntegeri_vEXT(uint vaobj,
+                                         uint index,
+                                         enum pname,
+                                         int *param);
+        void GetVertexArrayPointeri_vEXT(uint vaobj,
+                                         uint index,
+                                         enum pname,
+                                         void **param);
+
+    <OpenGL 3.0: New buffer commands replace "Buffer" with "NamedBuffer"
+    in name and replace "enum target" parameter with "uint buffer">
+
+        void *MapNamedBufferRangeEXT(uint buffer, intptr offset,
+                                     sizeiptr length, bitfield access);
+        void FlushMappedNamedBufferRangeEXT(uint buffer, intptr offset,
+                                            sizeiptr length);
+
 New Tokens
 
-    Accepted by the <pname> parameter of GetBooleanIndexedv,
-    GetIntegerIndexedv, GetFloatIndexedv, and GetDoubleIndexedv:
+    Accepted by the <pname> parameter of GetBooleanIndexedvEXT,
+    GetIntegerIndexedvEXT, GetFloatIndexedvEXT, GetDoubleIndexedvEXT:
+    GetBooleani_v, GetIntegeri_v, GetFloati_vEXT, GetDoublei_vEXT:
 
         PROGRAM_MATRIX_EXT                              0x8E2D
         TRANSPOSE_PROGRAM_MATRIX_EXT                    0x8E2E
         PROGRAM_MATRIX_STACK_DEPTH_EXT                  0x8E2F
 
-Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
+Additions to Chapter 2 of the OpenGL 3.0 Specification (OpenGL Operation)
 
     Insert the following after the 2nd sentence in the 4th paragraph in
     Section 2.5 (Errors):
@@ -1048,6 +1165,8 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
 
         void EnableClientStateIndexedEXT(enum array, uint index);
         void DisableClientStateIndexedEXT(enum array, uint index);
+        void EnableClientStateiEXT(enum array, uint index);
+        void DisableClientStateiEXT(enum array, uint index);
 
     are equivalent (assuming no errors) to the following:
 
@@ -1062,12 +1181,12 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
           // Invalid enum
         }
 
-    where index is the index parameter to the listed commands and XXX
-    is the name of the command without its "Indexed" suffix (either
-    EnableClientState or DisableClientState)."  The error INVALID_VALUE
+    where index is the index parameter to the listed commands and XXX is
+    the name of the command without its "Indexed" or "i" suffix (either
+    EnableClientState or DisableClientState).  The error INVALID_VALUE
     is generated if index is greater or equal to the implementation's
     NUM_TEXTURE_COORDS value.  The error INVALID_ENUM is generated if
-    array is not TEXTURE_COORD_ARRAY.
+    array is not TEXTURE_COORD_ARRAY."
 
     Add before the last paragraph in Section 2.8 (Vertex Arrays):
 
@@ -1099,6 +1218,13 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
                                    sizeiptr size, const void *data);
         void* MapNamedBufferEXT(uint buffer, enum access);
         boolean UnmapNamedBufferEXT(uint buffer);
+        void *MapNamedBufferRangeEXT(uint buffer, intptr offset,
+                                     sizeiptr length, bitfield access);
+        void FlushMappedNamedBufferRangeEXT(uint buffer, intptr offset,
+                                            sizeiptr length);
+        void NamedCopyBufferSubDataEXT(uint readBuffer, uint writeBuffer, 
+                                       intptr readOffset, intptr writeOffset,
+                                       sizeiptr size);
 
     operate identically to the corresponding command where "Named" is
     deleted from the name (and extension suffixes are dropped or updated
@@ -1118,7 +1244,112 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
     to the name zero, these commands generate the INVALID_OPERATION
     error if the buffer parameter is zero."
 
-    Add to the end of Section 2.11.2 (Matrices):
+    Add to the end of Section 2.10 (Vertex Array Objects):
+
+    "The following commands:
+
+        void VertexArrayVertexOffsetEXT(uint vaobj, uint buffer,
+                                        int size, enum type, sizei stride,
+                                        intptr offset);
+        void VertexArrayColorOffsetEXT(uint vaobj, uint buffer,
+                                       int size, enum type, sizei stride,
+                                       intptr offset);
+        void VertexArrayEdgeFlagOffsetEXT(uint vaobj, uint buffer,
+                                          sizei stride, intptr offset);
+        void VertexArrayIndexOffsetEXT(uint vaobj, uint buffer,
+                                       enum type, sizei stride,
+                                       intptr offset);
+        void VertexArrayNormalOffsetEXT(uint vaobj, uint buffer,
+                                        enum type, sizei stride,
+                                        intptr offset);
+        void VertexArrayTexCoordOffsetEXT(uint vaobj, uint buffer,
+                                          int size, enum type, sizei stride,
+                                          intptr offset);
+        void VertexArrayMultiTexCoordOffsetEXT(uint vaobj, uint buffer,
+                                               enum texunit,
+                                               int size, enum type, sizei stride,
+                                               intptr offset);
+        void VertexArrayFogCoordOffsetEXT(uint vaobj, uint buffer,
+                                          enum type, sizei stride,
+                                          intptr offset);
+        void VertexArraySecondaryColorOffsetEXT(uint vaobj, uint buffer,
+                                                int size, enum type,
+                                                sizei stride, intptr offset);
+        void VertexArrayVertexAttribOffsetEXT(uint vaobj, uint buffer,
+                                              uint index, int size,
+                                              enum type, boolean normalized,
+                                              sizei stride, intptr offset);
+        void VertexArrayVertexAttribIOffsetEXT(uint vaobj, uint buffer,
+                                               uint index, int size,
+                                               enum type, sizei stride,
+                                               intptr offset);
+
+    operate identically to the corresponding command where "VertexArray"
+    is deleted from the name and "Offset" is changed to "Pointer" (and
+    extension suffixes are dropped or updated appropriately) except,
+    1) rather than updating the currently in use vertex array object,
+    these "VertexArray" commands update the vertex array object named
+    by the initial vaobj parameter, and 2) the corresponding command
+    operates as if the ARRAY_BUFFER buffer binding is bound to the
+    buffer named by the buffer parameter.  The remaining parameters
+    following the initial vaobj parameter for the listed "VertexArray"
+    commands match the parameters for the corresponding non-"VertexArray"
+    vertex array specification command and are interpreted as they
+    are for the non-"VertexArray" vertex array specification command.
+    The one exception is that final intptr offset parameter of the
+    "VertexArray" command is cast to the final pointer parameter of the
+    non-"VertexArray" command (intptr is guaranteed to be large enough
+    to store any pointer value).
+
+    If the vertex array object named by the vaobj parameter has not
+    been previously bound but has been generated (without subsequent
+    deletion) by GenVertexArrays, the GL first creates a new state
+    vector in the same manner as when BindVertexArray creates a new
+    vertex array object.  However these commands fail and an
+    INVALID_OPERATION error is generated if vaobj is not a name returned
+    from a previous call to GenVertexArrays, or if such a name has since
+    been deleted with DeleteVertexArrays.
+
+    If the buffer object named by the buffer parameter is non-zero and
+    has not been previously bound or has been deleted since the last
+    binding, the GL first creates a new state vector, initialized with
+    a zero-sized memory buffer and comprising the state values listed
+    in table 2.6.  If the buffer object named by the buffer parameter
+    is zero, these commands update the vertex array client-state.
+
+    If the buffer object named by the buffer parameter is non-zero and
+    the offset parameter is negative, generate the INVALID_VALUE error.
+    No error is generated in the case where buffer is zero because the
+    offset might be valid pointer than just happens to be negative when
+    cast to a intptr type.
+
+    The following commands:
+
+        void EnableVertexArrayEXT(uint vaobj, enum array);
+        void DisableVertexArrayEXT(uint vaobj, enum array);
+        void EnableVertexArrayAttribEXT(uint vaobj, uint index);
+        void DisableVertexArrayAttribEXT(uint vaobj, uint index);
+
+    operate identically to EnableClientState, DisableClientState,
+    EnableVertexAttribArray, and DisableVertexAttribArray respectively
+    except rather than updating the current vertex array client-state
+    these "VertexArray" commands update the vertex array enables
+    within the vertex array object named by the initial vaobj parameter.
+    The array parameter matches the array parameter for the corresponding
+    EnableClientState and DisableClientState commands.  The index
+    parameter matches the index parameter for the corresponding
+    EnableVertexAttribArray and DisableVertexAttribArray commands.
+
+    If the vertex array object named by the vaobj parameter has not
+    been previously bound but has been generated (without subsequent
+    deletion) by GenVertexArrays, the GL first creates a new state
+    vector in the same manner as when BindVertexArray creates a new
+    vertex array object.  However these commands fail and an
+    INVALID_OPERATION error is generated if vaobj is not a name returned
+    from a previous call to GenVertexArrays, or if such a name has since
+    been deleted with DeleteVertexArrays."
+
+    Add to the end of Section 2.12.2 (Matrices):
 
     "The following commands:
 
@@ -1210,7 +1441,7 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
         MatrixPushEXT               PushMatrix
         MatrixPopEXT                PopMatrix"
 
-    Add to the end of Section 2.15.3 (Shader Variables):
+    Add to the end of Section 2.20.3 (Shader Variables):
 
     "Program-specific Uniform Updates
 
@@ -1308,7 +1539,7 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
     is not created or has not been successfully linked, the error
     INVALID_OPERATION is generated."
 
-Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
+Additions to Chapter 3 of the OpenGL 3.0 Specification (Rasterization)
 
     Add to the end of section 3.8.12 (Texture Objects):
 
@@ -1465,7 +1696,9 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     "The following commands (introduced by EXT_draw_buffers2):
 
         void EnableIndexedEXT(enum cap, uint index);
+        void Enablei(enum cap, uint index);
         void DisableIndexedEXT(enum cap, uint index);
+        void Disablei(enum cap, uint index);
 
     are equivalent (assuming no errors) to the following:
 
@@ -1476,12 +1709,13 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
         XXX(cap);
         ActiveTexture(savedActiveTexture);
 
-    where index is the index parameter to the listed commands and XXX is
-    the name of the command without its "Indexed" prefix (either Enable
-    or Disable) when the cap parameter is one of the texture-related
-    enable token depending on the active texture state, namely TEXTURE_1D,
-    TEXTURE_2D, TEXTURE_3D, TEXTURE_CUBE_MAP, TEXTURE_RECTANGLE_ARB,
-    TEXTURE_GEN_S, TEXTURE_GEN_T, TEXTURE_GEN_R, or TEXTURE_GEN_Q."
+    where index is the index parameter to the listed commands and XXX
+    is the name of the command without its "Indexed" or "i" suffix
+    (either Enable or Disable) when the cap parameter is one of
+    the texture-related enable token depending on the active texture
+    state, namely TEXTURE_1D, TEXTURE_2D, TEXTURE_3D, TEXTURE_CUBE_MAP,
+    TEXTURE_RECTANGLE_ARB, TEXTURE_GEN_S, TEXTURE_GEN_T, TEXTURE_GEN_R,
+    or TEXTURE_GEN_Q."
 
     Add NEW section 3.8.X (Multitexture Commands): after section 3.8.16
     (Texture Application):
@@ -1631,121 +1865,338 @@ Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
     and ... is the list of the arguments for the command excluding the
     index parameter."
 
-Additions to Chapter 4 of the OpenGL 2.1 Specification (Per-Fragment
+Additions to Chapter 4 of the OpenGL 3.0 Specification (Per-Fragment
 Operations and the Frame Buffer)
 
-    None.
+    Add new section 4.4.7 (Named Access):
 
-Additions to Chapter 5 of the OpenGL 2.1 Specification (Special Functions)
+    "The following commands:
 
-    Add to list (page 244) of "Client state" commands "not compiled into
+        void NamedRenderbufferStorageEXT(uint renderbuffer,
+                                         enum internalformat,
+                                         sizei width, sizei height);
+
+        void NamedRenderbufferStorageMultisampleEXT(uint renderbuffer,
+                                                    sizei samples,
+                                                    enum internalformat,
+                                                    sizei width, sizei height);
+
+        void NamedRenderbufferStorageMultisampleCoverageEXT(uint renderbuffer,
+                                                            sizei coverageSamples, 
+                                                            sizei colorSamples,
+                                                            enum internalformat,
+                                                            sizei width,
+                                                            sizei height);
+
+    operate identically to the corresponding command where "Named" is
+    deleted from the name (and extension suffixes are dropped or updated
+    appropriately) except, rather than updating the currently bound
+    renderbuffer for the renderbuffer target parameter (a parameter not
+    present for these listed commands), these "Named" commands update the
+    renderbuffer object named by the initial renderbuffer parameter.
+    The remaining parameters following the initial renderbuffer
+    parameter for the listed "Named" commands match the parameters
+    for the corresponding non-"Named" renderbuffer command and are
+    interpreted as they are for the non-"Named" renderbuffer command;
+    and the target parameter is assumed to be RENDERBUFFER.  If the
+    renderbuffer object named by the renderbuffer parameter has not
+    been previously bound or has been deleted since the last binding,
+    the GL first creates a new state vector in the same manner as when
+    BindRenderbuffer creates a new renderbuffer object.
+
+    The following commands (and query):
+
+        void NamedFramebufferTexture1DEXT(uint framebuffer,
+                                          enum attachment,
+                                          enum textarget, uint texture,
+                                          int level);
+        void NamedFramebufferTexture2DEXT(uint framebuffer,
+                                          enum attachment,
+                                          enum textarget, uint texture,
+                                          int level);
+        void NamedFramebufferTexture3DEXT(uint framebuffer,
+                                          enum attachment,
+                                          enum textarget, uint texture,
+                                          int level, int zoffset);
+
+        void NamedFramebufferRenderbufferEXT(uint framebuffer,
+                                             enum attachment,
+                                             enum renderbuffertarget,
+                                             uint renderbuffer);
+
+        void NamedFramebufferTextureEXT(uint framebuffer, enum attachment, 
+                                        uint texture, int level);
+        void NamedFramebufferTextureLayerEXT(uint framebuffer,
+                                             enum attachment, 
+                                             uint texture,
+                                             int level, int layer);
+        void NamedFramebufferTextureFaceEXT(uint framebuffer, enum attachment,
+                                            uint texture,
+                                            int level, enum face);
+
+        void GetNamedFramebufferAttachmentParameterivEXT(uint framebuffer,
+                                                         enum attachment,
+                                                         enum pname,
+                                                         int *params);
+
+    operate identically to the corresponding command (or query) where
+    "Named" is deleted from the name (and extension suffixes are dropped
+    or updated appropriately) except, rather than updating the currently
+    bound framebuffer for the framebuffer target parameter (a parameter
+    not present for these listed commands and query), these "Named"
+    commands update (or the query queries) the framebuffer object named by
+    the initial framebuffer parameter.  The remaining parameters following
+    the initial framebuffer parameter for the listed "Named" commands
+    (or query) match the parameters for the corresponding non-"Named"
+    framebuffer command (or query) and are interpreted as they are for the
+    non-"Named" framebuffer command (or query); and the target parameter is
+    assumed to be FRAMEBUFFER.  If the framebuffer object named by
+    the framebuffer parameter has not been previously bound or has been
+    deleted since the last binding, the GL first creates a new state
+    vector in the same manner as when BindFramebuffer creates a new
+    framebuffer object.
+
+    The commands
+
+        void FramebufferDrawBufferEXT(uint framebuffer, enum mode);
+        void FramebufferDrawBuffersEXT(uint framebuffer, sizei n,
+                                       const enum *bufs)
+        void FramebufferReadBufferEXT(uint framebuffer, enum mode);
+
+
+    operate identically to DrawBuffer, DrawBuffers, and ReadBuffer
+    (without the initial framebuffer parameter) respectively except rather
+    than updating the draw buffers or read buffer of the currently bound
+    framebuffer object or the default window-system-provided framebuffer
+    (i.e., FRAMEBUFFER_BINDING is zero), these commands update the
+    draw buffers or read buffer of the framebuffer object named by the
+    framebuffer parameter.  When the framebuffer parameter is zero,
+    the default window-system provided framebuffer is updated (even if
+    the window-system-provided framebuffer is not currently bound).
+    If the framebuffer object named by the framebuffer parameter has not
+    been previously bound or has been deleted since the last binding,
+    the GL first creates a new state vector in the same manner as when
+    BindFramebuffer creates a new framebuffer object.
+
+    The query
+
+        void GetFramebufferParameterivEXT(uint framebuffer, enum pname,
+                                          int *param);
+
+    returns the framebuffer state of the framebuffer object specified
+    by the framebuffer parameter.  The pname parameter must be one of
+    framebuffer dependent values listed in either table 4.nnn (namely
+    DRAW_BUFFER, READ_BUFFER, or DRAW_BUFFER0 through DRAW_BUFFER15).
+    The query returns the same value in param that GetIntegerv would
+    return if called with pname and param as if the framebuffer specified
+    by the framebuffer parameter had been bound with BindFramebuffer.
+    If the framebuffer object named by the framebuffer parameter has not
+    been previously bound or has been deleted since the last binding,
+    the GL first creates a new state vector in the same manner as when
+    BindFramebuffer creates a new framebuffer object.
+
+    The command
+
+        enum CheckNamedFramebufferStatusEXT(uint framebuffer,
+                                            enum target);
+
+    operates identically to CheckFramebufferStatus except rather
+    than checking the currently bound framebuffer for the framebuffer
+    target parameter, the status of the named framebuffer is checked
+    where the target parameter indicates how the framebuffer would
+    be bound.  Because FRAMEBUFFER_UNSUPPORTED can be returned by
+    CheckFramebufferStatus due to an implementation-dependent set of
+    restrictions that might not be known until the framebuffer object is
+    bound with BindFramebuffer, CheckNamedFramebufferStatusARB may in
+    rare circumstances (ideally never) return FRAMEBUFFER_COMPLETE
+    when CheckFramebufferStatus with the same framebuffer object bound
+    would return FRAMEBUFFER_UNSUPPORTED.  The framebuffer is checked
+    for drawing if target is FRAMEBUFFER or DRAW_FRAMEBUFFER,
+    and checked for reading if the target is READ_FRAMEBUFFER.
+    If the framebuffer object named by the framebuffer parameter has not
+    been previously bound or has been deleted since the last binding,
+    the GL first creates a new state vector in the same manner as when
+    BindFramebuffer creates a new framebuffer object.
+
+    The commands
+
+        void GenerateTextureMipmapEXT(uint texture, enum target);
+
+        void GenerateMultiTexMipmapEXT(enum texunit, enum target);
+
+    operate identically to GenerateMipmap except they use the
+    texture specified by the named texture or specified texture unit
+    respectively.  The target parameter must be a token accepted by
+    GenerateMipmap.
+
+    If GenerateTextureMipmapARB's texture parameter is for an unused
+    name, the name becomes used and the named texture object is set
+    to a new state vector, comprising all the state values listed in
+    section 3.8.11, set to the same initial values prior to the command's
+    state update.  If the texture parameter is for a used name and that
+    named texture object has a different target than the specified target
+    parameter, the INVALID_OPERATION error is generated."
+
+Additions to Chapter 5 of the OpenGL 3.0 Specification (Special Functions)
+
+    In Section 5.4 (Display Lists):
+
+    Add to list (page 310) of "Client state" commands "not compiled into
     the display list but are executed immediately":
 
         PushClientAttribDefaultEXT, ClientAttribDefaultEXT
 
-Additions to Chapter 6 of the OpenGL 2.1 Specification (State and
+    Add to list (page 310) of "Framebuffer and renderbuffer objects"
+    commands "not compiled into the display list but are executed
+    immediately":
+
+         CheckNamedFramebufferStatusEXT, NamedRenderbufferStorageEXT,
+         NamedFramebufferTexture1DEXT, NamedFramebufferTexture2DEXT,
+         NamedFramebufferTexture3DEXT, NamedFramebufferRenderbufferEXT,
+         GenerateTextureMipmapEXT, GenerateMultiTexMipmapEXT
+
+    Add to the list (page 310) of "Vertex Buffer Objects" commands
+    "not compiled into the display list but are executed immediately":
+    
+         NamedCopyBufferSubDataEXT
+
+Additions to Chapter 6 of the OpenGL 3.0 Specification (State and
 State Requests)
 
-    Add a new section 6.1.X between section 6.1.1 (Simple Queries)
-    and 6.1.2 (Data Conversions):
+    Change section 6.1.1 (Simple Queries) so the second and third
+    paragraphs read:
 
-    "The following queries (introduced by EXT_draw_buffers2):
+    "Indexed simple state variables are queried with the commands:
 
-        void GetIntegerIndexedvEXT(enum pname, uint index, int *params);
-        void GetBooleanIndexedvEXT(enum pname, uint index,
-                                   boolean *params);
+        void GetBooleani_v(enum target, uint index, boolean *data);
+        void GetIntegeri_v(enum target, uint index, int *data);
+        void GetFloati_vEXT(enum target, uint index, float *data);
+        void GetDoublei_vEXT(enum target, uint index, double *data);
 
-    and these new queries:
+        void GetBooleanIndexedvEXT(enum target, uint index, boolean *data);
+        void GetIntegerIndexedvEXT(enum target, uint index, int *data);
+        void GetFloatIndexedvEXT(enum target, uint index, float *data);
+        void GetDoubleIndexedvEXT(enum target, uint index, double *data);
 
-        void GetFloatIndexedvEXT(enum pname, uint index, float *params);
-        void GetDoubleIndexedvEXT(enum pname, uint index, double *params);
-
-    are equivalent (assuming no errors) to the following:
-
-        int savedActiveTexture, savedClientActiveTexture, savedMatrixMode;
-
-        switch (pname) {
-        case PROGRAM_MATRIX_EXT:
-            GetIntegerv(MATRIX_MODE, &savedMatrixMode);
-            MatrixMode(GL_MATRIX_ARB+index);
-            GetXXX(CURRENT_MATRIX_ARB, params);
-            MatrixMode(savedMatrixMode);
-            break;
-        case TRANSPOSE_PROGRAM_MATRIX_EXT:
-            GetIntegerv(MATRIX_MODE, &savedMatrixMode);
-            MatrixMode(GL_MATRIX_ARB+index);
-            GetXXX(TRANSPOSE_CURRENT_MATRIX_ARB, params);
-            MatrixMode(savedMatrixMode);
-            break;
-        case PROGRAM_MATRIX_STACK_DEPTH_EXT:
-            GetIntegerv(MATRIX_MODE, &savedMatrixMode);
-            MatrixMode(GL_MATRIX_ARB+index);
-            GetXXX(CURRENT_MATRIX_STACK_DEPTH_ARB, params);
-            MatrixMode(savedMatrixMode);
-            break;
-        default:
-            GetIntegerv(ACTIVE_TEXTURE, &savedActiveTexture);
-            GetIntegerv(CLIENT_ACTIVE_TEXTURE, &savedClientActiveTexture);
-            ActiveTexture(TEXTURE0+index);
-            ClientActiveTexture(TEXTURE0+index);
-            GetXXX(pname, params);
-            ActiveTexture(savedActiveTexture);
-            ClientActiveTexture(savedClientActiveTexture);
-            break;
-        }
-
-    where index is the index parameter to the listed queries
-    and GetXXX is found in Table 6.indexedGenericQueryCommands.
-    when the pname parameter is one of PROGRAM_MATRIX_EXT,
-    TRANSPOSE_PROGRAM_MATRIX_EXT, PROGRAM_MATRIX_STACK_DEPTH_EXT,
-    or the texture-related query tokens depending on the active
-    texture and active client texture state (CURRENT_MATRIX_NV,
-    CURRENT_MATRIX_STACK_DEPTH_NV, CURRENT_RASTER_TEXTURE_COORDS,
-    CURRENT_TEXTURE_COORDS, TEXTURE_BINDING_1D,
-    TEXTURE_BINDING_1D_ARRAY_EXT, TEXTURE_BINDING_2D,
-    TEXTURE_BINDING_2D_ARRAY_EXT, TEXTURE_BINDING_3D,
-    TEXTURE_BINDING_BUFFER_EXT, TEXTURE_BINDING_CUBE_MAP,
-    TEXTURE_BINDING_CUBE_MAP_ARRAY_NV, TEXTURE_BINDING_RECTANGLE_ARB,
-    TEXTURE_BINDING_RENDERBUFFER_NV,
-    TEXTURE_RENDERBUFFER_DATA_STORE_BINDING_NV,
-    TEXTURE_BUFFER_DATA_STORE_BINDING_EXT, TEXTURE_BUFFER_FORMAT_EXT,
-    TEXTURE_COORD_ARRAY, TEXTURE_COORD_ARRAY_BUFFER_BINDING,
-    TEXTURE_COORD_ARRAY_COUNT, TEXTURE_COORD_ARRAY_SIZE,
-    TEXTURE_COORD_ARRAY_STRIDE, TEXTURE_COORD_ARRAY_TYPE, TEXTURE_GEN_Q,
-    TEXTURE_GEN_R, TEXTURE_GEN_S, TEXTURE_GEN_T, TEXTURE_MATRIX,
-    TEXTURE_STACK_DEPTH, or TRANSPOSE_TEXTURE_MATRIX).
+    target is the name of the indexed state and index is the index of
+    the particular element being queried.  data is a pointer to a scalar
+    or array of the indicated type in which to place the returned data.
+    An INVALID_VALUE error is generated if index is outside the valide
+    range for the indexed state target.
 
     Table 6.indexedGenericQueryCommands:
 
         Selector-free Command Name  GetXXX
         --------------------------  --------------------
+        GetBooleanIndexedvEXT       GetBooleanv
         GetIntegerIndexedvEXT       GetIntegerv
         GetFloatIndexedvEXT         GetFloatv
         GetDoubleIndexedvEXT        GetDoublev
-        GetPointerIndexedvEXT       GetPointerv
+        GetBooleani_v               GetBooleanv
+        GetIntegeri_v               GetIntegerv
+        GetFloati_vEXT              GetFloatv
+        GetDoublei_vEXT             GetDoublev
 
-    The query (introduced by EXT_draw_buffers2)
+    When the target to one of these indexed queries is one
+    of PROGRAM_MATRIX_EXT, TRANSPOSE_PROGRAM_MATRIX_EXT, or
+    PROGRAM_MATRIX_STACK_DEPTH_EXT, the query operates indentically to
+    (assuming no errors):
 
+        int savedMatrixMode;
+        GetIntegerv(MATRIX_MODE, &savedMatrixMode);
+        MatrixMode(GL_MATRIX0_ARB+index);
+        switch (target) {
+        case PROGRAM_MATRIX_EXT:
+            GetXXX(CURRENT_MATRIX_ARB, params);
+            break;
+        case TRANSPOSE_PROGRAM_MATRIX_EXT:
+            GetXXX(TRANSPOSE_CURRENT_MATRIX_ARB, params);
+            break;
+        case PROGRAM_MATRIX_STACK_DEPTH_EXT:
+            GetXXX(CURRENT_MATRIX_STACK_DEPTH_ARB, params);
+            break;
+        }
+        MatrixMode(savedMatrixMode);
+
+    where GetXXX is found in Table 6.indexedGenericQueryCommands.
+
+    When the target to one of these indexed queries is one
+    of CURRENT_MATRIX_NV, CURRENT_MATRIX_STACK_DEPTH_NV,
+    CURRENT_RASTER_TEXTURE_COORDS, CURRENT_TEXTURE_COORDS,
+    TEXTURE_BINDING_1D, TEXTURE_BINDING_1D_ARRAY,
+    TEXTURE_BINDING_2D, TEXTURE_BINDING_2D_ARRAY,
+    TEXTURE_BINDING_3D, TEXTURE_BINDING_BUFFER_EXT,
+    TEXTURE_BINDING_CUBE_MAP, TEXTURE_BINDING_CUBE_MAP_ARRAY_NV,
+    TEXTURE_BINDING_RECTANGLE_ARB, TEXTURE_BINDING_RENDERBUFFER_NV,
+    TEXTURE_RENDERBUFFER_DATA_STORE_BINDING_NV,
+    TEXTURE_BUFFER_DATA_STORE_BINDING_EXT, TEXTURE_BUFFER_FORMAT_EXT,
+    TEXTURE_GEN_Q, TEXTURE_GEN_R, TEXTURE_GEN_S, TEXTURE_GEN_T,
+    TEXTURE_MATRIX, TEXTURE_STACK_DEPTH, TRANSPOSE_TEXTURE_MATRIX,
+    GL_TEXTURE_1D, GL_TEXTURE_2D, GL_TEXTURE_3D, GL_TEXTURE_CUBE_MAP, or
+    GL_TEXTURE_RECTANGLE_ARB, the query operates indentically (assuming
+    no errors) to:
+
+        int savedActiveTexture;
+        GetIntegerv(ACTIVE_TEXTURE, &savedActiveTexture);
+        ActiveTexture(TEXTURE0+index);
+        GetXXX(target, params);
+        ActiveTexture(savedActiveTexture);
+
+    where GetXXX is found in Table 6.indexedGenericQueryCommands.
+
+    When the target to one of these indexed queries is one of
+    TEXTURE_COORD_ARRAY, TEXTURE_COORD_ARRAY_BUFFER_BINDING,
+    TEXTURE_COORD_ARRAY_COUNT, TEXTURE_COORD_ARRAY_SIZE,
+    TEXTURE_COORD_ARRAY_STRIDE, or TEXTURE_COORD_ARRAY_TYPE, the query
+    operates indentically (assuming no errors) to:
+
+        int savedClientActiveTexture;
+        GetIntegerv(CLIENT_ACTIVE_TEXTURE, &savedClientActiveTexture);
+        ClientActiveTexture(TEXTURE0+index);
+        GetXXX(target, params);
+        ClientActiveTexture(savedClientActiveTexture);
+
+    where GetXXX is found in Table 6.indexedGenericQueryCommands.
+
+    Finally,
+
+        boolean IsEnabled(enum value);
+
+    can be used to determine if value is currently enabled (as with
+    Enable) or disabled and the queries
+
+        boolean IsEnabledi(enum target, uint index);
         boolean IsEnabledIndexedEXT(enum cap, uint index);
 
-    is equivalent (assuming no errors) to the following:
+    can be used to determine if the indexed state corresponding to target
+    and index is enabled or disabled.  An INVALID_VALUE error is generated
+    if index is outside the valid range for the indexed state target.
 
-        int savedActiveTexture, savedClientActiveTexture;
+    When the target to IsEnabledi or IsEnabledIndexedEXT is
+    one of TEXTURE_1D, TEXTURE_2D, TEXTURE_3D, TEXTURE_CUBE_MAP,
+    TEXTURE_RECTANGLE_ARB, TEXTURE_GEN_S, TEXTURE_GEN_T, TEXTURE_GEN_R,
+    or TEXTURE_GEN_Q, the query operates indentically (assuming no
+    errors) to:
+
+        int savedActiveTexture;
         boolean rv;
-
         GetIntegerv(ACTIVE_TEXTURE, &savedActiveTexture);
-        GetIntegerv(CLIENT_ACTIVE_TEXTURE, &savedClientActiveTexture);
         ActiveTexture(TEXTURE0+index);
-        ClientActiveTexture(TEXTURE0+index);
         rv = IsEnabled(cap);
         ActiveTexture(savedActiveTexture);
-        ClientActiveTexture(savedClientActiveTexture);
         return rv;
 
-    where index is the index parameter and in the cases where
-    the cap parameter is one of TEXTURE_1D, TEXTURE_2D, TEXTURE_3D,
-    TEXTURE_CUBE_MAP, TEXTURE_RECTANGLE_ARB, TEXTURE_GEN_S, TEXTURE_GEN_T,
-    TEXTURE_GEN_R, or TEXTURE_GEN_Q."
+    When the target to IsEnabledi or IsEnabledIndexedEXT is
+    TEXTURE_COORD_ARRAY, the query operates indentically (assuming no
+    errors) to:
+
+        int savedClientActiveTexture;
+        boolean rv;
+        GetIntegerv(CLIENT_ACTIVE_TEXTURE, &savedClientActiveTexture);
+        ClientActiveTexture(TEXTURE0+index);
+        rv = IsEnabled(cap);
+        ClientActiveTexture(savedClientActiveTexture);
+        return rv;"
 
     Add new paragraph to the end of section 6.1.3 (Enumerated Queries):
 
@@ -1843,7 +2294,58 @@ State Requests)
     to the name zero, these commands generate the INVALID_OPERATION
     error if the buffer parameter is zero."
 
-    Add NEW section after 6.1.14 (Shader and Program Queries):
+    Add new paragraph to the end of section after 6.1.14 (Vertex Array
+    Object Queries):
+
+    "The commands
+
+        void GetVertexArrayIntegervEXT(uint vaobj, enum pname,
+                                       int *param);
+        void GetVertexArrayPointervEXT(uint vaobj, enum pname,
+                                       void **param);
+        void GetVertexArrayIntegeri_vEXT(uint vaobj,
+                                         uint index,
+                                         enum pname,
+                                         int *param);
+        void GetVertexArrayPointeri_vEXT(uint vaobj,
+                                         uint index,
+                                         enum pname,
+                                         void **param);
+
+    queries the parameters of the vertex array object named by vaobj.  For
+    GetVertexArrayIntegervEXT, pname must be one of the "Get value" tokens
+    in tables 6.6, 6.7, 6.8, and 6.9 that use GetIntegerv, IsEnabled, or
+    GetPointerv for their "Get command" (so excluding the VERTEX_ATTRIB_*
+    tokens).  For GetVertexArrayIntegeri_vEXT, pname must be one of the
+    "Get value" tokens in tables 6.8 and 6.9 that use GetVertexAttribiv
+    or GetVertexAttribPointerv (so allowing only the VERTEX_ATTRIB_*
+    tokens) or a token of the form TEXTURE_COORD_ARRAY_*; index
+    identifies the vertex attribute array to query or texture coordinate
+    set index respectively.  For GetVertexArrayPointervEXT, pname must
+    be a *_ARRAY_POINTER token from tables 6.6, 6.7, and 6.8 excluding
+    VERTEX_ATTRIB_ARRAY_POINTER.  For GetVertexArrayPointeri_vEXT, pname
+    must be VERTEX_ATTRIB_ARRAY_POINTER or TEXTURE_COORD_ARRAY_POINTER
+    with the index parameter indicating the vertex attribute or texture
+    coordindate set index.
+
+    If the state queried by GetVertexArrayIntegervEXT or
+    GetVertexArrayVertexAttribIntegervEXT is maintained as a pointer,
+    the least significant bits of the pointer that fit within an int are
+    returned in case a pointer is larger than an int.  This behavior
+    allows pointers treated as offsets (when less than 2^31) to be
+    returned as integer values.
+
+    If the vertex array object named by the vaobj parameter has not
+    been previously bound but has been generated (without subsequent
+    deletion) by GenVertexArrays, the GL first creates a new state
+    vector in the same manner as when BindVertexArray creates a new
+    vertex array object (hence the initial state will be returned).
+    However these queries fail and an INVALID_OPERATION error is
+    generated if vaobj is not a name returned from a previous call
+    to GenVertexArrays, or if such a name has since been deleted with
+    DeleteVertexArrays."
+
+    Add NEW section after 6.1.15 (Shader and Program Queries):
 
     "16.1.X  Multitexture Queries
 
@@ -1940,7 +2442,7 @@ State Requests)
         PushClientAttrib(mask);
         ClientAttribDefaultEXT(mask);"
 
-Additions to Appendix A of the OpenGL 2.1 Specification (Invariance)
+Additions to Appendix A of the OpenGL 3.0 Specification (Invariance)
 
     None.
 
@@ -1954,10 +2456,10 @@ Interactions with the ARB_texture_rectangle specification
 Interactions with the ARB_vertex_program specification
 
     If ARB_vertex_program is NOT supported, ignore the support
-    for PROGRAM_MATRIX_EXT, TRANSPOSE_PROGRAM_MATRIX_EXT, and
-    PROGRAM_MATRIX_STACK_DEPTH_EXT described for the GetBooleanIndexedv,
-    GetIntegerIndexedv, GetFloatIndexedv, and GetDoubleIndexedv
-    commands in section 6.1.X.
+    for PROGRAM_MATRIX_EXT, TRANSPOSE_PROGRAM_MATRIX_EXT,
+    and PROGRAM_MATRIX_STACK_DEPTH_EXT described for the
+    GetBooleanIndexedvEXT, GetIntegerIndexedvEXT, GetFloatIndexedvEXT,
+    and GetDoubleIndexedvEXT commands in section 6.1.X.
 
 Additions to the ARB_vertex_program specification
 
@@ -2155,208 +2657,28 @@ Additions to the NV_gpu_program4 specification
     object has a different target than the specified target parameter,
     the INVALID_OPERATION error is generated."
 
-Additions to the EXT_framebuffer_object specification
+Interactions with OpenGL 3.0 or the EXT_texture_integer specification
 
-    Add new section 4.4.7 (Named Access):
-
-    "The following commands:
-
-        void NamedRenderbufferStorageEXT(uint renderbuffer,
-                                         enum target,
-                                         enum internalformat,
-                                         sizei width, sizei height);
-
-        void NamedRenderbufferStorageMultisampleEXT(uint renderbuffer,
-                                                    sizei samples,
-                                                    enum internalformat,
-                                                    sizei width, sizei height);
-
-        void NamedRenderbufferStorageMultisampleCoverageEXT(uint renderbuffer,
-                                                            sizei coverageSamples, 
-                                                            sizei colorSamples,
-                                                            enum internalformat,
-                                                            sizei width,
-                                                            sizei height);
-
-    operate identically to the corresponding command where "Named" is
-    deleted from the name (and extension suffixes are dropped or updated
-    appropriately) except, rather than updating the currently bound
-    renderbuffer for the renderbuffer target parameter (a parameter not
-    present for these listed commands), these "Named" commands update the
-    renderbuffer object named by the initial renderbuffer parameter.
-    The remaining parameters following the initial renderbuffer
-    parameter for the listed "Named" commands match the parameters
-    for the corresponding non-"Named" renderbuffer command and are
-    interpreted as they are for the non-"Named" renderbuffer command;
-    and the target parameter is assumed to be RENDERBUFFER_EXT.  If the
-    renderbuffer object named by the renderbuffer parameter has not
-    been previously bound or has been deleted since the last binding,
-    the GL first creates a new state vector in the same manner as when
-    BindRenderbufferEXT creates a new renderbuffer object.
-
-    The following commands (and query):
-
-        void NamedFramebufferTexture1DEXT(uint framebuffer,
-                                          enum attachment,
-                                          enum textarget, uint texture,
-                                          int level);
-        void NamedFramebufferTexture2DEXT(uint framebuffer,
-                                          enum attachment,
-                                          enum textarget, uint texture,
-                                          int level);
-        void NamedFramebufferTexture3DEXT(uint framebuffer,
-                                          enum attachment,
-                                          enum textarget, uint texture,
-                                          int level, int zoffset);
-
-        void NamedFramebufferRenderbufferEXT(uint framebuffer,
-                                             enum attachment,
-                                             enum renderbuffertarget,
-                                             uint renderbuffer);
-
-        void NamedFramebufferTextureEXT(uint framebuffer, enum attachment, 
-                                        uint texture, int level);
-        void NamedFramebufferTextureLayerEXT(uint framebuffer,
-                                             enum attachment, 
-                                             uint texture,
-                                             int level, int layer);
-        void NamedFramebufferTextureFaceEXT(uint framebuffer, enum attachment,
-                                            uint texture,
-                                            int level, enum face);
-
-        void GetNamedFramebufferAttachmentParameterivEXT(uint framebuffer,
-                                                         enum attachment,
-                                                         enum pname,
-                                                         int *params);
-
-    operate identically to the corresponding command (or query) where
-    "Named" is deleted from the name (and extension suffixes are dropped
-    or updated appropriately) except, rather than updating the currently
-    bound framebuffer for the framebuffer target parameter (a parameter
-    not present for these listed commands and query), these "Named"
-    commands update (or the query queries) the framebuffer object named by
-    the initial framebuffer parameter.  The remaining parameters following
-    the initial framebuffer parameter for the listed "Named" commands
-    (or query) match the parameters for the corresponding non-"Named"
-    framebuffer command (or query) and are interpreted as they are for the
-    non-"Named" framebuffer command (or query); and the target parameter is
-    assumed to be FRAMEBUFFER_EXT.  If the framebuffer object named by
-    the framebuffer parameter has not been previously bound or has been
-    deleted since the last binding, the GL first creates a new state
-    vector in the same manner as when BindFramebufferEXT creates a new
-    framebuffer object.
-
-    The commands
-
-        void FramebufferDrawBufferEXT(uint framebuffer, enum mode);
-        void FramebufferDrawBuffersEXT(uint framebuffer, sizei n,
-                                       const enum *bufs)
-        void FramebufferReadBufferEXT(uint framebuffer, enum mode);
-
-
-    operate identically to DrawBuffer, DrawBuffers, and ReadBuffer
-    (without the initial framebuffer parameter) respectively except rather
-    than updating the draw buffers or read buffer of the currently bound
-    framebuffer object or the default window-system-provided framebuffer
-    (i.e., FRAMEBUFFER_BINDING_EXT is zero), these commands update the
-    draw buffers or read buffer of the framebuffer object named by the
-    framebuffer parameter.  When the framebuffer parameter is zero,
-    the default window-system provided framebuffer is updated (even if
-    the window-system-provided framebuffer is not currently bound).
-    If the framebuffer object named by the framebuffer parameter has not
-    been previously bound or has been deleted since the last binding,
-    the GL first creates a new state vector in the same manner as when
-    BindFramebufferEXT creates a new framebuffer object.
-
-    The query
-
-        void GetFramebufferParameterivEXT(uint framebuffer, enum pname,
-                                          int *param);
-
-    returns the framebuffer state of the framebuffer object specified
-    by the framebuffer parameter.  The pname parameter must be one of
-    framebuffer dependent values listed in either table 4.nnn (namely
-    DRAW_BUFFER, READ_BUFFER, or DRAW_BUFFER0 through DRAW_BUFFER15).
-    The query returns the same value in param that GetIntegerv would
-    return if called with pname and param as if the framebuffer specified
-    by the framebuffer parameter had been bound with BindFramebufferEXT.
-    If the framebuffer object named by the framebuffer parameter has not
-    been previously bound or has been deleted since the last binding,
-    the GL first creates a new state vector in the same manner as when
-    BindFramebufferEXT creates a new framebuffer object.
-
-    The command
-
-        enum CheckNamedFramebufferStatusEXT(uint framebuffer,
-                                            enum target);
-
-    operates identically to CheckFramebufferStatusEXT except rather
-    than checking the currently bound framebuffer for the framebuffer
-    target parameter, the status of the named framebuffer is checked
-    where the target parameter indicates how the framebuffer would
-    be bound.  Because FRAMEBUFFER_UNSUPPORTED_EXT can be returned by
-    CheckFramebufferStatusEXT due to an implementation-dependent set of
-    restrictions that might not be known until the framebuffer object is
-    bound with BindFramebufferEXT, CheckNamedFramebufferStatusEXT may in
-    rare circumstances (ideally never) return FRAMEBUFFER_COMPLETE_EXT
-    when CheckFramebufferStatusEXT with the same framebuffer object bound
-    would return FRAMEBUFFER_UNSUPPORTED_EXT.  The framebuffer is checked
-    for drawing if target is FRAMEBUFFER_EXT or DRAW_FRAMEBUFFER_EXT,
-    and checked for reading if the target is READ_FRAMEBUFFER_EXT.
-    If the framebuffer object named by the framebuffer parameter has not
-    been previously bound or has been deleted since the last binding,
-    the GL first creates a new state vector in the same manner as when
-    BindFramebufferEXT creates a new framebuffer object.
-
-    The commands
-
-        void GenerateTextureMipmapEXT(uint texture, enum target);
-
-        void GenerateMultiTexMipmapEXT(enum texunit, enum target);
-
-    operate identically to GenerateMipmapEXT except they use the
-    texture specified by the named texture or specified texture unit
-    respectively.  The target parameter must be a token accepted by
-    GenerateMipmapEXT.
-
-    If GenerateTextureMipmapEXT's texture parameter is for an unused
-    name, the name becomes used and the named texture object is set
-    to a new state vector, comprising all the state values listed in
-    section 3.8.11, set to the same initial values prior to the command's
-    state update.  If the texture parameter is for a used name and that
-    named texture object has a different target than the specified target
-    parameter, the INVALID_OPERATION error is generated."
-
-    Added to section 5.4, as part of the discussion of which commands
-    are not compiled into display lists:
-
-    "Certain commands, when called while compiling a display list, are not
-    compiled into the display list but are executed immediately.  These
-    are: ..., CheckNamedFramebufferStatusEXT, NamedRenderbufferStorageEXT,
-    NamedFramebufferTexture1DEXT, NamedFramebufferTexture2DEXT,
-    NamedFramebufferTexture3DEXT, NamedFramebufferRenderbufferEXT,
-    GenerateTextureMipmapEXT, GenerateMultiTexMipmapEXT..."
-
-Interactions with the EXT_texture_integer specification
-
-    If EXT_texture_integer is NOT supported, ignore the support
-    for TextureParameterIivEXT, TextureParameterIuivEXT,
-    GetTextureParameterIivEXT, GetTextureParameterIuivEXT,
-    MultiTexParameterIivEXT, MultiTexParameterIuivEXT,
-    GetMultiTexParameterIivEXT, and GetMultiTexParameterIuivEXT.
+    If NEITHER OpenGL 3.0 nor EXT_texture_integer are supported, ignore
+    the support for TextureParameterIivARB, TextureParameterIuivARB,
+    GetTextureParameterIivARB, GetTextureParameterIuivARB,
+    MultiTexParameterIivARB, MultiTexParameterIuivARB,
+    GetMultiTexParameterIivARB, and GetMultiTexParameterIuivARB.
 
 Interactions with the EXT_texture_buffer_object specification
 
     If EXT_texture_buffer_object is NOT supported, ignore the support
-    for TextureBufferEXT and MultiTexBufferEXT.
+    for TextureBufferARB and MultiTexBufferARB.
 
-Interactions with APPLE_vertex_array_object
+Interactions with OpenGL 3.0 or the APPLE_vertex_array_object
 
-    If APPLE_vertex_array_object is supported, then ClientAttribDefaultEXT
-    also sets the VERTEX_ARRAY_BINDING_APPLE vertex-array state to zero
-    if the mask parameter has CLIENT_VERTEX_ARRAY_BIT set.
+    If NEITHER OpenGL 3.0 nor EXT_texture_integer are supported, ignore XXX
 
-    This means PushClientAttribDefaultEXT also sets the
+    If either OpenGL 3.0 or APPLE_vertex_array_object is supported, then
+    ClientAttribDefaultARB also sets the VERTEX_ARRAY_BINDING vertex-array
+    state to zero if the mask parameter has CLIENT_VERTEX_ARRAY_BIT set.
+
+    This means PushClientAttribDefaultARB also sets the
     VERTEX_ARRAY_BINDING_APPLE vertex-array state to zero after pushing
     the client state.  if the mask parameter has CLIENT_VERTEX_ARRAY_BIT
     set.
@@ -2364,42 +2686,57 @@ Interactions with APPLE_vertex_array_object
 Interactions with EXT_geometry_shader4 or NV_gpu_program4
 
     If both EXT_geometry_shader4 and NV_gpu_program4 are NOT
-    supported, ignore the support for NamedFramebufferTextureEXT,
-    NamedFramebufferTextureLayerEXT, and NamedFramebufferTextureFaceEXT.
+    supported, ignore the support for NamedFramebufferTextureARB,
+    NamedFramebufferTextureLayerARB, and NamedFramebufferTextureFaceARB.
 
-Interactions with EXT_framebuffer_blit
+Interactions with OpenGL 3.0 or EXT_framebuffer_blit
 
-    If EXT_framebuffer_blit is NOT supported, ignore the references to
-    DRAW_FRAMEBUFFER_EXT and READ_FRAMEBUFFER_EXT in the discussion of
-    CheckNamedFramebufferStatusEXT and do not allow these tokens for
-    the command's target parameter.
+    If NEITHER OpenGL 3.0 nor EXT_framebuffer_blit are supported,
+    ignore the references to DRAW_FRAMEBUFFER and READ_FRAMEBUFFER in
+    the discussion of CheckNamedFramebufferStatusARB and do not allow
+    these tokens for the command's target parameter.
 
-Interactions with EXT_framebuffer_multisample
+Interactions with OpenGL 3.0 or EXT_framebuffer_multisample
 
-    If EXT_framebuffer_multisample is NOT supported, ignore the support
-    for NamedRenderbufferStorageMultisampleEXT.
+    If NEITHER OpenGL 3.0 or EXT_framebuffer_multisample are supported,
+    ignore the support for NamedRenderbufferStorageMultisampleARB.
 
 Interactions with NV_framebuffer_multisample_coverage
 
     If NV_framebuffer_multisample_coverage is NOT supported, ignore the
-    support for NamedRenderbufferStorageMultisampleCoverageEXT.
+    support for NamedRenderbufferStorageMultisampleCoverageARB.
 
 Interactions with the NV_explicit_multisample specification
 
     If NV_explicit_multisample is NOT supported, ignore the
-    support for TextureRenderbufferEXT, MultiTexRenderbufferEXT,
+    support for TextureRenderbufferARB, MultiTexRenderbufferARB,
     TEXTURE_BINDING_RENDERBUFFER_NV,
     and TEXTURE_RENDERBUFFER_DATA_STORE_BINDING_NV.
-
-Interactions with the EXT_texture_array specification
-
-    If EXT_texture_array is NOT supported, ignore the support for
-    TEXTURE_BINDING_1D_ARRAY_EXT and TEXTURE_BINDING_2D_ARRAY_EXT.
 
 Interactions with the NV_texture_cube_map_array specification
 
     If NV_texture_cube_map_array is NOT supported, ignore the support
     for TEXTURE_BINDING_CUBE_MAP_ARRAY_NV.
+
+Interactions with OpenGL 3.0
+
+    If OpenGL 3.0 is NOT supported, ignore the support for
+    EnableClientStateiEXT, DisableClientStateiEXT, GetFloati_vEXT,
+    GetDoublei_vEXT, GetPointeri_vEXT, VertexArrayVertexOffsetEXT,
+    VertexArrayColorOffsetEXT, VertexArrayEdgeFlagOffsetEXT,
+    VertexArrayIndexOffsetEXT, VertexArrayNormalOffsetEXT,
+    VertexArrayTexCoordOffsetEXT, VertexArrayMultiTexCoordOffsetEXT,
+    VertexArrayFogCoordOffsetEXT, VertexArraySecondaryColorOffsetEXT,
+    VertexArrayVertexAttribOffsetEXT,
+    VertexArrayVertexAttribIOffsetEXT, EnableVertexArrayEXT,
+    DisableVertexArrayEXT, EnableVertexArrayAttribEXT,
+    DisableVertexArrayAttribEXT, GetVertexArrayIntegervEXT,
+    GetVertexArrayPointervEXT, GetVertexArrayVertexAttribParameterivEXT,
+    GetVertexArrayVertexAttribPointervEXT, MapNamedBufferRangeEXT,
+    and FlushMappedNamedBufferRangeEXT.
+
+    If OpenGL 3.0 is NOT supported, ignore references to Enablei,
+    Disablei, IsEnabledi, GetBooleani_v, and GetIntegeri_v.
 
 Additions to the AGL/GLX/WGL Specifications
 
@@ -2613,18 +2950,18 @@ Errors
     does not exist.
 
     INVALID_OPERATION is generated by MultiTexCoordPointerEXT,
-    MultiTexEnvfEXT, MultiTexEnvfvEXT, MultiTexEnviEXT, MultiTexEnvivEXT,
-    MultiTexGendEXT, MultiTexGendvEXT, MultiTexGenfEXT, MultiTexGenfvEXT,
-    MultiTexGeniEXT, MultiTexGenivEXT, MultiTexParameteriEXT,
-    MultiTexParameterivEXT, MultiTexParameterfEXT, MultiTexParameterfvEXT,
-    MultiTexParameterIivEXT, MultiTexParameterIuivEXT,
-    MultiTexImage1DEXT, MultiTexImage2DEXT, MultiTexSubImage1DEXT,
-    MultiTexSubImage2DEXT, CopyMultiTexImage1DEXT, CopyMultiTexImage2DEXT,
-    CopyMultiTexSubImage1DEXT, CopyMultiTexSubImage2DEXT,
-    MultiTexImage3DEXT, MultiTexSubImage3DEXT, CopyMultiTexSubImage3DEXT,
-    MultiTexBufferEXT, GetMultiTexEnvfvEXT, GetMultiTexEnvivEXT,
-    GetMultiTexGendvEXT, GetMultiTexGenfvEXT, GetMultiTexGenivEXT,
-    GetMultiTexImageEXT, GetMultiTexParameterfvEXT,
+    VertexArrayMultiTexCoordOffsetEXT, MultiTexEnvfEXT, MultiTexEnvfvEXT,
+    MultiTexEnviEXT, MultiTexEnvivEXT, MultiTexGendEXT, MultiTexGendvEXT,
+    MultiTexGenfEXT, MultiTexGenfvEXT, MultiTexGeniEXT, MultiTexGenivEXT,
+    MultiTexParameteriEXT, MultiTexParameterivEXT, MultiTexParameterfEXT,
+    MultiTexParameterfvEXT, MultiTexParameterIivEXT,
+    MultiTexParameterIuivEXT, MultiTexImage1DEXT, MultiTexImage2DEXT,
+    MultiTexSubImage1DEXT, MultiTexSubImage2DEXT, CopyMultiTexImage1DEXT,
+    CopyMultiTexImage2DEXT, CopyMultiTexSubImage1DEXT,
+    CopyMultiTexSubImage2DEXT, MultiTexImage3DEXT, MultiTexSubImage3DEXT,
+    CopyMultiTexSubImage3DEXT, MultiTexBufferEXT, GetMultiTexEnvfvEXT,
+    GetMultiTexEnvivEXT, GetMultiTexGendvEXT, GetMultiTexGenfvEXT,
+    GetMultiTexGenivEXT, GetMultiTexImageEXT, GetMultiTexParameterfvEXT,
     GetMultiTexParameterivEXT, GetMultiTexParameterIivEXT,
     GetMultiTexParameterIuivEXT, GetMultiTexLevelParameterivEXT,
     GetMultiTexLevelParameterfvEXT, and GetCompressedMultiTexImageEXT if
@@ -2652,6 +2989,37 @@ New Implementation Dependent State
     None.
 
 Issues
+
+    (0) What is changed from version 1.0 to version 1.1 of this extension
+        to support OpenGL 3.0?
+
+        RESOLVED:  Changes are primarily cosmetic except the addition
+        of API for selector-free access to vertex array objects since
+        that functionality is part of OpenGL 3.0:
+
+        1) Update all references to section numbering to OpenGL 3.0
+        section numbers.
+
+        2) Where EXT extensions have become part of OpenGL 3.0, refer
+        to the functionality as part of OpenGL 3.0 rather than by
+        extension name.
+
+        3) New selector-free API for vertex buffer objects since these
+        were introduced by OpenGL 3.0.  The EXT version specified
+        a necessary glClientAttribDefaultEXT interaction with
+        APPLE_vertex_buffer_object but didn't provide an selector-free
+        API for vertex buffer objects.
+
+        4) Add new selector-free API for fine control over mapping
+        buffer subranges into client space (glMapNamedBufferRangeEXT)
+        and flushing modified data (glFlushMappedNamedBufferRangeEXT).
+
+        5) Add OpenGL 3.0-style aliases for the version 1.0 commands
+        and queries that have "Indexed" in the name.  OpenGL 3.0 has a
+        convention where an "i" indexed indexed commands and queries.
+        For example, glGetFloati_v and glGetFloatIndexedvEXT are
+        identical queries.  Likewise glEnableClientStateIndexedEXT and
+        glEnableClientStateiEXT are identical commands.
 
     (1) What should this extension be called?
 
@@ -2775,6 +3143,11 @@ Issues
         glGetIntegerIndexedvEXT, glGetFloatIndexedvEXT,
         glGetDoubleIndexedvEXT, glGetBooleanIndexedvEXT, and
         glIsEnabledIndexedEXT.
+
+        OpenGL 3.0 introduced a new naming convention for indexed
+        state enables and queries so glGetIntegeri_v, glGetFloati_vEXT,
+        glGetDoublei_vEXT, and glGetBooleani_v, glIsEnabledi operate
+        identically respectively to the prior indexed query list.
 
         Selector-less buffer object commands all start with glNamedBuffer
         or glGetNamedBuffer.
@@ -2923,10 +3296,10 @@ Issues
         (hence "Texture" instead of "Tex" used for texture unit-based
         commands) as well as a texture unit parameter.
 
-    (8) Should glGetIntegerIndexedv, glIsEnabledIndexed, etc. work of
-        all query tokens or just query tokens for indexed state such as
-        query tokens where the active texture or client active texture
-        apply?
+    (8) Should glGetIntegeri_v, glGetIntegerIndexedvEXT, glIsEnabledi,
+        glIsEnabledIndexedEXT, etc. work of all query tokens or just
+        query tokens for indexed state such as query tokens where the
+        active texture or client active texture apply?
 
         RESOLVED: Just for query tokens for indexed state.
 
@@ -2944,9 +3317,9 @@ Issues
             GL_CURRENT_RASTER_TEXTURE_COORDS
             GL_CURRENT_TEXTURE_COORDS
             GL_TEXTURE_BINDING_1D
-            GL_TEXTURE_BINDING_1D_ARRAY_EXT
+            GL_TEXTURE_BINDING_1D_ARRAY
             GL_TEXTURE_BINDING_2D
-            GL_TEXTURE_BINDING_2D_ARRAY_EXT
+            GL_TEXTURE_BINDING_2D_ARRAY
             GL_TEXTURE_BINDING_3D
             GL_TEXTURE_BINDING_BUFFER_EXT
             GL_TEXTURE_BINDING_CUBE_MAP
@@ -2968,14 +3341,20 @@ Issues
             GL_TEXTURE_MATRIX
             GL_TEXTURE_STACK_DEPTH
             GL_TRANSPOSE_TEXTURE_MATRIX
+            GL_TEXTURE_1D
+            GL_TEXTURE_2D
+            GL_TEXTURE_3D
+            GL_TEXTURE_CUBE_MAP
+            GL_TEXTURE_RECTANGLE_ARB
 
         For EXT_draw_buffers2 or EXT_transform_feedback queries, the
         index refers to the draw buffer or transform feedback buffer
         appropriately.
 
-    (9) Why does the equivalent code for glGetIntegerIndexedv,
-        glIsEnabledIndexed, etc. save and restore both the active texture
-        and client active texture state?
+    (9) Why does the equivalent code for glGetIntegeri_v,
+        glGetIntegerIndexedvEXT, glIsEnabledi, glIsEnabledIndexedEXT,
+        etc. save and restore the active texture and client active
+        texture state appropriately?
 
         RESOLVED:  Most query tokens use the active texture but some
         (those starting with GL_TEXTURE_COORD_ARRAY involving vertex
@@ -2985,9 +3364,8 @@ Issues
         enable/disable client state that would be better enabled/disabled
         with glEnableClientState/glDisableClientState.
 
-        For ease of specification, the equivalent code does not make
-        any distinction and saves and restores both the active texture
-        and client active texture selectors.
+        The appropriate selector (active texture or client active texture)
+        is saved or restored based on the query target.
 
    (10) Can these selector-free state update commands be compiled into
         display lists?
@@ -3145,30 +3523,35 @@ Issues
         glClientAttribDefaultEXT(GL_CLIENT_VERTEX_ARRAY_BIT) for this
         reason.
 
-   (16) Should glGetFloatIndexedv and glGetDoubleIndexedv return values
-        for non-texture state parameters similar to the parameters
-        that work for glGetIntegerIndexedv and glGetBooleanIndexedv
+   (16) Should glGetFloatIndexedvEXT and glGetDoubleIndexedvEXT return
+        values for non-texture state parameters similar to the parameters
+        that work for glGetIntegerIndexedvEXT and glGetBooleanIndexedvEXT
         that EXT_draw_buffers2, EXT_transform_feedback, and
         NV_transform_feedback support?
 
-        RESOLVED:  glGetFloatIndexedv and glGetDoubleIndexedv
-        should accept without error parameter tokens supported by
-        glGetIntegerIndexedv and glGetBooleanIndexedv through
-        the EXT_draw_buffers2, EXT_transform_feedback, and
-        NV_transform_feedback extensions.  In these cases, GLfloat
-        or GLdouble values respectively of the indexed state should
-        be returned.
+        RESOLVED:  glGetFloatIndexedvEXT and glGetDoubleIndexedvEXT
+        should accept without error parameter tokens supported
+        by glGetIntegerIndexedvEXT and glGetBooleanIndexedvEXT
+        through the EXT_draw_buffers2, EXT_transform_feedback, and
+        NV_transform_feedback extensions.  In these cases, GLfloat or
+        GLdouble values respectively of the indexed state should be
+        returned.
 
         The EXT_draw_buffers2 extension specifically considered adding
-        glGetFloatIndexedv and glGetDoubleIndexedv queries but left them
-        out since none of the indexed state introduced was floating-point.
-        This extension adds floating-point indexed state and so adds
-        glGetFloatIndexedv and glGetDoubleIndexedv and thereby enhances
-        the functionality of these unrelated extensions supporting
-        glGetIndexedv, etc.  by introducing glGetFloatIndexedv and
-        glGetDoubleIndexedv and expecting them to operate consistently
-        with glGetIntegerIndexedv except returning GLfloat and GLdouble
-        versions of the queried state respectively.
+        glGetFloatIndexedvEXT and glGetDoubleIndexedvEXT queries but
+        left them out since none of the indexed state introduced was
+        floating-point.  This extension adds floating-point indexed state
+        and so adds glGetFloatIndexedvEXT and glGetDoubleIndexedvEXT
+        and thereby enhances the functionality of these unrelated
+        extensions supporting glGetIndexedv, etc. by introducing
+        glGetFloatIndexedvEXT and glGetDoubleIndexedvEXT and expecting
+        them to operate consistently with glGetIntegerIndexedvEXT except
+        returning GLfloat and GLdouble versions of the queried state
+        respectively.
+
+        Following the OpenGL 3.0 function naming convention for indexed
+        state, version 1.1 of this specification adds glGetFloati_vEXT
+        and glGetDoublei_vEXT queries.
 
    (17) Should there be a selector-free way to query the "program"
         matrices introduced by ARB_vertex_program?
@@ -3176,8 +3559,8 @@ Issues
         RESOLVED:  Yes.  The GL_PROGRAM_MATRIX_EXT,
         GL_TRANSPOSE_PROGRAM_MATRIX_EXT, and
         GL_PROGRAM_MATRIX_STACK_DEPTH_EXT tokens supported by
-        glGetFloatIndexedv, etc. query the program matrices specified
-        by GL_MATRIX0_ARB, etc.
+        glGetFloati_vEXT, glGetFloatIndexedvEXT, etc. query the program
+        matrices specified by GL_MATRIX0_ARB, etc.
 
         The ARB_vertex_program (and NV_vertex_program) introduced the
         GL_CURRENT_MATRIX_ARB, GL_TRANSPOSE_CURRENT_MATRIX_ARB, and
@@ -3347,7 +3730,7 @@ Issues
 
             thread A:
                 glBindMultiTextureEXT(GL_TEXTURE1, GL_TEXTURE_2D, 23);
-                glEnableIndexedEXT(GL_TEXTURE_2D, 1);
+                glEnablei(GL_TEXTURE_2D, 1);
                 glTextureParameterivEXT(23, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                 glDrawElements(...); // first render
                 glTextureParameterivEXT(23, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -3374,7 +3757,7 @@ Issues
 
             thread A:
                 glBindMultiTextureEXT(GL_TEXTURE1, GL_TEXTURE_2D, 23);
-                glEnableIndexedEXT(GL_TEXTURE_2D, 1);
+                glEnablei(GL_TEXTURE_2D, 1);
                 glTextureParameterivEXT(23, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             thread B:
                 glTextureParameterivEXT(23, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -3423,8 +3806,8 @@ Issues
         buffer while buffers themselves do not have a target type so the
         target is relevant for binding buffers, but not accessing buffers.
 
-        The only legal values for target or RENDERBUFFER_EXT and
-        FRAMEBUFFER_EXT respectively so there is really one type of
+        The only legal values for target or RENDERBUFFER and
+        FRAMEBUFFER respectively so there is really one type of
         renderbuffer and framebuffer respectively.
 
         The target parameter could be used by future extensions but
@@ -3445,23 +3828,23 @@ Issues
         RESOLVED:  The target parameter determines whether the status
         check is for reading or drawing.
 
-        The EXT_framebuffer_blit extension introduces
-        GL_DRAW_FRAMEBUFFER_EXT and GL_READ_FRAMEBUFFER_EXT targets.
-        A framebuffer object may be supported for drawing but perhaps not
-        reading (or vice versa).  glCheckNamedFramebufferStatusEXT uses
-        its target parameter to determine whether the check is for
+        OpenGL 3.0 (by incorporating the EXT_framebuffer_blit extension)
+        introduces GL_DRAW_FRAMEBUFFER and GL_READ_FRAMEBUFFER targets.
+        A framebuffer object may be supported for drawing but perhaps
+        not reading (or vice versa).  glCheckNamedFramebufferStatusEXT
+        uses its target parameter to determine whether the check is for
         reading or writing.
 
-        Because glCheckFramebufferStatusEXT allows for "an
+        Because glCheckFramebufferStatus allows for "an
         implementation-dependent set of restrictions" for
-        which GL_FRAMEBUFFER_UNSUPPORTED_EXT may be returned,
+        which GL_FRAMEBUFFER_UNSUPPORTED may be returned,
         it is possible for glCheckNamedFramebufferStatusEXT
-        to return GL_FRAMEBUFFER_COMPLETE_EXT when binding to
-        the framebuffer object with glBindFramebufferEXT and
-        then calling glCheckFramebufferStatusEXT may generate
-        GL_FRAMEBUFFER_COMPLETE_EXT may be returned, it is possible
+        to return GL_FRAMEBUFFER_COMPLETE when binding to
+        the framebuffer object with glBindFramebuffer and
+        then calling glCheckFramebufferStatus may generate
+        GL_FRAMEBUFFER_COMPLETE may be returned, it is possible
         for glCheckNamedFramebufferStatusEXT could return still return
-        GL_FRAMEBUFFER_UNSUPPORTED_EXT.
+        GL_FRAMEBUFFER_UNSUPPORTED.
 
         Despite this allowance, the intent here however is that an
         application should be able to create a framebuffer object and
@@ -3493,21 +3876,21 @@ Issues
         are really derived state value and depends on the status of a
         framebuffer object bind.
 
-        EXT_framebuffer_object describes per-framebuffer object state
-        in its tables 4.nnn and 9.nnn.  EXT_framebuffer_object allows
-        this state to be queried with glGetIntegerv, etc. based on the
-        current framebuffer object binding (a selector).  The
-        glGetFramebufferParameterivEXT command queries table 4.nnn
-        state, but not table 9.nnn state.
+        OpenGL 3.0 (by incorporating the EXT_framebuffer_object)
+        describes per-framebuffer object state in its tables 4.nnn
+        and 9.nnn.  The framebuffer object API allows this state to be
+        queried with glGetIntegerv, etc. based on the current framebuffer
+        object binding (a selector).  The glGetFramebufferParameteriv
+        command queries table 4.nnn state, but not table 9.nnn state.
 
         Issue #25 in the EXT_framebuffer_object specification is relevant
         here.  Issue #25 (the issue could be more clear...) indicates
         that zero may be returned if a given buffer is not attached
         (the case where the framebuffer object is inconsistent).
 
-        The GL_FRAMEBUFFER_UNSUPPORTED_EXT status can occur due to "an
+        The GL_FRAMEBUFFER_UNSUPPORTED status can occur due to "an
         implementation-dependent set of restrictions".  Presumably these
-        restrictions might not be evaluated until glBindFramebufferEXT
+        restrictions might not be evaluated until glBindFramebuffer
         time.  This blanket "didn't work" status means the appropriate
         per-framebuffer state may not be determined without binding to
         the framebuffer object.
@@ -3515,7 +3898,7 @@ Issues
         A future revision of this specification (such as its integration
         into an FBO-enabled core specification) may wish to reconsider
         this issue and add table 9.nnn state to the state queriable by
-        glGetFramebufferParameterivEXT.
+        glGetFramebufferParameteriv.
 
         If so, there should also be a query
         glGetFramebufferMultisamplefvEXT for NV_explicit_multisample
@@ -3525,14 +3908,14 @@ Issues
                                                 enum pname, uint index,
                                                 float *val);
 
-   (25) Should the selector-free versions of various
-        EXT_framebuffer_object commands not be allowed in display lists
-        when the selector-based versions are specified to not be compiled
-        into display lists?
+   (25) Should the selector-free versions of various OpenGL 3.0 and
+        EXT_framebuffer_object framebuffer object commands not be allowed
+        in display lists when the selector-based versions are specified
+        to not be compiled into display lists?
 
         RESOLVED:  Yes, keep this same restriction.
 
-        It is unfortunate that commands such as glGenerateMipmapEXT
+        It is unfortunate that commands such as glGenerateMipmap
         are explicitly specified to not be compiled into display lists;
         this extension simply retains these same restrictions.
 
@@ -3578,28 +3961,22 @@ Issues
         despite an error in the subsequent state-setting command or
         state-querying query.
 
-   (27) What feedback has Id Software given on this extension?
+   (27) How many entry points are introduced?
 
-        John Carmack:  "This should have happened a long time ago."
-
-        Cass Everitt:  "It's a lot of entry points.  Can this be put
-        into numerical terms?"
-
-        This extension adds just 3 tokens but specifies 192 functions.
+        This extension adds just 3 tokens but specifies 214 functions
+        (192 for version 1.0 plus 22 for OpenGL 3.0 support added by
+        version 1.1).
 
         Technically 5 of these functions were previously introduced by
-        EXT_draw_buffers2.
+        EXT_draw_buffers2 and are now part of OpenGL 3.0.
 
-        Of the 192 total, 58 functions are added to support non-core
-        extensions;  134 functions extend the "core" OpenGL 2.1 API.
-
-        OpenGL 2.1 contains 583 functions.  So the OpenGL 2.1 subset
-        of EXT_direct_state_access is +22% more functions beyond OpenGL
-        2.1's function set.
+        OpenGL 2.1 and 3.0 contains 583 and 666 functions respectively.
+        So the OpenGL 2.1 subset of EXT_direct_state_access is +22%
+        more functions beyond OpenGL 2.1's function set.
 
         By comparison, OpenGL 2.0 added 93 functions (primarily for GLSL
         support) to OpenGL 1.5's 484 functions, a +19% increase in the
-        function set.
+        function set.  OpenGL 3.0 added 83 new functions.
 
         OpenGL's immediate mode API function count is considerably
         larger than the number of EXT_direct_state_access functions.
@@ -3617,6 +3994,93 @@ Issues
         supporting EXT_direct_state_access compared to the same
         driver without EXT_direct_state_access supported compiled in.
         The EXT_direct_state_access driver is +2.5% larger.
+
+   (28) How should vertex array objects be supported?
+
+        RESOLVED:  The EXT version of this specification didn't provide
+        interactions with the glVertexArrayBindAPPLE selector introduced
+        by the APPLE_vertex_buffer_object extension.  Now that this
+        extension is incorporated into OpenGL 3.0, it makes sense for
+        an ARB extension to incorporate selector-free support for vertex
+        buffer objects.
+
+        Selector-free versions of the vertex array specification commands
+        are of the form (using glColorPointer as an example):
+
+            void glVertexArrayColorOffsetEXT(uint vaobj, uint buffer,
+                                             int size, enum type, sizei stride,
+                                             intptr offset);
+
+        There are two initial parameter for both the vertex array
+        object selector (vaobj) and the latched buffer state (buffer).
+
+        The vaobj parameter is needed for the commands to be
+        selector-free.  The latched buffer is an explicit parameter to
+        avoid having disturb the GL_ARRAY_BUFFER selector.
+
+        (While using glPushClientAttribDefaultEXT/glPopClientAttrib
+        works to avoid disturbing latched client vertex array buffer
+        binding state--ignoring client attrib stack overflows--that
+        approach doesn't work for vertex array objects because
+        glPushClientAttribDefaultARB/glPopClientAttrib would default all
+        the initial values of the currently bound vertex array object.)
+
+        Also the last "const GLvoid * pointer" parameter is changed to
+        an "intptr offset" parameter.  This change reflects the more
+        encouraged and generally more efficient usage of pulling vertex
+        arrays from vertex buffer objects.  This usage avoids having to
+        always cast an offset to a pointer.
+
+        Because the GLintptr type has the same sizeof as a pointer,
+        applications seeking to pass pointers with a zero value for the
+        buffer parameter can do so by casting their pointer to a GLintptr.
+        Example:
+
+            static GLfloat colors[3*20];
+            glVertexArrayColorOffsetEXT(27, /*client-state*/0,
+                                        3, GL_FLOAT, 12, (GLintptr)colors);
+
+        Also added are selector-free vertex array object enable/disable
+        commands and queries.  The queries return GLintptr values to
+        make sure pointers as well as offsets can be returned.
+
+   (29) How should vertex array object queries be supported?
+
+        RESOLVED:  Provide both glGetVertexArray*Parameteriv and
+        glGetVertexArray*Pointerv queries.
+
+        Rather than providing both integer and pointer queries, it is
+        tempting to provide just a query accepting a GLintptr pointer.
+        But that's a likely pitfall for 64-bit coding.  Someone coding for
+        32-bit could pass a GLint* without complaint from the compiler
+        since both GLint* and GLintptr* are pointers to a 32-bit value,
+        but in a 64-bit compilation environment, GLintptr* is a pointer
+        to a 64-bit value.  While 64-bit compilers are likely to error
+        (or at least warn) about this situation, a GLintptr* is likely
+        to encourage 64-bit portability problems.  Having both a pointer
+        and integer query avoids this problem.
+
+   (30) What should happen when a negative offset is passed to the
+        glVertexArray*OffsetEXT routines?
+
+        RESOLVED:  When the buffer is non-zero, the offset really should
+        be a positive value so generate an GL_INVALID_VALUE if a negative
+        offset is passed to these routines when buffer is non-zero.
+        When the buffer is non-negative, the GLintptr offset parameter
+        will be treated as a pointer; in this case, there should be
+        no check for negative values of the offset parameter since the
+        negative parameter could, in fact, be a valid pointer.
+
+        This raises the interesting point as to whether the several
+        core OpenGL buffer API commands such as glBufferSubData,
+        glMapBufferRange, and glFlushMappedBufferRange should actually
+        have a type of GLsizeiptr for their offset parameter.  Doing so
+        would simplify the language in section 2.9 (Buffer Object) by
+        eliminating the need to document GL_INVALID_OFFSET errors for
+        negative offset parameters.  Such a change could be made in a
+        compatible way because GLintptr and GLsizeiptr are typedef'ed
+        to the same underlying type (a signed int of the same size in
+        bytes as a pointer).
 
 Revision History
 
@@ -3658,3 +4122,25 @@ Revision History
                               add EXT_texture_array and
                               NV_texture_cube_map_array interactions
      22   07/15/08  mjk       Just typos
+     23   11/05/08  mjk       Destineer support
+     24   11/05/08  mjk       Destineer support
+     25   12/15/08  mjk       Version 1.1 adds OpenGL 3.0 support
+     26   12/19/08  mjk       Fix VertexArrayVertexOffsetEXT duplicate
+                              entry point; eliminated version missing stride
+     27   12/22/08  mjk       NamedRenderbufferStorageEXT shouldn't have
+                              target parameter
+     28   12/23/08  mjk       Fixed various "index" functions for 3.0
+     29   01/12/09  mjk       Add error for negative offsets for
+                              glVertexArray*Offset commands when buffer
+                              parameter is non-zero
+     30   01/26/09  mjk       Correct glPopClientAttrib usage
+     31   02/17/09  mjk       Add glVertexArrayMultiTexCoordOffsetEXT
+                              New names: GetVertexArrayIntegeri_vEXT,
+                              GetVertexArrayIntegervEXT,
+                              GetVertexArrayPointeri_vEXT
+     32   03/13/09  groth     Add EXT_copy_buffer interaction
+     33   06/10/09  mjk       add VertexArrayMultiTexCoordOffsetEXT to
+                              list of errors for exceeding the maximum
+                              texture image units
+     34   09/07/10  mjk       some Get*Indexedv instanced needed EXT
+                              suffixes; issue 27 update

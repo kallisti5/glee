@@ -21,8 +21,8 @@ Status
 
 Version
     
-    Last Modified Date: August 7, 2008
-    Author Revision: 3
+    Last Modified Date: May 28, 2009
+    Author Revision: 6
 
 Number
 
@@ -104,18 +104,34 @@ New Tokens
         RG32I                   0x823B
         RG32UI                  0x823C
 
+        RED                     0x1903
+        RG                      0x8227
+
+        COMPRESSED_RED          0x8225
+        COMPRESSED_RG           0x8226
+
     Accepted by the <format> parameter of TexImage3D, TexImage2D,
     TexImage3D, TexSubImage1D, TexSubImage2D, TexSubImage3D,
-    DrawPixels and ReadPixels: 
+    and ReadPixels: 
 
         RG                      0x8227
         RG_INTEGER              0x8228
 
+    Accepted by the <format> parameter of DrawPixels:
+
+        RG                      0x8227
+
     Accepted by the <param> parameter of the TexParameter{if}* 
     functions when <pname> is DEPTH_TEXTURE_MODE:
 
-        RED                         0x1903
+        RED                     0x1903
         
+    Accepted by the <format> parameter of GetTexImage:
+
+        RG                      0x8227
+        RG_INTEGER              0x8228
+
+
 New Procedures and Functions
     
     None
@@ -125,6 +141,14 @@ Additions to Chapter 2 of the OpenGL 2.1 Specification (OpenGL Operation)
     None
 
 Additions to Chapter 3 of the OpenGL 2.1 Specification (Rasterization)
+
+    Modify section 3.6.3 "Pixel Transfer Modes", the "Color Table Specification"
+    subsection and in the third paragraph of the definition of ColorTable modify
+    the last sentence to read: 
+    
+    "internalformat must be one of the formats in table 3.15 or table 3.16, 
+    with the exception of the RED, RG and DEPTH_COMPONENT base and sized 
+    internal formats."
 
     (Add the following to Table 3.6: "DrawPixels and ReadPixels formats", 
      as modified by EXT_texture_integer)
@@ -250,15 +274,21 @@ Additions to Chapter 6 of the OpenGL 2.1 Specification (State and State Requests
     second paragraph to read: 
 
     "Calling GetTexImage with a color format (one of RED, GREEN, BLUE, ALPHA,
-    RG, RGB, BGR, RGBA, BGRA, LUMINANCE, or LUMINANCE_ALPHA) when the base
-    internal format of the texture image is not a color format, ..."
+    RG, RGB, BGR, RGBA, BGRA, LUMINANCE, LUMINANCE_ALPHA, or one of the 
+    *_INTEGER variants) when the base internal format of the texture image is
+    not a color format; with a format of DEPTH_COMPONENT when the base internal
+    format is not DEPTH_COMPONENT or DEPTH_STENCIL; with a format of
+    DEPTH_STENCIL when the base internal format is not DEPTH_STENCIL; with an
+    *_INTEGER format when the base internal format is not one of the integral
+    types; or with non-integer format when the base internal is an integral
+    type, causes the error INVALID_OPERATION."
 
     (Add the following to Table 6.1: "Texture, table, and filter return values")
 
     Base Internal Format    R    G   B   A
-    --------------------   ---  --- --- ---
-    RED                    R_i   0   0   1 
-    RG                     R_i  G_i  0   1
+    --------------------  ---- ----- --- ---
+    RED                    R_i   0    0   1 
+    RG                     R_i   G_i  0   1
 
 Dependencies on EXT_packed_depth_stencil
     
@@ -293,7 +323,7 @@ Issues
     1) What should this extension be called? ARB_rg_formats, ARB_rg_texture,
        ARB_texture_rg, etc
 	
-	UNDECIDED. Using ARB_texture_rg for now.
+	DECIDED. Using ARB_texture_rg.
 
     2) Why use RED token used instead of just "R"? 
 	
@@ -318,8 +348,38 @@ Issues
         features, source code compatibility is improved by not using
         suffixes on the extension.
 
+     5) What are the default values for the unspecified channels if you sampled
+        from an R or RG texture?  Is it (r,0,0,1) or (r,1,1,1).  
+
+        CLARIFICATION: As per OpenGL defaults as specified in Table 3.20 
+        (as modified by this extension) the default values for unspecified
+        components are (r,0,0,1).  Note that this does differ from D3D where
+        unspecified values would be filled in as (r,1,1,1).
+     
+     6) Are the RG formats accepted by the imaging subset of functions?
+
+        RESOLUTION: NO. This extension does not add RG support to the functions
+        defined in the imaging subset (that is: [Get]Color[Sub]Table, 
+        [Get]ConvolutionFilter, [Get]SeparableFilter, GetHistogram, GetMinMax)
+        as it is felt that there is little benefit in doing so. This could be
+        added as a separate extension if desired.
+
 Revision History
     
+    #6 May 28, 2008, jleech
+        - Remove extraneous *_INTEGER formats from table 6.1
+    #5 April 8, 2008, dgkoch
+        - Address issues raised in Bug 4163
+          - clarify that RG_INTEGER is not allowed for DrawPixels
+          - added issue 6) and clarify that support for RED and RG formats
+            is not added to the imaging subset
+          - GetTexImage supports RG (but no conversion)
+    #4 November 14, 2008, dgkoch
+        - marked issue 1) as resolved.
+        - add issue 5) as clarification
+        - Better compatibility with GL 3.0 spec
+          - allow unsized RED and RG formats as internal formats (Bug 4161)
+          - add enums for COMPRESSED_RED/RG and allow as internal formats (Bug 4162)
     #3 August 7, 2008, jleech
         - Remove ARB suffixes.
     #2 June 9, 2008, dgkoch

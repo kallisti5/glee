@@ -364,8 +364,46 @@ Additions to the AGL/GLX/WGL Specifications
 
 GLX Protocol
 
-    TBD
+    The following rendering command is sent to the server as part of
+    a glXRender request:
 
+    SampleMaskIndexedNV
+
+        2      12              rendering command length
+        2      XXXX            rendering command opcode
+        4      CARD32          index
+        4      BITFIELD        mask
+
+    TexRenderbufferNV
+
+        2      12              rendering command length
+        2      XXXX            rendering command opcode
+        4      ENUM            target
+        4      CARD32          renderbuffer
+   
+        
+    The following new non-rendering commands are added:
+
+    GetMultisamplefvNV
+
+        1      CARD8           opcode(X assigned)                                    
+        1      XXX             GLX opcode
+        2      4               request length
+        4      GLX_CONTEXT_TAG context tag      
+        4      ENUM            pname
+        4      CARD32          index
+    =>  
+        1      1               reply
+        1                      unused
+        2      CARD16          sequence number
+        4      0               reply length
+        8                      unused
+        4      FLOAT32         val[0]
+        4      FLOAT32         val[1]
+        8                      unused
+  
+  
+       
 Dependencies on EXT_framebuffer_multisample
 
     If EXT_framebuffer_multisample is not available, all discussion involving

@@ -36,12 +36,11 @@ Status
 Version
 
     December 17, 2008 (version 1.2)
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_fence.txt#15 $
 
 Number
 
-    222
+    OpenGL Extension #222
+    OpenGL ES Extension #52
 
 Dependencies
 

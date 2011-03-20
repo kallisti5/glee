@@ -5,6 +5,7 @@ Name
 Name Strings
 
     GL_ARB_vertex_buffer_object
+    GLX_ARB_vertex_buffer_object
 
 Contributors
 
@@ -12,6 +13,8 @@ Contributors
     Bob Beretta
     Pat Brown
     Cass Everitt
+    Mandar Godse
+    James Jones
     John Kessenich
     Dale Kirkland
     Jon Leech
@@ -42,8 +45,8 @@ Status
 
 Version
 
-    Last Modified Date: November 4, 2006
-    Revision: 0.93
+    Last Modified Date: October 25, 2010
+    Revision: 0.99.6
 
 Number
 
@@ -58,6 +61,8 @@ Dependencies
     GL_ARB_vertex_program affects the definition of this extension.
 
     GL_EXT_vertex_shader affects the definition of this extension.
+
+    GLX_ARB_create_context affects the behavior of this extension.
 
 Overview
 
@@ -350,60 +355,6 @@ Issues
         control over virtual memory from graphics drivers; or where
         virtual address space is at a premium.
 
-    How does indirect rendering work?
-
-        It is not currently specified, but the basic planned outline is
-        as follows.
-
-        All of the object management commands -- Gen, Is, Delete -- go
-        to the server immediately with normal protocol.  So does Bind.
-        However, when someone does an implicit bind via one of the
-        pointer commands (e.g. VertexPointer), the server may not
-        necessarily be notified immediately of the new object bound to
-        the (in this case) VERTEX_ARRAY_BUFFER_BINDING.
-
-        BufferData and BufferSubData are sent over the wire just as
-        TexImage2D and TexSubImage2D, and GetBufferSubData does a round
-        trip, just like GetTexImage.  MapBuffer goes over the wire with
-        a request to map; the server replies to tell the client whether
-        the map succeeded or failed, and the client returns a pointer to
-        a system memory buffer in the event of success.  If the map is
-        readable, the server passes back the contents of the buffer,
-        while if the map is writeable, at Unmap time, the client passes
-        back the new contents.  Unmap would always return TRUE.
-
-        Both GetBufferParameteriv and GetBufferPointerv go to the server.
-
-        Whenever the application sources data from a buffer object,
-        several new protocols are defined to specify where to obtain the
-        data from.  One new command might be called "BindArray", which
-        would have arguments <array>, <buffer>, offset>, <type>, <size>,
-        <stride>, and <normalized>.  <array> might be VERTEX_ARRAY,
-        NORMAL_ARRAY, etc.  <buffer> would be the ID of the buffer
-        object to be used as source, or zero if no buffer object.
-        <offset> would be a 64-bit (?) integer.  <type>, <size>,
-        <stride>, and <normalized> would all be the same as the various
-        arguments to the *Pointer commands.  Another new command might
-        be "ArrayElementServer", which would dereference all arrays with
-        a nonzero <buffer> on the server side, just as if immediate mode
-        had been used.  If only some arrays were coming from buffer
-        objects and some from user memory, the client would dereference
-        the ones in user memory and pass them in as immediate mode
-        protocol.
-
-        If all arrays came from the server, additional optimized APIs
-        could be provided.  A "DrawArraysServer" and "DrawElementsServer"
-        would be cheaper than a sequence of "ArrayElementServer"
-        commands.  For indices coming from a buffer object, a
-        "DrawElementArrayServer" might be added.
-
-        At initialization time, the client and server would exchange a
-        handshake to see if the server can understand the client's
-        storage of the various GL data types.  It is expected that nearly
-        all clients and servers would use just two data type
-        representations, namely, "standard little endian with IEEE
-        floats" and "standard big endian with IEEE floats".
-
     Are any of these commands allowed inside Begin/End?
 
         RESOLVED: NO, with the possible exception of BindBuffer, which
@@ -686,6 +637,178 @@ Issues
           BindBufferARB(ARRAY_BUFFER_ARB, 2);
           // vertex array data still points to buffer 1
 
+    What happens when a single ArrayElement call within a large sequence of
+    ArrayElement calls specifies an element that is outside the range of the
+    bound buffer objects?
+
+        UNRESOLVED.  The three suggestions from the ARB meeting are to either
+        ignore just that ArrayElement call, set an error bit and ignore all
+        ArrayElement calls until End, or treat the ArrayElement call as
+        ArrayElement(0).
+
+    How should EnableClientState and DisableClientState be handled when using
+    indirect rendering?
+
+        RESOLVED:  EnableVertexAttribArray and DisableVertexAttribArray
+        commands are used to inform the server of new enable/disable state.
+
+    When using indirect rendering, how is DrawElements handled when the
+    element array is in a buffer object but one or more of the enabled arrays
+    are not?
+
+        RESOLVED:  There are two commands that can be used to implement
+        DrawElements and related calls.  If all of the data resides on the
+        server, the element pointer is set by using a BindBufferToArray
+        command with array set to ELEMENT_ARRAY_ATI.  This command is
+        followed by the appropriate EnableVertexAttribArray and
+        DisableVertexAttribArray calls, making sure to enable the element
+        array, and either a DrawElements call or a DrawRangeElements call.
+
+        If any arrays reside on the client, including the element array,
+        the sequence is essentially the same except the DrawRangeElements
+        protocol must be used.  If the element array resides on the
+        server, the client must issue a GetElementRange command to determine
+        the range of array data (and the values for 'start' and 'end') that
+        must be sent to the server.
+
+    Is a "provoke" flag needed in the ArrayElement command protocol to switch
+    between the case where the VERTEX_ARRAY is client-side vs. server-side?
+    
+        NO.  The server will know whether or not the ArrayElement command
+        will provoke a vertex because it knows whether or not a buffer object
+        is bound to VERTEX_ARRAY.
+
+    How does the server know which arrays with buffer objects bound are
+    enabled in ArrayElement?
+
+        RESOLVED:  The array bindings are configured using BindBuffer and
+        BindBufferToArray commands.  The arrays are enabled and disabled
+        using EnableVertexAttribArray and DisableVertexAttribArray.
+
+    Can't the server-side array bindings just be sent in a the ARRAY_INFO
+    when DrawArrays is called?
+    
+        NO.  The only way to do that would be to transmit the offset, type,
+        size, stride, etc. parameters and the buffer ID.  However, the buffer
+        may have been deleted in the meantime.  The binding information must
+        be sent when the pointer function (e.g., VertexPointer) is called.
+
+    What about byte-ordering?  The format of the data, and therefore what
+    byte-swapping may need to be done, is not know when the data is
+    uploaded to the server.  In fact, since it is legal (though probably
+    nonsensical) to have the same bytes in the buffer be used as multiple
+    datatypes, a single byte-ordering may not exist.  What happens when
+    two clients with different byte ordering share one buffer object?  Is
+    it valid to not expose the extension if the byte-ordering of the
+    client and server do not match?
+
+        RESOLVED:  It is the client's responsibility to convert buffer data
+        to and from the server's byte order.  Since only the client knows
+        the correct format of the data, and there may be multiple clients
+        with different byte orderings sharing a single buffer object, it is
+        unreasonable to ask the GL to handle buffer object byte-swapping.
+        To avoid errors caused by naive clients attempting to use buffer
+        objects without performing the appropriate byte swapping, clients
+        must opt in to buffer object support at context creation time using
+        the GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB context attrib.  
+        If this attribute is not specified and the byte ordering of the client
+        and server differ, the VBO extension must not be exposed and the
+        maximum context version that can be reported is 1.4.
+
+    Should Enable/DisableVertexAttribArray and VertexAttribPointer handle
+    both indexed and legacy arrays?
+
+        RESOLVED: Yes.  Send GL_NONE for <array> when referring to
+        indexed arrays.  For all other values of <array> except
+        GL_TEXTURE??, <index> is ignored.  For GL_TEXTURE??, see next
+        issue.
+
+    How is the client-side state client active texture, needed by
+    glTexCoordPointer, communicated to the server?
+
+        RESOLVED: Send the active texture index using the <index>
+        parameter normally used for indexed arrays.  The value of
+        <index> will be an offset from GL_TEXTURE0.
+
+        OTHER OPTIONS CONSIDERED: Add a separate parameter to 
+        VertexAttribPointer rather than alias the index parameter.
+        Only advantage is slightly improved clarity.
+
+        Add ClientActiveTexture protocol.  This would cause problems
+        because the active texture is client state.  If two GLX processes
+        were maintaining their own client state for one server-side
+        context, it would be hard to reliably keep the active texture
+        state in sync between the client and server.  It would need to be
+        tracked per client on the server.
+
+    How are Push/PopClientAttrib handled?
+
+        RESOLVED: Specify protocol for these commands.  Some state
+        affected by these commands needs to be duplicated in the server
+        now, so these operations need to be duplicated there as well.
+
+        OTHER OPTIONS CONSIDERED: Break the commands down into the
+        individual commands required to perform the operation and send the
+        appropriate protocol for those commands.  This is insufficient
+        because it could cause deleted buffer objects to be destroyed by
+        the server while they are still in use by a non-current entry in
+        the client's attribute stack.
+
+    How are integer arrays differentiated from floating point or fixed
+    point arrays?
+
+        RESOLVED: Added an "is_integer" boolean field to ARRAY_INFO and
+        VertexAttribPointer.
+
+    Is separate protocol needed for MapBuffer/UnmapBuffer?
+
+        RESOLVED: Yes.  Buffers can only be mapped once.  Buffers need
+        not be bound for the duration of their mapping, and whether a
+        buffer is mapped or not is server state, so to properly track
+        this state and generate related errors when there are multiple
+        clients sharing the same buffer object, protocol must be sent
+        to the server to duplicate the state there.
+
+    Should the MapBuffer/UnmapBuffer protocol handle transferring of
+    the buffer data when needed, or should implementations transfer the
+    data using the BufferSubData and GetBufferSubData protocol?
+
+        RESOLVED: Using the BufferSubData and GetBufferSubData protocol.
+        This simplifies the Map and Unmap protocol and allows
+        implementations to break up large data transfers into chunks.
+        For example, the buffer data may be larger than the maximum size
+        of a GLX single command.  Sending the data as part of the
+        UnmapBuffer protocol would fail, but sending it in one or more
+        BufferSubData commands would still be possible.  Implementations
+        should take care to retreive the data, if needed, before mapping
+        and send it back after unmapping.  This does not introduce race
+        conditions because it is already up to the application to ensure
+        proper mutexing of buffer object operations is done, and the
+        protocol will still all happen within one application-visible GL
+        command.
+
+    Should client array data sent to the server in DrawArraysNew and
+    DrawRangeElements be aligned?  Should individual arrays be separately
+    aligned?  Should the arrays be sent be sent in order of largest
+    element type to smallest?
+
+        RESOLVED: No.  The client shall send the data as one contiguous
+        array of bytes.  The server shall be responsible for aligning
+        the individual entries as they are extracted if such alignment
+        is needed.
+
+    EXT_vertex_array allows enabling/disabling vertex arrays with
+    Enable/Disable.  This state needs to be intercepted by the client
+    to properly manage buffer object state.  Should protocol for Enable
+    and Disable still be sent when these enums are used, or should the
+    EnableClientState/DisableClientState protocol be sent instead?
+
+        RESOLVED: Send the EnableClientState/DisableClientState protocol.
+        The server may need to take additional actions for these special
+        Enable/Disable enums.  Since the client already needs to
+        intercept and handle them specially, keep the protocol separate
+        for the server's benefit.
+
 New Procedures and Functions
 
     void BindBufferARB(enum target, uint buffer);
@@ -707,6 +830,11 @@ New Procedures and Functions
     void GetBufferPointervARB(enum target, enum pname, void **params);
 
 New Tokens
+
+    Accepted as an attribute name in the <attrib_list> parameter of
+    glXCreateContextAttribsARB:
+
+        GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB 0x2095
 
     Accepted by the <target> parameters of BindBufferARB, BufferDataARB,
     BufferSubDataARB, MapBufferARB, UnmapBufferARB,
@@ -1302,6 +1430,419 @@ New Implementation Dependent State
 
     (none)
 
+Additions to the GLX Specification
+
+    Add new section "2.X Buffer Objects" between sections "2.5 Texture Objects"
+    and "2.6 Aligning Multiple Drawables".
+
+    "Unformatted data may be stored in the OpenGL server using named buffer
+    objects.  The storage associated with a buffer object may be used as the
+    input or output of various commands by binding the buffer to a target
+    associated with the command.  For example, if a buffer object is bound to
+    the GL_ARRAY_BUFFER_ARB target before calling glVertexPointer vertex
+    data will be sourced from the buffer object's storage.
+
+    "Buffer objects may be shared by rendering contexts, as long as the server
+    portion of the contexts share the same address space.  (Like display lists
+    and texture objects, buffer objects are part of the server context state.)
+    OpenGL makes no attempt to synchronize access to buffer objects.  If a
+    buffer object is bound to more than one context, then it is up to the
+    programmer to ensure that the contents of the object are not being changed
+    via one context while another context is using the buffer object for
+    rendering.  The results of changing a buffer object while another context
+    is using it are undefined.
+
+    "A buffer object is considered to be bound to a context if it is either
+    currently bound to a particular target (e.g., most recently selected for a
+    target via glBindBufferARB) or if some portion of the buffer will be
+    accessed by a GL operation.  For example, a buffer object is considered
+    bound to a context if the most recent call of glVertexPointer was made
+    while the buffer object was bound to the GL_ARRAY_BUFFER_ARB target.
+
+    "As a result, any client-state that attaches the contents of a buffer object
+    to the GL state must be duplicated on the server.  At a minimum the
+    following client-state must be replicated on the server:
+
+        - All vertex array size, type, stride and pointer information.
+        - All vertex array enables.
+
+    "All modifications to shared context state as a result of executing
+    glBindBufferARB are atomic.  Also, a buffer object will not be deleted
+    until it is no longer bound to any rendering context."
+
+    If GLX_ARB_create_context is present, add the following between
+    paragraphs 8 and 9 of section 3.3.7 "Rendering Contexts":
+
+    "The attribute name GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB
+    specifies whether the application wishes to use buffer objects even
+    if the byte ordering of the client and server do not match.  If this
+    attribute is True the client is responsible for byte swapping any data
+    it stores in or reads from buffer objects.  If this attribute is False
+    and the client and server have different byte orderings, the server
+    will not expose any extensions that require buffer object support and
+    the maximum values allowed for GLX_CONTEXT_MAJOR_VERSION_ARB and
+    GLX_CONTEXT_MINOR_VERSION_ARB are 1 and 4 respectively.  The default
+    value for GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB is False."
+
+    Add to the following paragraph to the end of section 4.3:
+
+    "Because the GL views buffer objects as unformatted data, the above byte
+    swapping rules do not apply to them.  Data to be stored in buffer objects
+    must be byte swapped by the application to match the server's byte ordering
+    before the data is presented to the GL."
+
+GLX Protocol
+
+    The following rendering commands are sent to the server as part of a
+    glXRender request:
+
+        BindBufferARB
+            2           12              rendering command length
+            2           290             rendering command opcode
+            4           ENUM            target
+            4           CARD32          buffer
+
+        VertexAttribPointer
+            2           36              rendering command length
+            2           291             rendering command opcode
+            8           CARD64          offset
+            4           ENUM            array
+            4           CARD32          index
+            4           ENUM            type
+            4           CARD32          size
+            4           CARD32          stride
+            1           BOOL            is_integer
+            1           BOOL            normalized
+            2                           unused
+
+        EnableVertexAttribArray
+            2           12              rendering command length
+            2           292             rendering command opcode
+            4           ENUM            array
+            4           CARD32          index
+
+        DisableVertexAttribArray
+            2           12              rendering command length
+            2           293             rendering command opcode
+            4           ENUM            array
+            4           CARD32          index
+
+        ArrayElement
+            2           8               rendering command length
+            2           294             rendering command opcode
+            4           CARD32          index
+
+        DrawElements
+            2           24               rendering command length
+            2           295              rendering command opcode
+            8           CARD64           indices_offset
+            4           ENUM             mode (GL_POINTS, etc.)
+            4           CARD32           count
+            4           CARD32           type
+
+        PushClientAttrib
+            2           8                rendering command length
+            2           296              rendering command opcode
+            4           CARD32           mask
+
+        PopClientAttrib
+            2           4                rendering command length
+            2           297              rendering command opcode
+
+    The following rendering commands are sent to the server as part of a
+    glXRender request, or as a glXRenderLarge request.
+
+        BufferDataARB
+            2           24+n+p          rendering command length
+            2           298             rendering command opcode
+            8           INT64           size
+            4           ENUM            target
+            4           ENUM            usage
+            1           BOOL            null_data
+            3                           unused
+            n           LISTofBYTE      data
+            p                           unused, p=pad(n)
+
+        If the command is encoded in a glXRenderLarge request, the command
+        opcode and command length fields are expanded to 4 bytes each.
+
+            4           28+n+p          rendering command length
+            4           298             rendering command opcode
+
+        BufferSubDataARB
+            2           24+n+p          rendering command length
+            2           299             rendering command opcode
+            8           CARD64          offset
+            8           CARD64          size
+            4           ENUM            target
+            n           LISTofBYTE      data, where n = size
+            p                           unused, p=pad(n)
+
+        If the command is encoded in a glXRenderLarge request, the command
+        opcode and command length fields are expanded to 4 bytes each.
+
+            4           28+n+p          rendering command length
+            4           299             rendering command opcode
+
+        DrawArraysNew
+            2           20+(20*m)+n+p    rendering command length
+            2           300              rendering command opcode
+            4           ENUM             mode (GL_POINTS, etc.)
+            4           CARD32           first
+            4           CARD32           count
+            4           CARD32           m
+            20*m        LISTofARRAY_INFO client_array_info
+            n           LISTofBYTE       client_arrays
+            p                            unused, p=pad(n)
+
+        If the command is encoded in a glXRenderLarge request, the command
+        opcode and command length fields are expanded to 4 bytes each.
+
+            4           24+(20*m)+n+p   rendering command length
+            4           300             rendering command opcode
+
+        Where <m> is the number of enabled vertex arrays that do not have
+        buffer objects bound to them, <n> is <count> * <s>, and <s> is the
+        sum of all client array element sizes, as defined below.
+
+        ARRAY_INFO
+            4           ENUM             data type
+                        0x1400 i=1       GL_BYTE
+                        0x1401 i=1       GL_UNSIGNED_BYTE
+                        0x1402 i=2       GL_SHORT
+                        0x1403 i=2       GL_UNSIGNED_SHORT
+                        0x1404 i=4       GL_INT
+                        0x1405 i=4       GL_UNSIGNED_INT
+                        0x1406 i=4       GL_FLOAT
+                        0x140A i=8       GL_DOUBLE
+                        0x140B i=2       GL_HALF_FLOAT
+            4           CARD32           j (number of values in array element)
+            4           ENUM             array type
+                        0x8074 j=2/3/4   VERTEX_ARRAY
+                        0x8075 j=3       NORMAL_ARRAY
+                        0x8076 j=3/4     COLOR_ARRAY
+                        0x8077 j=1       INDEX_ARRAY
+                        0x8078 j=1/2/3/4 TEXTURE_COORD_ARRAY
+                        0x8079 j=1       EDGE_FLAG_ARRAY
+                        0x8457 j=1       FOG_COORD_ARRAY
+                        0x845E j=3       SECONDARY_COLOR_ARRAY
+                        0x0000 j=1/2/3/4 VERTEX_ATTRIB_ARRAY
+                        0x86AD j>=1      WEIGHT_ARRAY_ARB
+                        0x8844 j>=1      MATRIX_INDEX_ARRAY_ARB
+                        0x850C j=1       VERTEX_WEIGHT_ARRAY_EXT
+                        0x8768 j=1       ELEMENT_ARRAY_ATI
+            4           CARD32           index
+            1           BOOL             normalized
+            1           BOOL             is_integer
+            2                            unused
+
+        For each client array, the client array element size is <i>*<j>.
+        The <index> field is the generic attribute array index when
+        <array type> is VERTEX_ATTRIB_ARRAY and the client active texture
+        unit's offset from GL_TEXTURE0 when <array_type> is
+        <TEXTURE_COORD_ARRAY>.  For all other values of <array type>,
+        <index> must be 0.
+
+        The DrawArraysNew protocol differs from the DrawArrays protocol
+        defined in EXT_vertex_array in the following ways:
+
+          1) The ARRAY_INFO structure has been expanded to include
+             <index>, <normalized>, and <is_integer>.
+
+          2) ARRAY_INFO and associated array data are only sent for arrays
+             that do not have buffer objects bound to them.
+
+          3) The data for each array is sent contiguously rather than
+             interleaved with the other arrays.
+
+          4) The array data is tightly packed.  Rather than containing
+             padding after each array, a single pad field is added on the
+             end.
+
+        DrawRangeElements
+            2           36+(20*m)+n+p    rendering command length
+            2           301              rendering command opcode
+            8           CARD64           indices_offset
+            4           ENUM             mode (GL_POINTS, etc.)
+            4           CARD32           start
+            4           CARD32           end
+            4           CARD32           count
+            4           CARD32           type
+            4           CARD32           m
+            20*m        LISTofARRAY_INFO client_array_info
+            n           LISTofBYTE       client_arrays
+            p                            unused, p=pad(n)
+
+        If the command is encoded in a glXRenderLarge request, the command
+        opcode and command length fields are expanded to 4 bytes each.
+
+            4           40+(20*m)+n+p    rendering command length
+            4           301              rendering command opcode
+
+        Where <n> is defined as it is for DrawArraysNew.
+
+    The remaining commands are non-rendering commands.  These commands are
+    sent separately (i.e., not as part of a glXRender or glXRenderLarge
+    request), using glx single requests:
+
+        DeleteBuffersARB
+            1           CARD8           opcode (X assigned)
+            1           186             GLX opcode
+            2           3+n             request length
+            4           GLX_CONTEXT_TAG context tag
+            4           CARD32          n
+            n*4         LISTofCARD32    ids
+
+        GenBuffersARB
+            1           CARD8           opcode (X assigned)
+            1           187             GLX opcode
+            2           3               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           CARD32          n
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           n               reply length
+            24                          unused
+            n*4         LISTofCARD32    buffers
+
+        IsBufferARB
+            1           CARD8           opcode (X assigned)
+            1           188             GLX opcode
+            2           3               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           CARD32          id
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           0               reply length
+            4           BOOL32          return value
+            20                          unused
+            1           1               reply
+
+        GetBufferSubDataARB
+            1           CARD8           opcode (X assigned)
+            1           189             GLX opcode
+            2           7               request length
+            4           GLX_CONTEXT_TAG context tag
+            8           CARD64          offset
+            8           CARD64          size
+            4           ENUM            target
+          =>
+            1           1               Reply
+            1           1               unused
+            2           CARD16          sequence number
+            4           m               reply length, m = (n + p) / 4
+            4                           unused
+            4           CARD32          n
+            16                          unused
+            n           LISTofBYTE      buffer subdata
+            p                           unused, p=pad(n)
+
+        GetBufferParameterivARB
+            1           CARD8           opcode (X assigned)
+            1           190             GLX opcode
+            2           4               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           ENUM            target
+            4           ENUM            pname
+          =>
+            1           1               Reply
+            1           1               unused
+            2           CARD16          sequence number
+            4           m               reply length, m = (n == 1 ? 0 : n)
+            4                           unused
+            4           CARD32          n (number of parameter components)
+
+            if (n == 1) this follows:
+
+            4           CARD32          params
+            12                          unused
+
+            otherwise this follows:
+
+            16                          unused
+            4*n         LISTofCARD32    params
+
+            Note that n may be 0, indicating that a GL error occured.
+
+        GetElementRange
+            1           CARD8           opcode (X assigned)
+            1           191             GLX opcode
+            2           6               request length
+            4           GLX_CONTEXT_TAG context tag
+            8           CARD64          offset
+            4           ENUM            type
+            4           INT32           count
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           0               reply length
+            8                           unused
+            4           CARD32          lowest element
+            4           CARD32          highest element
+            8                           unused
+
+         GetBufferPointerv
+            1           CARD8           opcode (X assigned)
+            1           192             GLX opcode
+            2           4               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           ENUM            target
+            4           ENUM            pname
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           m               reply length, m = (n==1 ? 0 : n*2)
+            4                           unused
+            4           CARD32          n
+
+            if (n=1) this follows:
+
+            8           CARD64          params
+            8                           unused
+
+            otherwise this follows:
+
+            16                          unused
+            n*8         LISTofCARD64    params
+
+            Note that n may be 0, indicating that a GL error occured.
+
+         MapBuffer
+            1           CARD8           opcode (X assigned)
+            1           193             GLX opcode
+            2           4               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           ENUM            target
+            4           ENUM            access
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           0               reply length
+            4                           unused
+            4           CARD32          0 on error, otherwise 1.
+            8           CARD64          mapping address
+            8                           unused
+
+         UnmapBuffer
+            1           CARD8           opcode (X assigned)
+            1           194             GLX opcode
+            2           3               request length
+            4           GLX_CONTEXT_TAG context tag
+            4           ENUM            target
+          =>
+            1           1               reply
+            1                           unused
+            2           CARD16          sequence number
+            4           0               reply length
+            4           CARD32          return value
+           20                           unused
 
 Usage Examples
 
@@ -1568,3 +2109,75 @@ Usage Examples
         if (!UnmapBufferARB(ARRAY_BUFFER_ARB)) {
             // Handle error case
         }
+
+    Revision  Date         Author  Changes
+    --------  -----------  ------  ---------------------------------------
+    0.99.6    25-Oct-2010  jrj     Fixed 'context tag' location in
+                                   GetBufferSubDataARB GLX protocol.
+
+    0.99.5    14-Apr-2010  Jon Leech Added ARB suffix to GLX token.
+
+    0.99.4    07-Apr-2010  jrj     Added the GLX_ARB_vertex_buffer_object
+                                   string to identify GLX implementations
+                                   that support the new context attribute.
+
+    0.99.3    10-Feb-2010  jrj     Fixed GetBufferSubData reply layout and
+                                   cleaned up the field descriptions.
+                                   Added GetBufferPointerv protocol.
+                                   Added an issue describing why the
+                                   MapBuffer and UnmapBuffer protocol do
+                                   not transmit buffer data.
+
+    0.99.2    02-Feb-2010  jrj     Removed <n> field from DrawArraysNew
+                                   and DrawRangeElements.  Its value can
+                                   be computed from <m> and the data in
+                                   <client_array_info>.
+                                   Added more language describing
+                                   DrawArraysNew fields and differences
+                                   from the existing DrawArrays protocol.
+
+    0.99.1    15-Jan-2010  jrj     Added more issues.
+                                   Use 64 bits for offsets and sizes where
+                                   appropriate.
+                                   Added is_integer to ARRAY_INFO and
+                                   VertexAttribPointer
+                                   Added PushClientAttrib and
+                                   PopClientAttrib protocol.
+                                   Added MapBuffer/UnmapBuffer protocol.
+                                   Defined VERTEX_ATTRIB_ARRAY = GL_NONE =
+                                   0.
+                                   Added padding to DrawArraysNew and
+                                   DrawRangeElements.
+                                   Changed resolution to the byte ordering
+                                   issue.
+
+    0.99      16-May-2008  idr     Added "Additions to the GLX Specification"
+                                   Minor updates to protocol encoding
+    0.98      01-Sep-2006  idr     Resolved the byte-ordering issue.
+    0.97      16-Mar-2005  idr     Added 'null_data' field to BufferData.
+                                   This works like the 'null_image' in
+                                   TexImage3D.
+                                   Removed the 'type' field from
+                                   DrawRangeElements and DrawElements.
+                                   Added the 'count' field to GetElementRange.
+    0.96      09-Mar-2005  idr     Modified the EnableBufferObject and
+                                   DisableBufferObject commands.
+                                   Changed the parameter ordering and the
+                                   client-side data specification for
+                                   DrawArraysNew.
+                                   Replaced the existing DrawElements-type
+                                   commands with DrawRangeElements and
+                                   DrawElements.
+                                   Added the GetElementRange query.
+                                   Added a proposed resolution for the
+                                   EnableClientState issue.
+    0.95      04-Mar-2005  idr     Fixed the size of BindBufferToArray.
+                                   Added several issues.
+    0.94      09-Dec-2004  idr     Typo corrections.
+                                   Fixed the sizes of several LISTofBYTE and
+                                   BOOL elements.
+                                   Removed the 'provoke' field from the
+                                   ArrayElement command.
+                                   Added commands to support DrawElements.
+    0.93      08-Dec-2004  idr     Added several issues.
+    0.92      27-Oct-2004  idr     Initial pass at GLX protocol.

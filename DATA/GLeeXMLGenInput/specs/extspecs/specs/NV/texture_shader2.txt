@@ -20,9 +20,8 @@ IP Status
 
 Version
 
-    NVIDIA Date: April 29, 2004
-    $Date: 2004/04/29 $ $Revision: #9 $
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_shader2.txt#9 $
+    NVIDIA Date:  April 29, 2004
+    Version:      9
 
 Number
 

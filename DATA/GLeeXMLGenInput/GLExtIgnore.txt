@@ -12,3 +12,7 @@ GL_NV_fragment_program4
 GL_NV_vertex_program4
 GL_NV_geometry_program4
 WGL_NV_video_out
+GL_ARB_debug_output
+GL_AMD_debug_output
+GL_NV_vdpau_interop
+WGL_NV_video_capture

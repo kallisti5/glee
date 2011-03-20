@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Revision Date: March 12, 2002
-    Version: 0.5
+    Revision Date: September 23, 2010
+    Version: 0.6
 
     Based on:  EXT_point_parameters
                $Date: 1997/08/21 21:26:36 $ $Revision: 1.6 $
@@ -155,7 +155,7 @@ New Procedures and Functions
     void PointParameterfARB(enum pname,
                             float param);
     void PointParameterfvARB(enum pname,
-                             float *params);
+                             const float *params);
 
 New Tokens
 
@@ -372,3 +372,6 @@ Revision History
 
     03/12/2002  0.5
         - added GLX protocol for PointParameterfARB and assigned ropcodes
+
+    09/23/2010  0.6 (pbrown)
+        - add "const" qualifier to <params> argument to PointParameterfvARB

@@ -16,8 +16,8 @@ Status
 
 Version
 
-    Last Modified Date:         11/06/2007
-    NVIDIA Revision:            4
+    Last Modified Date:         05/26/09
+    NVIDIA Revision:            6
 
 Number
 
@@ -416,9 +416,9 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
     DDY         X - X X X F  v          v    partial derivative relative to Y
     KIL         X X - - X F  vc         -    kill fragment
 
-    (add the following subsection to section 2.X.5, Program Options.)
+    (add the following subsection to section 2.X.6, Program Options.)
 
-    Section 2.X.5.Y, Fragment Program Options
+    Section 2.X.6.Y, Fragment Program Options
 
     + Fixed-Function Fog Emulation (ARB_fog_exp, ARB_fog_exp2, ARB_fog_linear)
 
@@ -493,6 +493,13 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
     default in NV_gpu_program4; specifying the option is not illegal but has
     no additional effect.
 
+    (add the following subsection to section 2.X.7, Program Declarations.)
+
+    Section 2.X.7.Y, Fragment Program Declarations
+
+    No declarations are supported at present for fragment programs.
+
+
     (add the following subsection to section 2.X.8, Program Instruction Set.)
 
     Section 2.X.8.Z, DDX:  Partial Derivative Relative to X
@@ -539,11 +546,11 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
     passes.  A fragment killed by the KIL instruction is discarded, and will
     not be seen by subsequent stages of the pipeline.
 
-    A KIL instruction may be specified using either a floating-point vector
-    operand or a condition code test.  
+    A KIL instruction may be specified using either a floating-point or
+    integer vector operand or a condition code test.
 
-    If a floating-point vector is provided, the fragment is discarded if any
-    of its components are negative:
+    If a floating-point or integer vector is provided, the fragment is
+    discarded if any of its components are negative:
 
       tmp = VectorLoad(op0);
       if ((tmp.x < 0) || (tmp.y < 0) || 
@@ -551,6 +558,9 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
       {
           exit;
       }
+
+    Unsigned integer vector operands are permitted; however, KIL.U will have
+    no effect as no component is negative by definition.
 
     If a condition code test is provided, the fragment is discarded if any
     component of the test passes:
@@ -561,8 +571,7 @@ Additions to Chapter 2 of the OpenGL 2.0 Specification (OpenGL Operation)
          exit;
       }
 
-    KIL supports no data type modifiers.  If a vector operand is provided, it
-    must have floating-point components.
+    KIL supports all three data type modifiers.
 
     KIL is available only to fragment programs.
 
@@ -622,14 +631,14 @@ Additions to the AGL/GLX/WGL Specifications
 Dependencies on ARB_draw_buffers and ATI_draw_buffers
 
     If neither ARB_draw_buffers nor ATI_draw_buffers is supported, then the
-    discussion of the ARB_draw_buffers option in section 2.X.5.Y should be
+    discussion of the ARB_draw_buffers option in section 2.X.6.Y should be
     removed, as well as the result bindings of the form "result.color[n]" and
     "result.color[n..o]".
 
 Dependencies on ARB_fragment_program_shadow
 
     If ARB_fragment_program_shadow is not supported, then the discussion of
-    the ARB_fragment_program_shadow option in section 2.X.5.Y should be
+    the ARB_fragment_program_shadow option in section 2.X.6.Y should be
     removed.
 
 Dependencies on NV_primitive_restart
@@ -795,6 +804,13 @@ Revision History
 
     Rev.    Date    Author    Changes
     ----  --------  --------  --------------------------------------------
+     6    05/26/09  pbrown    Fix documentation of KIL to support integer
+                              operands, as indicated in the opcodes table
+                              in NV_gpu_program4.
+
+     5    03/11/09  pbrown    Fix section numbers for option/declaration
+                              sections.
+
      4    11/06/07  pbrown    Documented interaction between the FLAT 
                               interpolation modifier and point sprite
                               coordinate replacement.

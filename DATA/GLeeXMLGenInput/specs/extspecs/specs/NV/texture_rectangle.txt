@@ -21,8 +21,6 @@ Status
 Version
 
     NVIDIA Date: March 5, 2004
-    $Date$ $Revision$
-    $Id: //sw/main/docs/OpenGL/specs/GL_NV_texture_rectangle.txt#6 $
 
 Number
 

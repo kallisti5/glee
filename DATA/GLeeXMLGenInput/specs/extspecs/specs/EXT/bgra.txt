@@ -35,8 +35,8 @@ New Tokens
     Accepted by the <format> parameter of DrawPixels, GetTexImage,
     ReadPixels, TexImage1D, and TexImage2D:
 
-	BGR_EXT			0x80E0
-	BGRA_EXT		0x80E1
+        BGR_EXT                 0x80E0
+        BGRA_EXT                0x80E1
 
 Additions to Chapter 2 of the 1.1 Specification (OpenGL Operation)
 
@@ -47,25 +47,25 @@ Additions to Chapter 3 of the 1.1 Specification (Rasterization)
     One entry is added to table 3.5 (DrawPixels and ReadPixels formats).
     The new table is:
 
-	Name			Type		Elements		Target Buffer
-	----			----		--------		------
-	COLOR_INDEX		Index		Color Index		Color
-	STENCIL_INDEX		Index		Stencil value		Stencil
-	DEPTH_COMPONENT		Component	Depth value		Depth
-	RED			Component	R			Color
-	GREEN			Component	G			Color
-	BLUE			Component	B			Color
-	ALPHA			Component	A			Color
-	RGB			Component	R, G, B			Color
-	RGBA			Component	R, G, B, A		Color
-	LUMINANCE		Component	Luminance value		Color
-	LUMINANCE_ALPHA		Component	Luminance value, A	Color
-	BGR_EXT			Component	B, G, R			Color
-	BGRA_EXT		Component	B, G, R, A		Color
+        Name                    Type            Elements                Target Buffer
+        ----                    ----            --------                ------
+        COLOR_INDEX             Index           Color Index             Color
+        STENCIL_INDEX           Index           Stencil value           Stencil
+        DEPTH_COMPONENT         Component       Depth value             Depth
+        RED                     Component       R                       Color
+        GREEN                   Component       G                       Color
+        BLUE                    Component       B                       Color
+        ALPHA                   Component       A                       Color
+        RGB                     Component       R, G, B                 Color
+        RGBA                    Component       R, G, B, A              Color
+        LUMINANCE               Component       Luminance value         Color
+        LUMINANCE_ALPHA         Component       Luminance value, A      Color
+        BGR_EXT                 Component       B, G, R                 Color
+        BGRA_EXT                Component       B, G, R, A              Color
 
-	Table 3.5: DrawPixels and ReadPixels formats.  The third column
-	gives a description of and the number and order of elements in a
-	group.
+        Table 3.5: DrawPixels and ReadPixels formats.  The third column
+        gives a description of and the number and order of elements in a
+        group.
 
 Additions to Chapter 4 of the 1.1 Specification (Per-Fragment Operations
 and the Framebuffer)
@@ -94,6 +94,6 @@ Requests)
 Revision History
 
     Original draft, revision 0.9, October 13, 1995 (drewb)
-	Created
+        Created
     Minor revision, revision 1.0, May 19, 1997 (drewb)
-	Removed Microsoft Confidential.
+        Removed Microsoft Confidential.

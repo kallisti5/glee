@@ -49,3 +49,5 @@
 #define GLEE_LINK_FAIL 0
 #define GLEE_LINK_PARTIAL 1
 #define GLEE_LINK_COMPLETE 2
+
+typedef void (*GLEE_FUNC)(void);

@@ -600,7 +600,7 @@ State Requests)
 
 GLX Protocol
 
-    TBD
+    UNDER DEVELOPMENT
 
 Dependencies on ARB_texture_float
 

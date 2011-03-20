@@ -9,7 +9,7 @@
 
 #include "TestGLSL.h"
 #include <gl\glu.h>			
-#include <gl\glaux.h>		
+//#include <gl\glaux.h>		
 
 HDC			hDC=NULL;		// Private GDI Device Context
 HGLRC		hRC=NULL;		// Permanent Rendering Context
