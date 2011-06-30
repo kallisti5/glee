@@ -1,2 +1,3 @@
 build/*
 Common/Config.h
+*.rule
