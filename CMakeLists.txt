@@ -28,14 +28,27 @@ configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in
                 ESCAPE_QUOTES )
 
 #
+# 
+#
+add_subdirectory( GLeeGen )
+
+#
 # Create library
 #
 
-set( glee_sources DATA/GLee.c
-                  DATA/GLee.h )
+set( glee_sources ${DATA_DIR}/output/glee.c
+                  ${DATA_DIR}/output/glee.h )
 
 add_library( libgleeStatic    STATIC    ${glee_sources} )
 add_library( libgleeShared    SHARED    ${glee_sources} )
+
+target_link_libraries( libgleeShared opengl32 )
+
+add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
+                           ${DATA_DIR}/output/glee.h
+                    COMMAND gleegen
+                    DEPENDS gleegen
+                    COMMENT "Generating glee.h and glee.c" )
 
 #
 # Set up glee on windows
@@ -55,11 +68,6 @@ set_target_properties( libgleeStatic libgleeShared PROPERTIES
 install( TARGETS libgleeStatic libgleeShared DESTINATION lib )
 install( FILES ${glee_BINARY_DIR}/libglee.pc DESTINATION lib/pkgconfig )
   
-#
-# 
-#
-add_subdirectory( GLeeGen )
-
 #
 # Install standard files 
 #
