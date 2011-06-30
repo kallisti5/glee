@@ -21,6 +21,12 @@ set( glee_common_sources    ${glee_SOURCE_DIR}/Common/ArrayList.h
 configure_file( ${glee_SOURCE_DIR}/libglee.pc.cmake 
                 ${glee_BINARY_DIR}/libglee.pc @ONLY )
 
+set( DATA_DIR ${glee_SOURCE_DIR}/DATA )
+
+configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in 
+                ${glee_SOURCE_DIR}/Common/Config.h
+                ESCAPE_QUOTES )
+
 #
 # Create library
 #
