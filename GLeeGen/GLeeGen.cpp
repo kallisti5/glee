@@ -38,8 +38,8 @@ using namespace std;
 String versionString;//="5.33"; YAY, no longer need to recompile GLEEGEN!!! (see GLeeVersion.txt)
 String gleeGenVersionString="7.0"; 
 
-#define INFILE(filename) (String(".\\GLeeGenInput\\")+filename).cStr()
-#define OUTFILE(filename) (String(".\\output\\")+filename).cStr()
+#define INFILE(filename)  (String(DATA_DIR)+String("/GLeeGenInput/")+filename).cStr()
+#define OUTFILE(filename) (String(DATA_DIR)+String("/output/")+filename).cStr()
 
 int main(int argc, char* argv[])
 {
@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
 	versionString.readFile(versionFile);
 	fclose(versionFile);
 
-	generateCode(	OUTFILE("GLee.c"),
-					OUTFILE("GLee.h"), xmlFile.root);
+	generateCode(	OUTFILE("glee.c"),
+					OUTFILE("glee.h"), xmlFile.root);
 
 	generateExtensionList(OUTFILE("extensionList.txt"),xmlFile.root);
 	return 0;

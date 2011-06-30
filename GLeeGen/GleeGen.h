@@ -33,8 +33,9 @@
 
 #include <conio.h>
 #include <utility>
-#include "..\common\stdafx.h"
-#include "..\common\XMLFile.h"
+#include "../Common/stdafx.h"
+#include "../Common/XMLFile.h"
+#include "../Common/Config.h"
 
 //CLASSES
 struct GLVersion
