@@ -30,6 +30,7 @@ configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in
 #
 # 
 #
+add_subdirectory( GLeeXMLGen )
 add_subdirectory( GLeeGen )
 
 #
@@ -44,10 +45,22 @@ add_library( libgleeShared    SHARED    ${glee_sources} )
 
 target_link_libraries( libgleeShared opengl32 )
 
+add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
+                    COMMAND gleexmlgen
+                    DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
+                            ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
+                            ${DATA_DIR}/GLeeXMLGenInput/specs/extspecs
+                            ${DATA_DIR}/GLeeXMLGenInput/PatchedSpecs
+                            ${DATA_DIR}/GLeeXMLGenInput/specs/headers/glext.h
+                            ${DATA_DIR}/GLeeXMLGenInput/specs/headers/wglext.h
+                            ${DATA_DIR}/GLeeXMLGenInput/specs/headers/glxext.h
+                    COMMENT "Generating GLeeXMLGen inputs" )
+
 add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
                            ${DATA_DIR}/output/glee.h
                     COMMAND gleegen
-                    DEPENDS gleegen
+                    DEPENDS ${DATA_DIR}/GleeGenInput/GLeeVersion.txt
+                            ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMENT "Generating glee.h and glee.c" )
 
 #
