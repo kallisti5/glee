@@ -57,7 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
     // Read the spec filenames
 	ArrayList<String> specFilenames;
 
-	if (!getSpecFilenames(String(INFILE("specs\\extspecs")), specFilenames)) return -1;
+	if (!getSpecFilenames(String(INFILE("registry/specs")), specFilenames)) return -1;
 
     // Read the patched spec filenames
 	ArrayList<String> patchedSpecFilenames;
@@ -76,11 +76,11 @@ int _tmain(int argc, _TCHAR* argv[])
         {
             // Get the filename without the path
             std::string patchedFilename = patchedSpecFilenames[b].toLower().cStr();
-            std::string patchedSpecsDir = "patchedspecs\\";
+            std::string patchedSpecsDir = "patchedspecs/";
             size_t offset = patchedFilename.find(patchedSpecsDir);
             if ( offset != std::string::npos )
             {
-                patchedFilename = patchedFilename.replace( offset, patchedSpecsDir.length(), "specs\\extspecs\\specs\\" );
+                patchedFilename = patchedFilename.replace( offset, patchedSpecsDir.length(), "registry/specs/" );
             }
 
             if ( patchedFilename == unpatchedFilename )
@@ -167,7 +167,7 @@ bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOu
 	HANDLE hFind;
 	BOOL res=TRUE; 
 
-	String filespec=startDir+"\\*";
+	String filespec=startDir+"/*";
 	hFind = FindFirstFile(filespec.cStr(), &fileData);
 	if (hFind == INVALID_HANDLE_VALUE) 
 	{
@@ -181,14 +181,14 @@ bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOu
 		if (filenameStr!=String(".") && filenameStr!=String(".."))
 		{
 			if (fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				getSpecFilenames(startDir+"\\"+filenameStr,specFilenamesOut); //recursive call
+				getSpecFilenames(startDir+"/"+filenameStr,specFilenamesOut); //recursive call
 			else
 			{
 				if (filenameStr.length()>5) //store only text files
 				{
 					if (filenameStr.subString(filenameStr.length()-4,filenameStr.length())==String(".txt"))
 					{
-						specFilenamesOut.add(startDir+"\\"+filenameStr);
+						specFilenamesOut.add(startDir+"/"+filenameStr);
 					}
 				}
 			}
@@ -808,7 +808,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 	switch (fileType)
 	{
 		case FT_GLEXT:
-			file=fopen(INFILE("specs\\headers\\glext.h"),"rt");
+			file=fopen(INFILE("registry/api/glext.h"),"rt");
 
 			startString="#ifndef GL_VERSION_1_2";
 			protoStartString="#define GL_VERSION_1_2";
@@ -818,7 +818,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 			extAPIENTRYPtr="APIENTRYP";
 			break;
 		case FT_WGLEXT:
-			file=fopen(INFILE("specs\\headers\\wglext.h"),"rt");
+			file=fopen(INFILE("registry/api/wglext.h"),"rt");
 
 			startString="#ifndef WGL_ARB_buffer_region";
 			protoStartString="#define WGL_ARB_buffer_region";
@@ -828,7 +828,7 @@ void getHeaderExtensions(int fileType, ArrayList<_Extension> &extensions, ArrayL
 			extAPIENTRYPtr="WINAPI *";
 			break;
 		case FT_GLXEXT:
-			file=fopen(INFILE("specs\\headers\\glxext.h"),"rt");
+			file=fopen(INFILE("registry/api/glxext.h"),"rt");
 			startString="#ifndef GLX_VERSION_1_3";
 			protoStartString="#define GLX_VERSION_1_3";
 			extBegin="GLX_";
