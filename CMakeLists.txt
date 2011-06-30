@@ -1,0 +1,76 @@
+#
+# CMakeLists.txt for glee
+# Adapted from glfw (http://glfw.org)
+#
+
+project( glee )
+cmake_minimum_required(VERSION 2.8)
+
+set( glee_common_sources    ${glee_SOURCE_DIR}/Common/ArrayList.h
+                            ${glee_SOURCE_DIR}/Common/Exception.h
+                            ${glee_SOURCE_DIR}/Common/String.cpp
+                            ${glee_SOURCE_DIR}/Common/String.h
+                            ${glee_SOURCE_DIR}/Common/XMLFile.cpp
+                            ${glee_SOURCE_DIR}/Common/XMLFile.h 
+                            ${glee_SOURCE_DIR}/Common/stdafx.h )
+                            
+#
+# Create shared configuration header
+#
+
+configure_file( ${glee_SOURCE_DIR}/libglee.pc.cmake 
+                ${glee_BINARY_DIR}/libglee.pc @ONLY )
+
+#
+# Create library
+#
+
+set( glee_sources DATA/GLee.c
+                  DATA/GLee.h )
+
+add_library( libgleeStatic    STATIC    ${glee_sources} )
+add_library( libgleeShared    SHARED    ${glee_sources} )
+
+#
+# Set up glee on windows
+#
+if (WIN32)
+   # set_target_properties(libjoemathShared PROPERTIES 
+   #                         DEFINE_SYMBOL GLEE_BUILD_DLL
+   #                         PREFIX ""
+   #                         IMPORT_PREFIX ""
+   #                         IMPORT_SUFFIX "dll.lib")
+endif (WIN32)
+
+set_target_properties( libgleeStatic libgleeShared PROPERTIES 
+		               CLEAN_DIRECT_OUTPUT 1
+		               OUTPUT_NAME glee )
+
+install( TARGETS libgleeStatic libgleeShared DESTINATION lib )
+install( FILES ${glee_BINARY_DIR}/libglee.pc DESTINATION lib/pkgconfig )
+  
+#
+# 
+#
+add_subdirectory( GLeeGen )
+
+#
+# Install standard files 
+#
+
+install( DIRECTORY include/GL DESTINATION include 
+         FILES_MATCHING REGEX ".*\\.h")
+
+install( FILES license.txt readme.txt 
+         DESTINATION share/doc/glee/)
+
+#
+# Uninstall operation
+#
+configure_file( ${glee_SOURCE_DIR}/cmake_uninstall.cmake.in
+                ${glee_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY )
+
+add_custom_target( uninstall
+                   ${CMAKE_COMMAND} -P
+                   ${uninstall_BINARY_DIR}/cmake_uninstall.cmake )
+
