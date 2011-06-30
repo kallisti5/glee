@@ -33,8 +33,8 @@
 
 #pragma once
 
-//#include "memory\\object.h"
-//#include "memory\\sptr.h"
+//#include "memory/object.h"
+//#include "memory/sptr.h"
 #include "ArrayList.h"
 
 namespace Mirage
