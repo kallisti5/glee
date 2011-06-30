@@ -1,8 +1,8 @@
 // GLeeXMLGen.cpp : Defines the entry point for the console application.
 //
-#define BOOST_REGEX_STATIC_LINK
-#include <boost/regex.hpp>
-using namespace boost;
+#include <regex>
+#include "../Common/Config.h"
+
 using namespace Mirage;
 
 enum FileType
@@ -30,7 +30,7 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
 bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOut);
 bool readStringList(const char * filename, ArrayList<String>& stringListOut);
 
-boost::regex& getTypeRegex();
+std::tr1::regex& getTypeRegex();
 
 
 void addPrefixes(XMLElement& XMLOut);

@@ -1,13 +1,14 @@
 // GLeeXMLGen.cpp : Defines the entry point for the console application.
 //
 
+#include <cstdint>
 #include <conio.h>
 #include "..\common\stdafx.h"
 #include "..\common\XMLFile.h"
 #include "GLeeXMLGen.h"
 #include <windows.h>
 
-using namespace boost;
+using namespace std::tr1;
 using namespace Mirage;
 
 /*
@@ -32,8 +33,8 @@ using namespace Mirage;
 </extensions>
 */
 
-#define INFILE(filename) (String(".\\GLeeXMLGenInput\\")+filename).cStr()
-#define OUTFILE(filename) (String(".\\GLeeGenInput\\")+filename).cStr()
+#define INFILE(filename) (String(DATA_DIR)+String("/GLeeXMLGenInput/")+filename).cStr()
+#define OUTFILE(filename) (String(DATA_DIR)+String("/GLeeGenInput/")+filename).cStr()
 
 void getSubstring(const char * start, const char * end, String& string_out)
 {
