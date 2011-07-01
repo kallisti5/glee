@@ -54,6 +54,7 @@ add_custom_target ( update_specs
 
 add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMAND gleexmlgen
+                    MAIN_DEPENDENCY gleexmlgen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/registry
@@ -62,6 +63,7 @@ add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
 add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
                            ${DATA_DIR}/output/glee.h
                     COMMAND gleegen
+                    MAIN_DEPENDENCY gleegen
                     DEPENDS ${DATA_DIR}/GleeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMENT "Generating glee.h and glee.c" )
