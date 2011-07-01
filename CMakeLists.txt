@@ -52,12 +52,17 @@ add_custom_target ( update_specs
                     wget --recursive --level=1 --timestamping --directory-prefix=${DATA_DIR}/GLeeXMLGenInput/ --no-host-directories --accept=txt,h --include-directories=registry/specs,registry/api --exclude-directories=registry/doc --user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30\" http://www.opengl.org/registry/
                     COMMENT "Getting latest specs from http://www.opengl.org/registry/" )
 
+file( GLOB_RECURSE spec_files
+      ${DATA_DIR}/GLeeXMLGenInput/registry/*.h
+      ${DATA_DIR}/GLeeXMLGenInput/registry/*.txt )
+
 add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMAND gleexmlgen
                     MAIN_DEPENDENCY gleexmlgen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/registry
+                            ${spec_files}
                     COMMENT "Generating GLeeXMLGen inputs" )
 
 add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
