@@ -3,7 +3,7 @@ GLee 5.5 Supported Extensions and Core Functions
 --------------------------------------------------------------
 
 Core OpenGL Version: 4.1
-504 extensions supported (409 GL | 44 WGL | 51 GLX)
+512 extensions supported (416 GL | 45 WGL | 51 GLX)
 
 GL Extensions
 -------------------
@@ -388,6 +388,11 @@ GL_AMD_name_gen_delete
 GL_AMD_transform_feedback3_lines_triangles
 GL_AMD_depth_clamp_separate
 GL_EXT_texture_sRGB_decode
+GL_NV_texture_multisample
+GL_AMD_blend_minmax_factor
+GL_AMD_sample_positions
+GL_EXT_x11_sync_object
+GL_AMD_multi_draw_indirect
 GL_SGIX_texture_select
 GL_INGR_blend_func_separate
 GL_SGIX_depth_pass_instrument
@@ -402,6 +407,8 @@ GL_IBM_static_data
 GL_NV_gpu_program4
 GL_OES_byte_coordinates
 GL_OES_compressed_paletted_texture
+GL_OES_fixed_point
+GL_OES_query_matrix
 GL_OES_single_precision
 GL_SGIX_pixel_texture_bits
 GL_SGIX_texture_range
@@ -446,6 +453,7 @@ WGL_AMD_gpu_association
 WGL_NV_copy_image
 WGL_NV_multisample_coverage
 WGL_EXT_create_context_es2_profile
+WGL_NV_DX_interop
 WGL_EXT_display_color_table
 WGL_EXT_extensions_string
 WGL_EXT_swap_control

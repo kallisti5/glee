@@ -478,6 +478,11 @@ GLboolean _GLEE_AMD_name_gen_delete = GL_FALSE;
 GLboolean _GLEE_AMD_transform_feedback3_lines_triangles = GL_FALSE;
 GLboolean _GLEE_AMD_depth_clamp_separate = GL_FALSE;
 GLboolean _GLEE_EXT_texture_sRGB_decode = GL_FALSE;
+GLboolean _GLEE_NV_texture_multisample = GL_FALSE;
+GLboolean _GLEE_AMD_blend_minmax_factor = GL_FALSE;
+GLboolean _GLEE_AMD_sample_positions = GL_FALSE;
+GLboolean _GLEE_EXT_x11_sync_object = GL_FALSE;
+GLboolean _GLEE_AMD_multi_draw_indirect = GL_FALSE;
 GLboolean _GLEE_SGIX_texture_select = GL_FALSE;
 GLboolean _GLEE_INGR_blend_func_separate = GL_FALSE;
 GLboolean _GLEE_SGIX_depth_pass_instrument = GL_FALSE;
@@ -492,13 +497,15 @@ GLboolean _GLEE_IBM_static_data = GL_FALSE;
 GLboolean _GLEE_NV_gpu_program4 = GL_FALSE;
 GLboolean _GLEE_OES_byte_coordinates = GL_FALSE;
 GLboolean _GLEE_OES_compressed_paletted_texture = GL_FALSE;
+GLboolean _GLEE_OES_fixed_point = GL_FALSE;
+GLboolean _GLEE_OES_query_matrix = GL_FALSE;
 GLboolean _GLEE_OES_single_precision = GL_FALSE;
 GLboolean _GLEE_SGIX_pixel_texture_bits = GL_FALSE;
 GLboolean _GLEE_SGIX_texture_range = GL_FALSE;
 
 /*  GL Extension names */
 
-char __GLeeGLExtensionNames[409][43]={
+char __GLeeGLExtensionNames[416][43]={
     "GL_VERSION_1_2",
     "GL_ARB_imaging",
     "GL_VERSION_1_3",
@@ -891,6 +898,11 @@ char __GLeeGLExtensionNames[409][43]={
     "GL_AMD_transform_feedback3_lines_triangles",
     "GL_AMD_depth_clamp_separate",
     "GL_EXT_texture_sRGB_decode",
+    "GL_NV_texture_multisample",
+    "GL_AMD_blend_minmax_factor",
+    "GL_AMD_sample_positions",
+    "GL_EXT_x11_sync_object",
+    "GL_AMD_multi_draw_indirect",
     "GL_SGIX_texture_select",
     "GL_INGR_blend_func_separate",
     "GL_SGIX_depth_pass_instrument",
@@ -905,11 +917,13 @@ char __GLeeGLExtensionNames[409][43]={
     "GL_NV_gpu_program4",
     "GL_OES_byte_coordinates",
     "GL_OES_compressed_paletted_texture",
+    "GL_OES_fixed_point",
+    "GL_OES_query_matrix",
     "GL_OES_single_precision",
     "GL_SGIX_pixel_texture_bits",
     "GL_SGIX_texture_range"
 };
-int __GLeeGLNumExtensions=409;
+int __GLeeGLNumExtensions=416;
 
 /* GL_VERSION_1_2 */
 
@@ -12211,6 +12225,81 @@ int __GLeeGLNumExtensions=409;
 #ifdef __GLEE_GL_EXT_texture_sRGB_decode
 #endif 
 
+/* GL_NV_texture_multisample */
+
+#ifdef __GLEE_GL_NV_texture_multisample
+#ifndef GLEE_C_DEFINED_glTexImage2DMultisampleCoverageNV
+#define GLEE_C_DEFINED_glTexImage2DMultisampleCoverageNV
+  void __stdcall GLee_Lazy_glTexImage2DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTexImage2DMultisampleCoverageNV(target, coverageSamples, colorSamples, internalFormat, width, height, fixedSampleLocations);}
+  GLEEPFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC GLeeFuncPtr_glTexImage2DMultisampleCoverageNV=GLee_Lazy_glTexImage2DMultisampleCoverageNV;
+#endif
+#ifndef GLEE_C_DEFINED_glTexImage3DMultisampleCoverageNV
+#define GLEE_C_DEFINED_glTexImage3DMultisampleCoverageNV
+  void __stdcall GLee_Lazy_glTexImage3DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTexImage3DMultisampleCoverageNV(target, coverageSamples, colorSamples, internalFormat, width, height, depth, fixedSampleLocations);}
+  GLEEPFNGLTEXIMAGE3DMULTISAMPLECOVERAGENVPROC GLeeFuncPtr_glTexImage3DMultisampleCoverageNV=GLee_Lazy_glTexImage3DMultisampleCoverageNV;
+#endif
+#ifndef GLEE_C_DEFINED_glTextureImage2DMultisampleNV
+#define GLEE_C_DEFINED_glTextureImage2DMultisampleNV
+  void __stdcall GLee_Lazy_glTextureImage2DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTextureImage2DMultisampleNV(texture, target, samples, internalFormat, width, height, fixedSampleLocations);}
+  GLEEPFNGLTEXTUREIMAGE2DMULTISAMPLENVPROC GLeeFuncPtr_glTextureImage2DMultisampleNV=GLee_Lazy_glTextureImage2DMultisampleNV;
+#endif
+#ifndef GLEE_C_DEFINED_glTextureImage3DMultisampleNV
+#define GLEE_C_DEFINED_glTextureImage3DMultisampleNV
+  void __stdcall GLee_Lazy_glTextureImage3DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTextureImage3DMultisampleNV(texture, target, samples, internalFormat, width, height, depth, fixedSampleLocations);}
+  GLEEPFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC GLeeFuncPtr_glTextureImage3DMultisampleNV=GLee_Lazy_glTextureImage3DMultisampleNV;
+#endif
+#ifndef GLEE_C_DEFINED_glTextureImage2DMultisampleCoverageNV
+#define GLEE_C_DEFINED_glTextureImage2DMultisampleCoverageNV
+  void __stdcall GLee_Lazy_glTextureImage2DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTextureImage2DMultisampleCoverageNV(texture, target, coverageSamples, colorSamples, internalFormat, width, height, fixedSampleLocations);}
+  GLEEPFNGLTEXTUREIMAGE2DMULTISAMPLECOVERAGENVPROC GLeeFuncPtr_glTextureImage2DMultisampleCoverageNV=GLee_Lazy_glTextureImage2DMultisampleCoverageNV;
+#endif
+#ifndef GLEE_C_DEFINED_glTextureImage3DMultisampleCoverageNV
+#define GLEE_C_DEFINED_glTextureImage3DMultisampleCoverageNV
+  void __stdcall GLee_Lazy_glTextureImage3DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations)  {if (GLeeInit()) glTextureImage3DMultisampleCoverageNV(texture, target, coverageSamples, colorSamples, internalFormat, width, height, depth, fixedSampleLocations);}
+  GLEEPFNGLTEXTUREIMAGE3DMULTISAMPLECOVERAGENVPROC GLeeFuncPtr_glTextureImage3DMultisampleCoverageNV=GLee_Lazy_glTextureImage3DMultisampleCoverageNV;
+#endif
+#endif 
+
+/* GL_AMD_blend_minmax_factor */
+
+#ifdef __GLEE_GL_AMD_blend_minmax_factor
+#endif 
+
+/* GL_AMD_sample_positions */
+
+#ifdef __GLEE_GL_AMD_sample_positions
+#ifndef GLEE_C_DEFINED_glSetMultisamplefvAMD
+#define GLEE_C_DEFINED_glSetMultisamplefvAMD
+  void __stdcall GLee_Lazy_glSetMultisamplefvAMD(GLenum pname, GLuint index, const GLfloat * val)  {if (GLeeInit()) glSetMultisamplefvAMD(pname, index, val);}
+  GLEEPFNGLSETMULTISAMPLEFVAMDPROC GLeeFuncPtr_glSetMultisamplefvAMD=GLee_Lazy_glSetMultisamplefvAMD;
+#endif
+#endif 
+
+/* GL_EXT_x11_sync_object */
+
+#ifdef __GLEE_GL_EXT_x11_sync_object
+#ifndef GLEE_C_DEFINED_glImportSyncEXT
+#define GLEE_C_DEFINED_glImportSyncEXT
+  GLsync __stdcall GLee_Lazy_glImportSyncEXT(GLenum external_sync_type, GLintptr external_sync, GLbitfield flags)  {if (GLeeInit()) return glImportSyncEXT(external_sync_type, external_sync, flags); return (GLsync)0;}
+  GLEEPFNGLIMPORTSYNCEXTPROC GLeeFuncPtr_glImportSyncEXT=GLee_Lazy_glImportSyncEXT;
+#endif
+#endif 
+
+/* GL_AMD_multi_draw_indirect */
+
+#ifdef __GLEE_GL_AMD_multi_draw_indirect
+#ifndef GLEE_C_DEFINED_glMultiDrawArraysIndirectAMD
+#define GLEE_C_DEFINED_glMultiDrawArraysIndirectAMD
+  void __stdcall GLee_Lazy_glMultiDrawArraysIndirectAMD(GLenum mode, const GLvoid * indirect, GLsizei primcount, GLsizei stride)  {if (GLeeInit()) glMultiDrawArraysIndirectAMD(mode, indirect, primcount, stride);}
+  GLEEPFNGLMULTIDRAWARRAYSINDIRECTAMDPROC GLeeFuncPtr_glMultiDrawArraysIndirectAMD=GLee_Lazy_glMultiDrawArraysIndirectAMD;
+#endif
+#ifndef GLEE_C_DEFINED_glMultiDrawElementsIndirectAMD
+#define GLEE_C_DEFINED_glMultiDrawElementsIndirectAMD
+  void __stdcall GLee_Lazy_glMultiDrawElementsIndirectAMD(GLenum mode, GLenum type, const GLvoid * indirect, GLsizei primcount, GLsizei stride)  {if (GLeeInit()) glMultiDrawElementsIndirectAMD(mode, type, indirect, primcount, stride);}
+  GLEEPFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC GLeeFuncPtr_glMultiDrawElementsIndirectAMD=GLee_Lazy_glMultiDrawElementsIndirectAMD;
+#endif
+#endif 
+
 /* GL_SGIX_texture_select */
 
 #ifdef __GLEE_GL_SGIX_texture_select
@@ -12244,11 +12333,6 @@ int __GLeeGLNumExtensions=409;
 /* GL_AMD_vertex_shader_tessellator */
 
 #ifdef __GLEE_GL_AMD_vertex_shader_tessellator
-#ifndef GLEE_C_DEFINED_glTessellationFactorAMD
-#define GLEE_C_DEFINED_glTessellationFactorAMD
-  GLvoid __stdcall GLee_Lazy_glTessellationFactorAMD(GLfloat factor)  {if (GLeeInit()) glTessellationFactorAMD(factor);}
-  GLEEPFNGLTESSELLATIONFACTORAMDPROC GLeeFuncPtr_glTessellationFactorAMD=GLee_Lazy_glTessellationFactorAMD;
-#endif
 #ifndef GLEE_C_DEFINED_glTessellationModeAMD
 #define GLEE_C_DEFINED_glTessellationModeAMD
   GLvoid __stdcall GLee_Lazy_glTessellationModeAMD(GLenum mode)  {if (GLeeInit()) glTessellationModeAMD(mode);}
@@ -12259,131 +12343,16 @@ int __GLeeGLNumExtensions=409;
 /* GL_EXT_fragment_lighting */
 
 #ifdef __GLEE_GL_EXT_fragment_lighting
-#ifndef GLEE_C_DEFINED_glFragmentLightModeliEXT
-#define GLEE_C_DEFINED_glFragmentLightModeliEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightModeliEXT(GLenum pname, GLint param)  {if (GLeeInit()) glFragmentLightModeliEXT(pname, param);}
-  GLEEPFNGLFRAGMENTLIGHTMODELIEXTPROC GLeeFuncPtr_glFragmentLightModeliEXT=GLee_Lazy_glFragmentLightModeliEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightModelfEXT
-#define GLEE_C_DEFINED_glFragmentLightModelfEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightModelfEXT(GLenum pname, GLfloat param)  {if (GLeeInit()) glFragmentLightModelfEXT(pname, param);}
-  GLEEPFNGLFRAGMENTLIGHTMODELFEXTPROC GLeeFuncPtr_glFragmentLightModelfEXT=GLee_Lazy_glFragmentLightModelfEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightModelivEXT
-#define GLEE_C_DEFINED_glFragmentLightModelivEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightModelivEXT(GLenum pname, GLint * params)  {if (GLeeInit()) glFragmentLightModelivEXT(pname, params);}
-  GLEEPFNGLFRAGMENTLIGHTMODELIVEXTPROC GLeeFuncPtr_glFragmentLightModelivEXT=GLee_Lazy_glFragmentLightModelivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightModelfvEXT
-#define GLEE_C_DEFINED_glFragmentLightModelfvEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightModelfvEXT(GLenum pname, GLfloat * params)  {if (GLeeInit()) glFragmentLightModelfvEXT(pname, params);}
-  GLEEPFNGLFRAGMENTLIGHTMODELFVEXTPROC GLeeFuncPtr_glFragmentLightModelfvEXT=GLee_Lazy_glFragmentLightModelfvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightiEXT
-#define GLEE_C_DEFINED_glFragmentLightiEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightiEXT(GLenum light, GLenum pname, GLint param)  {if (GLeeInit()) glFragmentLightiEXT(light, pname, param);}
-  GLEEPFNGLFRAGMENTLIGHTIEXTPROC GLeeFuncPtr_glFragmentLightiEXT=GLee_Lazy_glFragmentLightiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightfEXT
-#define GLEE_C_DEFINED_glFragmentLightfEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightfEXT(GLenum light, GLenum pname, GLfloat param)  {if (GLeeInit()) glFragmentLightfEXT(light, pname, param);}
-  GLEEPFNGLFRAGMENTLIGHTFEXTPROC GLeeFuncPtr_glFragmentLightfEXT=GLee_Lazy_glFragmentLightfEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightivEXT
-#define GLEE_C_DEFINED_glFragmentLightivEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightivEXT(GLenum light, GLenum pname, GLint * params)  {if (GLeeInit()) glFragmentLightivEXT(light, pname, params);}
-  GLEEPFNGLFRAGMENTLIGHTIVEXTPROC GLeeFuncPtr_glFragmentLightivEXT=GLee_Lazy_glFragmentLightivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentLightfvEXT
-#define GLEE_C_DEFINED_glFragmentLightfvEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentLightfvEXT(GLenum light, GLenum pname, GLfloat * params)  {if (GLeeInit()) glFragmentLightfvEXT(light, pname, params);}
-  GLEEPFNGLFRAGMENTLIGHTFVEXTPROC GLeeFuncPtr_glFragmentLightfvEXT=GLee_Lazy_glFragmentLightfvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetFragmentLightivEXT
-#define GLEE_C_DEFINED_glGetFragmentLightivEXT
-  GLvoid __stdcall GLee_Lazy_glGetFragmentLightivEXT(GLenum light, GLenum pname, GLint * params)  {if (GLeeInit()) glGetFragmentLightivEXT(light, pname, params);}
-  GLEEPFNGLGETFRAGMENTLIGHTIVEXTPROC GLeeFuncPtr_glGetFragmentLightivEXT=GLee_Lazy_glGetFragmentLightivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetFragmentLightfvEXT
-#define GLEE_C_DEFINED_glGetFragmentLightfvEXT
-  GLvoid __stdcall GLee_Lazy_glGetFragmentLightfvEXT(GLenum light, GLenum pname, GLfloat * params)  {if (GLeeInit()) glGetFragmentLightfvEXT(light, pname, params);}
-  GLEEPFNGLGETFRAGMENTLIGHTFVEXTPROC GLeeFuncPtr_glGetFragmentLightfvEXT=GLee_Lazy_glGetFragmentLightfvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentMaterialfEXT
-#define GLEE_C_DEFINED_glFragmentMaterialfEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentMaterialfEXT(GLenum face, GLenum pname, const GLfloat param)  {if (GLeeInit()) glFragmentMaterialfEXT(face, pname, param);}
-  GLEEPFNGLFRAGMENTMATERIALFEXTPROC GLeeFuncPtr_glFragmentMaterialfEXT=GLee_Lazy_glFragmentMaterialfEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentMaterialiEXT
-#define GLEE_C_DEFINED_glFragmentMaterialiEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentMaterialiEXT(GLenum face, GLenum pname, const GLint param)  {if (GLeeInit()) glFragmentMaterialiEXT(face, pname, param);}
-  GLEEPFNGLFRAGMENTMATERIALIEXTPROC GLeeFuncPtr_glFragmentMaterialiEXT=GLee_Lazy_glFragmentMaterialiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentMaterialfvEXT
-#define GLEE_C_DEFINED_glFragmentMaterialfvEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentMaterialfvEXT(GLenum face, GLenum pname, const GLfloat * params)  {if (GLeeInit()) glFragmentMaterialfvEXT(face, pname, params);}
-  GLEEPFNGLFRAGMENTMATERIALFVEXTPROC GLeeFuncPtr_glFragmentMaterialfvEXT=GLee_Lazy_glFragmentMaterialfvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentMaterialivEXT
-#define GLEE_C_DEFINED_glFragmentMaterialivEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentMaterialivEXT(GLenum face, GLenum pname, const GLint * params)  {if (GLeeInit()) glFragmentMaterialivEXT(face, pname, params);}
-  GLEEPFNGLFRAGMENTMATERIALIVEXTPROC GLeeFuncPtr_glFragmentMaterialivEXT=GLee_Lazy_glFragmentMaterialivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFragmentColorMaterialEXT
-#define GLEE_C_DEFINED_glFragmentColorMaterialEXT
-  GLvoid __stdcall GLee_Lazy_glFragmentColorMaterialEXT(GLenum face, GLenum mode)  {if (GLeeInit()) glFragmentColorMaterialEXT(face, mode);}
-  GLEEPFNGLFRAGMENTCOLORMATERIALEXTPROC GLeeFuncPtr_glFragmentColorMaterialEXT=GLee_Lazy_glFragmentColorMaterialEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetFragmentMaterialfvEXT
-#define GLEE_C_DEFINED_glGetFragmentMaterialfvEXT
-  GLvoid __stdcall GLee_Lazy_glGetFragmentMaterialfvEXT(GLenum face, GLenum pname, const GLfloat * params)  {if (GLeeInit()) glGetFragmentMaterialfvEXT(face, pname, params);}
-  GLEEPFNGLGETFRAGMENTMATERIALFVEXTPROC GLeeFuncPtr_glGetFragmentMaterialfvEXT=GLee_Lazy_glGetFragmentMaterialfvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetFragmentMaterialivEXT
-#define GLEE_C_DEFINED_glGetFragmentMaterialivEXT
-  GLvoid __stdcall GLee_Lazy_glGetFragmentMaterialivEXT(GLenum face, GLenum pname, const GLint * params)  {if (GLeeInit()) glGetFragmentMaterialivEXT(face, pname, params);}
-  GLEEPFNGLGETFRAGMENTMATERIALIVEXTPROC GLeeFuncPtr_glGetFragmentMaterialivEXT=GLee_Lazy_glGetFragmentMaterialivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glLightEnviEXT
-#define GLEE_C_DEFINED_glLightEnviEXT
-  GLvoid __stdcall GLee_Lazy_glLightEnviEXT(GLenum pname, GLint param)  {if (GLeeInit()) glLightEnviEXT(pname, param);}
-  GLEEPFNGLLIGHTENVIEXTPROC GLeeFuncPtr_glLightEnviEXT=GLee_Lazy_glLightEnviEXT;
-#endif
 #endif 
 
 /* GL_EXT_geometry_shader4 */
 
 #ifdef __GLEE_GL_EXT_geometry_shader4
-#ifndef GLEE_C_DEFINED_glProgramParameteriEXT
-#define GLEE_C_DEFINED_glProgramParameteriEXT
-  GLvoid __stdcall GLee_Lazy_glProgramParameteriEXT(GLuint program, GLenum pname, GLint value)  {if (GLeeInit()) glProgramParameteriEXT(program, pname, value);}
-  GLEEPFNGLPROGRAMPARAMETERIEXTPROC GLeeFuncPtr_glProgramParameteriEXT=GLee_Lazy_glProgramParameteriEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureEXT
-#define GLEE_C_DEFINED_glFramebufferTextureEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureEXT(GLenum target, GLenum attachment, GLuint texture, GLint level)  {if (GLeeInit()) glFramebufferTextureEXT(target, attachment, texture, level);}
-  GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC GLeeFuncPtr_glFramebufferTextureEXT=GLee_Lazy_glFramebufferTextureEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureLayerEXT
-#define GLEE_C_DEFINED_glFramebufferTextureLayerEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureLayerEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer)  {if (GLeeInit()) glFramebufferTextureLayerEXT(target, attachment, texture, level, layer);}
-  GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC GLeeFuncPtr_glFramebufferTextureLayerEXT=GLee_Lazy_glFramebufferTextureLayerEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureFaceEXT
-#define GLEE_C_DEFINED_glFramebufferTextureFaceEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureFaceEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face)  {if (GLeeInit()) glFramebufferTextureFaceEXT(target, attachment, texture, level, face);}
-  GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC GLeeFuncPtr_glFramebufferTextureFaceEXT=GLee_Lazy_glFramebufferTextureFaceEXT;
-#endif
 #endif 
 
 /* GL_EXT_scene_marker */
 
 #ifdef __GLEE_GL_EXT_scene_marker
-#ifndef GLEE_C_DEFINED_glBeginSceneEXT
-#define GLEE_C_DEFINED_glBeginSceneEXT
-  GLvoid __stdcall GLee_Lazy_glBeginSceneEXT(void)  {if (GLeeInit()) glBeginSceneEXT();}
-  GLEEPFNGLBEGINSCENEEXTPROC GLeeFuncPtr_glBeginSceneEXT=GLee_Lazy_glBeginSceneEXT;
-#endif
 #ifndef GLEE_C_DEFINED_glEndSceneEXT
 #define GLEE_C_DEFINED_glEndSceneEXT
   GLvoid __stdcall GLee_Lazy_glEndSceneEXT(void)  {if (GLeeInit()) glEndSceneEXT();}
@@ -12409,211 +12378,6 @@ int __GLeeGLNumExtensions=409;
 /* GL_NV_gpu_program4 */
 
 #ifdef __GLEE_GL_NV_gpu_program4
-#ifndef GLEE_C_DEFINED_glProgramLocalParameterI4iNV
-#define GLEE_C_DEFINED_glProgramLocalParameterI4iNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w)  {if (GLeeInit()) glProgramLocalParameterI4iNV(target, index, x, y, z, w);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERI4INVPROC GLeeFuncPtr_glProgramLocalParameterI4iNV=GLee_Lazy_glProgramLocalParameterI4iNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramLocalParameterI4ivNV
-#define GLEE_C_DEFINED_glProgramLocalParameterI4ivNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParameterI4ivNV(GLenum target, GLuint index, const GLint * params)  {if (GLeeInit()) glProgramLocalParameterI4ivNV(target, index, params);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERI4IVNVPROC GLeeFuncPtr_glProgramLocalParameterI4ivNV=GLee_Lazy_glProgramLocalParameterI4ivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramLocalParametersI4ivNV
-#define GLEE_C_DEFINED_glProgramLocalParametersI4ivNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParametersI4ivNV(GLenum target, GLuint index, GLsizei count, const GLint * params)  {if (GLeeInit()) glProgramLocalParametersI4ivNV(target, index, count, params);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC GLeeFuncPtr_glProgramLocalParametersI4ivNV=GLee_Lazy_glProgramLocalParametersI4ivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramLocalParameterI4uiNV
-#define GLEE_C_DEFINED_glProgramLocalParameterI4uiNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w)  {if (GLeeInit()) glProgramLocalParameterI4uiNV(target, index, x, y, z, w);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERI4UINVPROC GLeeFuncPtr_glProgramLocalParameterI4uiNV=GLee_Lazy_glProgramLocalParameterI4uiNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramLocalParameterI4uivNV
-#define GLEE_C_DEFINED_glProgramLocalParameterI4uivNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParameterI4uivNV(GLenum target, GLuint index, const GLuint * params)  {if (GLeeInit()) glProgramLocalParameterI4uivNV(target, index, params);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC GLeeFuncPtr_glProgramLocalParameterI4uivNV=GLee_Lazy_glProgramLocalParameterI4uivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramLocalParametersI4uivNV
-#define GLEE_C_DEFINED_glProgramLocalParametersI4uivNV
-  GLvoid __stdcall GLee_Lazy_glProgramLocalParametersI4uivNV(GLenum target, GLuint index, GLsizei count, const GLuint * params)  {if (GLeeInit()) glProgramLocalParametersI4uivNV(target, index, count, params);}
-  GLEEPFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC GLeeFuncPtr_glProgramLocalParametersI4uivNV=GLee_Lazy_glProgramLocalParametersI4uivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParameterI4iNV
-#define GLEE_C_DEFINED_glProgramEnvParameterI4iNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w)  {if (GLeeInit()) glProgramEnvParameterI4iNV(target, index, x, y, z, w);}
-  GLEEPFNGLPROGRAMENVPARAMETERI4INVPROC GLeeFuncPtr_glProgramEnvParameterI4iNV=GLee_Lazy_glProgramEnvParameterI4iNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParameterI4ivNV
-#define GLEE_C_DEFINED_glProgramEnvParameterI4ivNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParameterI4ivNV(GLenum target, GLuint index, const GLint * params)  {if (GLeeInit()) glProgramEnvParameterI4ivNV(target, index, params);}
-  GLEEPFNGLPROGRAMENVPARAMETERI4IVNVPROC GLeeFuncPtr_glProgramEnvParameterI4ivNV=GLee_Lazy_glProgramEnvParameterI4ivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParametersI4ivNV
-#define GLEE_C_DEFINED_glProgramEnvParametersI4ivNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParametersI4ivNV(GLenum target, GLuint index, GLsizei count, const GLint * params)  {if (GLeeInit()) glProgramEnvParametersI4ivNV(target, index, count, params);}
-  GLEEPFNGLPROGRAMENVPARAMETERSI4IVNVPROC GLeeFuncPtr_glProgramEnvParametersI4ivNV=GLee_Lazy_glProgramEnvParametersI4ivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParameterI4uiNV
-#define GLEE_C_DEFINED_glProgramEnvParameterI4uiNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w)  {if (GLeeInit()) glProgramEnvParameterI4uiNV(target, index, x, y, z, w);}
-  GLEEPFNGLPROGRAMENVPARAMETERI4UINVPROC GLeeFuncPtr_glProgramEnvParameterI4uiNV=GLee_Lazy_glProgramEnvParameterI4uiNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParameterI4uivNV
-#define GLEE_C_DEFINED_glProgramEnvParameterI4uivNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParameterI4uivNV(GLenum target, GLuint index, const GLuint * params)  {if (GLeeInit()) glProgramEnvParameterI4uivNV(target, index, params);}
-  GLEEPFNGLPROGRAMENVPARAMETERI4UIVNVPROC GLeeFuncPtr_glProgramEnvParameterI4uivNV=GLee_Lazy_glProgramEnvParameterI4uivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glProgramEnvParametersI4uivNV
-#define GLEE_C_DEFINED_glProgramEnvParametersI4uivNV
-  GLvoid __stdcall GLee_Lazy_glProgramEnvParametersI4uivNV(GLenum target, GLuint index, GLsizei count, const GLuint * params)  {if (GLeeInit()) glProgramEnvParametersI4uivNV(target, index, count, params);}
-  GLEEPFNGLPROGRAMENVPARAMETERSI4UIVNVPROC GLeeFuncPtr_glProgramEnvParametersI4uivNV=GLee_Lazy_glProgramEnvParametersI4uivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glGetProgramLocalParameterIivNV
-#define GLEE_C_DEFINED_glGetProgramLocalParameterIivNV
-  GLvoid __stdcall GLee_Lazy_glGetProgramLocalParameterIivNV(GLenum target, GLuint index, GLint * params)  {if (GLeeInit()) glGetProgramLocalParameterIivNV(target, index, params);}
-  GLEEPFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC GLeeFuncPtr_glGetProgramLocalParameterIivNV=GLee_Lazy_glGetProgramLocalParameterIivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glGetProgramLocalParameterIuivNV
-#define GLEE_C_DEFINED_glGetProgramLocalParameterIuivNV
-  GLvoid __stdcall GLee_Lazy_glGetProgramLocalParameterIuivNV(GLenum target, GLuint index, GLuint * params)  {if (GLeeInit()) glGetProgramLocalParameterIuivNV(target, index, params);}
-  GLEEPFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC GLeeFuncPtr_glGetProgramLocalParameterIuivNV=GLee_Lazy_glGetProgramLocalParameterIuivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glGetProgramEnvParameterIivNV
-#define GLEE_C_DEFINED_glGetProgramEnvParameterIivNV
-  GLvoid __stdcall GLee_Lazy_glGetProgramEnvParameterIivNV(GLenum target, GLuint index, GLint * params)  {if (GLeeInit()) glGetProgramEnvParameterIivNV(target, index, params);}
-  GLEEPFNGLGETPROGRAMENVPARAMETERIIVNVPROC GLeeFuncPtr_glGetProgramEnvParameterIivNV=GLee_Lazy_glGetProgramEnvParameterIivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glGetProgramEnvParameterIuivNV
-#define GLEE_C_DEFINED_glGetProgramEnvParameterIuivNV
-  GLvoid __stdcall GLee_Lazy_glGetProgramEnvParameterIuivNV(GLenum target, GLuint index, GLuint * params)  {if (GLeeInit()) glGetProgramEnvParameterIuivNV(target, index, params);}
-  GLEEPFNGLGETPROGRAMENVPARAMETERIUIVNVPROC GLeeFuncPtr_glGetProgramEnvParameterIuivNV=GLee_Lazy_glGetProgramEnvParameterIuivNV;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureEXT
-#define GLEE_C_DEFINED_glFramebufferTextureEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureEXT(GLenum target, GLenum attachment, GLuint texture, GLint level)  {if (GLeeInit()) glFramebufferTextureEXT(target, attachment, texture, level);}
-  GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC GLeeFuncPtr_glFramebufferTextureEXT=GLee_Lazy_glFramebufferTextureEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureLayerEXT
-#define GLEE_C_DEFINED_glFramebufferTextureLayerEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureLayerEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer)  {if (GLeeInit()) glFramebufferTextureLayerEXT(target, attachment, texture, level, layer);}
-  GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC GLeeFuncPtr_glFramebufferTextureLayerEXT=GLee_Lazy_glFramebufferTextureLayerEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glFramebufferTextureFaceEXT
-#define GLEE_C_DEFINED_glFramebufferTextureFaceEXT
-  GLvoid __stdcall GLee_Lazy_glFramebufferTextureFaceEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face)  {if (GLeeInit()) glFramebufferTextureFaceEXT(target, attachment, texture, level, face);}
-  GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC GLeeFuncPtr_glFramebufferTextureFaceEXT=GLee_Lazy_glFramebufferTextureFaceEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI2iEXT
-#define GLEE_C_DEFINED_glVertexAttribI2iEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI2iEXT(GLuint index, GLint x, GLint y)  {if (GLeeInit()) glVertexAttribI2iEXT(index, x, y);}
-  GLEEPFNGLVERTEXATTRIBI2IEXTPROC GLeeFuncPtr_glVertexAttribI2iEXT=GLee_Lazy_glVertexAttribI2iEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI3iEXT
-#define GLEE_C_DEFINED_glVertexAttribI3iEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI3iEXT(GLuint index, GLint x, GLint y, GLint z)  {if (GLeeInit()) glVertexAttribI3iEXT(index, x, y, z);}
-  GLEEPFNGLVERTEXATTRIBI3IEXTPROC GLeeFuncPtr_glVertexAttribI3iEXT=GLee_Lazy_glVertexAttribI3iEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4iEXT
-#define GLEE_C_DEFINED_glVertexAttribI4iEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4iEXT(GLuint index, GLint x, GLint y, GLint z, GLint w)  {if (GLeeInit()) glVertexAttribI4iEXT(index, x, y, z, w);}
-  GLEEPFNGLVERTEXATTRIBI4IEXTPROC GLeeFuncPtr_glVertexAttribI4iEXT=GLee_Lazy_glVertexAttribI4iEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI1uiEXT
-#define GLEE_C_DEFINED_glVertexAttribI1uiEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI1uiEXT(GLuint index, GLuint x)  {if (GLeeInit()) glVertexAttribI1uiEXT(index, x);}
-  GLEEPFNGLVERTEXATTRIBI1UIEXTPROC GLeeFuncPtr_glVertexAttribI1uiEXT=GLee_Lazy_glVertexAttribI1uiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI2uiEXT
-#define GLEE_C_DEFINED_glVertexAttribI2uiEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI2uiEXT(GLuint index, GLuint x, GLuint y)  {if (GLeeInit()) glVertexAttribI2uiEXT(index, x, y);}
-  GLEEPFNGLVERTEXATTRIBI2UIEXTPROC GLeeFuncPtr_glVertexAttribI2uiEXT=GLee_Lazy_glVertexAttribI2uiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI3uiEXT
-#define GLEE_C_DEFINED_glVertexAttribI3uiEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI3uiEXT(GLuint index, GLuint x, GLuint y, GLuint z)  {if (GLeeInit()) glVertexAttribI3uiEXT(index, x, y, z);}
-  GLEEPFNGLVERTEXATTRIBI3UIEXTPROC GLeeFuncPtr_glVertexAttribI3uiEXT=GLee_Lazy_glVertexAttribI3uiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4uiEXT
-#define GLEE_C_DEFINED_glVertexAttribI4uiEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4uiEXT(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w)  {if (GLeeInit()) glVertexAttribI4uiEXT(index, x, y, z, w);}
-  GLEEPFNGLVERTEXATTRIBI4UIEXTPROC GLeeFuncPtr_glVertexAttribI4uiEXT=GLee_Lazy_glVertexAttribI4uiEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI1ivEXT
-#define GLEE_C_DEFINED_glVertexAttribI1ivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI1ivEXT(GLuint index, const GLint * v)  {if (GLeeInit()) glVertexAttribI1ivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI1IVEXTPROC GLeeFuncPtr_glVertexAttribI1ivEXT=GLee_Lazy_glVertexAttribI1ivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI2ivEXT
-#define GLEE_C_DEFINED_glVertexAttribI2ivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI2ivEXT(GLuint index, const GLint * v)  {if (GLeeInit()) glVertexAttribI2ivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI2IVEXTPROC GLeeFuncPtr_glVertexAttribI2ivEXT=GLee_Lazy_glVertexAttribI2ivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI3ivEXT
-#define GLEE_C_DEFINED_glVertexAttribI3ivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI3ivEXT(GLuint index, const GLint * v)  {if (GLeeInit()) glVertexAttribI3ivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI3IVEXTPROC GLeeFuncPtr_glVertexAttribI3ivEXT=GLee_Lazy_glVertexAttribI3ivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4ivEXT
-#define GLEE_C_DEFINED_glVertexAttribI4ivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4ivEXT(GLuint index, const GLint * v)  {if (GLeeInit()) glVertexAttribI4ivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4IVEXTPROC GLeeFuncPtr_glVertexAttribI4ivEXT=GLee_Lazy_glVertexAttribI4ivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI1uivEXT
-#define GLEE_C_DEFINED_glVertexAttribI1uivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI1uivEXT(GLuint index, const GLuint * v)  {if (GLeeInit()) glVertexAttribI1uivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI1UIVEXTPROC GLeeFuncPtr_glVertexAttribI1uivEXT=GLee_Lazy_glVertexAttribI1uivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI2uivEXT
-#define GLEE_C_DEFINED_glVertexAttribI2uivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI2uivEXT(GLuint index, const GLuint * v)  {if (GLeeInit()) glVertexAttribI2uivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI2UIVEXTPROC GLeeFuncPtr_glVertexAttribI2uivEXT=GLee_Lazy_glVertexAttribI2uivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI3uivEXT
-#define GLEE_C_DEFINED_glVertexAttribI3uivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI3uivEXT(GLuint index, const GLuint * v)  {if (GLeeInit()) glVertexAttribI3uivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI3UIVEXTPROC GLeeFuncPtr_glVertexAttribI3uivEXT=GLee_Lazy_glVertexAttribI3uivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4uivEXT
-#define GLEE_C_DEFINED_glVertexAttribI4uivEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4uivEXT(GLuint index, const GLuint * v)  {if (GLeeInit()) glVertexAttribI4uivEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4UIVEXTPROC GLeeFuncPtr_glVertexAttribI4uivEXT=GLee_Lazy_glVertexAttribI4uivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4bvEXT
-#define GLEE_C_DEFINED_glVertexAttribI4bvEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4bvEXT(GLuint index, const GLbyte * v)  {if (GLeeInit()) glVertexAttribI4bvEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4BVEXTPROC GLeeFuncPtr_glVertexAttribI4bvEXT=GLee_Lazy_glVertexAttribI4bvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4svEXT
-#define GLEE_C_DEFINED_glVertexAttribI4svEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4svEXT(GLuint index, const GLshort * v)  {if (GLeeInit()) glVertexAttribI4svEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4SVEXTPROC GLeeFuncPtr_glVertexAttribI4svEXT=GLee_Lazy_glVertexAttribI4svEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4ubvEXT
-#define GLEE_C_DEFINED_glVertexAttribI4ubvEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4ubvEXT(GLuint index, const GLubyte * v)  {if (GLeeInit()) glVertexAttribI4ubvEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4UBVEXTPROC GLeeFuncPtr_glVertexAttribI4ubvEXT=GLee_Lazy_glVertexAttribI4ubvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribI4usvEXT
-#define GLEE_C_DEFINED_glVertexAttribI4usvEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribI4usvEXT(GLuint index, const GLushort * v)  {if (GLeeInit()) glVertexAttribI4usvEXT(index, v);}
-  GLEEPFNGLVERTEXATTRIBI4USVEXTPROC GLeeFuncPtr_glVertexAttribI4usvEXT=GLee_Lazy_glVertexAttribI4usvEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glVertexAttribIPointerEXT
-#define GLEE_C_DEFINED_glVertexAttribIPointerEXT
-  GLvoid __stdcall GLee_Lazy_glVertexAttribIPointerEXT(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer)  {if (GLeeInit()) glVertexAttribIPointerEXT(index, size, type, stride, pointer);}
-  GLEEPFNGLVERTEXATTRIBIPOINTEREXTPROC GLeeFuncPtr_glVertexAttribIPointerEXT=GLee_Lazy_glVertexAttribIPointerEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetVertexAttribIivEXT
-#define GLEE_C_DEFINED_glGetVertexAttribIivEXT
-  GLvoid __stdcall GLee_Lazy_glGetVertexAttribIivEXT(GLuint index, GLenum pname, GLint * params)  {if (GLeeInit()) glGetVertexAttribIivEXT(index, pname, params);}
-  GLEEPFNGLGETVERTEXATTRIBIIVEXTPROC GLeeFuncPtr_glGetVertexAttribIivEXT=GLee_Lazy_glGetVertexAttribIivEXT;
-#endif
-#ifndef GLEE_C_DEFINED_glGetVertexAttribIuivEXT
-#define GLEE_C_DEFINED_glGetVertexAttribIuivEXT
-  GLvoid __stdcall GLee_Lazy_glGetVertexAttribIuivEXT(GLuint index, GLenum pname, GLuint * params)  {if (GLeeInit()) glGetVertexAttribIuivEXT(index, pname, params);}
-  GLEEPFNGLGETVERTEXATTRIBIUIVEXTPROC GLeeFuncPtr_glGetVertexAttribIuivEXT=GLee_Lazy_glGetVertexAttribIuivEXT;
-#endif
 #endif 
 
 /* GL_OES_byte_coordinates */
@@ -12626,34 +12390,19 @@ int __GLeeGLNumExtensions=409;
 #ifdef __GLEE_GL_OES_compressed_paletted_texture
 #endif 
 
+/* GL_OES_fixed_point */
+
+#ifdef __GLEE_GL_OES_fixed_point
+#endif 
+
+/* GL_OES_query_matrix */
+
+#ifdef __GLEE_GL_OES_query_matrix
+#endif 
+
 /* GL_OES_single_precision */
 
 #ifdef __GLEE_GL_OES_single_precision
-#ifndef GLEE_C_DEFINED_glDepthRangefOES
-#define GLEE_C_DEFINED_glDepthRangefOES
-  GLvoid __stdcall GLee_Lazy_glDepthRangefOES(GLclampf n, GLclampf f)  {if (GLeeInit()) glDepthRangefOES(n, f);}
-  GLEEPFNGLDEPTHRANGEFOESPROC GLeeFuncPtr_glDepthRangefOES=GLee_Lazy_glDepthRangefOES;
-#endif
-#ifndef GLEE_C_DEFINED_glFrustumfOES
-#define GLEE_C_DEFINED_glFrustumfOES
-  GLvoid __stdcall GLee_Lazy_glFrustumfOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)  {if (GLeeInit()) glFrustumfOES(l, r, b, t, n, f);}
-  GLEEPFNGLFRUSTUMFOESPROC GLeeFuncPtr_glFrustumfOES=GLee_Lazy_glFrustumfOES;
-#endif
-#ifndef GLEE_C_DEFINED_glOrthofOES
-#define GLEE_C_DEFINED_glOrthofOES
-  GLvoid __stdcall GLee_Lazy_glOrthofOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)  {if (GLeeInit()) glOrthofOES(l, r, b, t, n, f);}
-  GLEEPFNGLORTHOFOESPROC GLeeFuncPtr_glOrthofOES=GLee_Lazy_glOrthofOES;
-#endif
-#ifndef GLEE_C_DEFINED_glClipPlanefOES
-#define GLEE_C_DEFINED_glClipPlanefOES
-  GLvoid __stdcall GLee_Lazy_glClipPlanefOES(GLenum plane, const GLfloat* equation)  {if (GLeeInit()) glClipPlanefOES(plane, equation);}
-  GLEEPFNGLCLIPPLANEFOESPROC GLeeFuncPtr_glClipPlanefOES=GLee_Lazy_glClipPlanefOES;
-#endif
-#ifndef GLEE_C_DEFINED_glGetClipPlanefOES
-#define GLEE_C_DEFINED_glGetClipPlanefOES
-  GLvoid __stdcall GLee_Lazy_glGetClipPlanefOES(GLenum plane, GLfloat* equation)  {if (GLeeInit()) glGetClipPlanefOES(plane, equation);}
-  GLEEPFNGLGETCLIPPLANEFOESPROC GLeeFuncPtr_glGetClipPlanefOES=GLee_Lazy_glGetClipPlanefOES;
-#endif
 #ifndef GLEE_C_DEFINED_glClearDepthfOES
 #define GLEE_C_DEFINED_glClearDepthfOES
   GLvoid __stdcall GLee_Lazy_glClearDepthfOES(GLclampd depth)  {if (GLeeInit()) glClearDepthfOES(depth);}
@@ -12714,6 +12463,7 @@ GLboolean _GLEE_WGL_AMD_gpu_association = GL_FALSE;
 GLboolean _GLEE_WGL_NV_copy_image = GL_FALSE;
 GLboolean _GLEE_WGL_NV_multisample_coverage = GL_FALSE;
 GLboolean _GLEE_WGL_EXT_create_context_es2_profile = GL_FALSE;
+GLboolean _GLEE_WGL_NV_DX_interop = GL_FALSE;
 GLboolean _GLEE_WGL_EXT_display_color_table = GL_FALSE;
 GLboolean _GLEE_WGL_EXT_extensions_string = GL_FALSE;
 GLboolean _GLEE_WGL_EXT_swap_control = GL_FALSE;
@@ -12724,7 +12474,7 @@ GLboolean _GLEE_WGL_NV_video_output = GL_FALSE;
 
 /*  WGL Extension names */
 
-char __GLeeWGLExtensionNames[44][35]={
+char __GLeeWGLExtensionNames[45][35]={
     "WGL_ARB_buffer_region",
     "WGL_ARB_multisample",
     "WGL_ARB_extensions_string",
@@ -12762,6 +12512,7 @@ char __GLeeWGLExtensionNames[44][35]={
     "WGL_NV_copy_image",
     "WGL_NV_multisample_coverage",
     "WGL_EXT_create_context_es2_profile",
+    "WGL_NV_DX_interop",
     "WGL_EXT_display_color_table",
     "WGL_EXT_extensions_string",
     "WGL_EXT_swap_control",
@@ -12770,7 +12521,7 @@ char __GLeeWGLExtensionNames[44][35]={
     "WGL_I3D_swap_frame_usage",
     "WGL_NV_video_output"
 };
-int __GLeeWGLNumExtensions=44;
+int __GLeeWGLNumExtensions=45;
 
 /* WGL_ARB_buffer_region */
 
@@ -13355,6 +13106,51 @@ int __GLeeWGLNumExtensions=44;
 /* WGL_EXT_create_context_es2_profile */
 
 #ifdef __GLEE_WGL_EXT_create_context_es2_profile
+#endif 
+
+/* WGL_NV_DX_interop */
+
+#ifdef __GLEE_WGL_NV_DX_interop
+#ifndef GLEE_C_DEFINED_wglDXSetResourceShareHandleNV
+#define GLEE_C_DEFINED_wglDXSetResourceShareHandleNV
+  BOOL __stdcall GLee_Lazy_wglDXSetResourceShareHandleNV(void * dxObject, HANDLE shareHandle)  {if (GLeeInit()) return wglDXSetResourceShareHandleNV(dxObject, shareHandle); return (BOOL)0;}
+  GLEEPFNWGLDXSETRESOURCESHAREHANDLENVPROC GLeeFuncPtr_wglDXSetResourceShareHandleNV=GLee_Lazy_wglDXSetResourceShareHandleNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXOpenDeviceNV
+#define GLEE_C_DEFINED_wglDXOpenDeviceNV
+  HANDLE __stdcall GLee_Lazy_wglDXOpenDeviceNV(void * dxDevice)  {if (GLeeInit()) return wglDXOpenDeviceNV(dxDevice); return (HANDLE)0;}
+  GLEEPFNWGLDXOPENDEVICENVPROC GLeeFuncPtr_wglDXOpenDeviceNV=GLee_Lazy_wglDXOpenDeviceNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXCloseDeviceNV
+#define GLEE_C_DEFINED_wglDXCloseDeviceNV
+  BOOL __stdcall GLee_Lazy_wglDXCloseDeviceNV(HANDLE hDevice)  {if (GLeeInit()) return wglDXCloseDeviceNV(hDevice); return (BOOL)0;}
+  GLEEPFNWGLDXCLOSEDEVICENVPROC GLeeFuncPtr_wglDXCloseDeviceNV=GLee_Lazy_wglDXCloseDeviceNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXRegisterObjectNV
+#define GLEE_C_DEFINED_wglDXRegisterObjectNV
+  HANDLE __stdcall GLee_Lazy_wglDXRegisterObjectNV(HANDLE hDevice, void * dxObject, GLuint name, GLenum type, GLenum access)  {if (GLeeInit()) return wglDXRegisterObjectNV(hDevice, dxObject, name, type, access); return (HANDLE)0;}
+  GLEEPFNWGLDXREGISTEROBJECTNVPROC GLeeFuncPtr_wglDXRegisterObjectNV=GLee_Lazy_wglDXRegisterObjectNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXUnregisterObjectNV
+#define GLEE_C_DEFINED_wglDXUnregisterObjectNV
+  BOOL __stdcall GLee_Lazy_wglDXUnregisterObjectNV(HANDLE hDevice, HANDLE hObject)  {if (GLeeInit()) return wglDXUnregisterObjectNV(hDevice, hObject); return (BOOL)0;}
+  GLEEPFNWGLDXUNREGISTEROBJECTNVPROC GLeeFuncPtr_wglDXUnregisterObjectNV=GLee_Lazy_wglDXUnregisterObjectNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXObjectAccessNV
+#define GLEE_C_DEFINED_wglDXObjectAccessNV
+  BOOL __stdcall GLee_Lazy_wglDXObjectAccessNV(HANDLE hObject, GLenum access)  {if (GLeeInit()) return wglDXObjectAccessNV(hObject, access); return (BOOL)0;}
+  GLEEPFNWGLDXOBJECTACCESSNVPROC GLeeFuncPtr_wglDXObjectAccessNV=GLee_Lazy_wglDXObjectAccessNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXLockObjectsNV
+#define GLEE_C_DEFINED_wglDXLockObjectsNV
+  BOOL __stdcall GLee_Lazy_wglDXLockObjectsNV(HANDLE hDevice, GLint count, HANDLE * hObjects)  {if (GLeeInit()) return wglDXLockObjectsNV(hDevice, count, hObjects); return (BOOL)0;}
+  GLEEPFNWGLDXLOCKOBJECTSNVPROC GLeeFuncPtr_wglDXLockObjectsNV=GLee_Lazy_wglDXLockObjectsNV;
+#endif
+#ifndef GLEE_C_DEFINED_wglDXUnlockObjectsNV
+#define GLEE_C_DEFINED_wglDXUnlockObjectsNV
+  BOOL __stdcall GLee_Lazy_wglDXUnlockObjectsNV(HANDLE hDevice, GLint count, HANDLE * hObjects)  {if (GLeeInit()) return wglDXUnlockObjectsNV(hDevice, count, hObjects); return (BOOL)0;}
+  GLEEPFNWGLDXUNLOCKOBJECTSNVPROC GLeeFuncPtr_wglDXUnlockObjectsNV=GLee_Lazy_wglDXUnlockObjectsNV;
+#endif
 #endif 
 
 /* WGL_EXT_display_color_table */
@@ -18553,6 +18349,58 @@ GLuint __GLeeLink_GL_AMD_depth_clamp_separate(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_EXT_texture_sRGB_decode(void) {return GLEE_LINK_COMPLETE;}
 
+GLuint __GLeeLink_GL_NV_texture_multisample(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_GL_NV_texture_multisample
+    if ((GLeeFuncPtr_glTexImage2DMultisampleCoverageNV = (GLEEPFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC) __GLeeGetProcAddress("glTexImage2DMultisampleCoverageNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glTexImage3DMultisampleCoverageNV = (GLEEPFNGLTEXIMAGE3DMULTISAMPLECOVERAGENVPROC) __GLeeGetProcAddress("glTexImage3DMultisampleCoverageNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glTextureImage2DMultisampleNV = (GLEEPFNGLTEXTUREIMAGE2DMULTISAMPLENVPROC) __GLeeGetProcAddress("glTextureImage2DMultisampleNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glTextureImage3DMultisampleNV = (GLEEPFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC) __GLeeGetProcAddress("glTextureImage3DMultisampleNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glTextureImage2DMultisampleCoverageNV = (GLEEPFNGLTEXTUREIMAGE2DMULTISAMPLECOVERAGENVPROC) __GLeeGetProcAddress("glTextureImage2DMultisampleCoverageNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glTextureImage3DMultisampleCoverageNV = (GLEEPFNGLTEXTUREIMAGE3DMULTISAMPLECOVERAGENVPROC) __GLeeGetProcAddress("glTextureImage3DMultisampleCoverageNV"))!=0) nLinked++;
+#endif
+    if (nLinked==6) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
+
+GLuint __GLeeLink_GL_AMD_blend_minmax_factor(void) {return GLEE_LINK_COMPLETE;}
+
+GLuint __GLeeLink_GL_AMD_sample_positions(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_GL_AMD_sample_positions
+    if ((GLeeFuncPtr_glSetMultisamplefvAMD = (GLEEPFNGLSETMULTISAMPLEFVAMDPROC) __GLeeGetProcAddress("glSetMultisamplefvAMD"))!=0) nLinked++;
+#endif
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
+
+GLuint __GLeeLink_GL_EXT_x11_sync_object(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_GL_EXT_x11_sync_object
+    if ((GLeeFuncPtr_glImportSyncEXT = (GLEEPFNGLIMPORTSYNCEXTPROC) __GLeeGetProcAddress("glImportSyncEXT"))!=0) nLinked++;
+#endif
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
+
+GLuint __GLeeLink_GL_AMD_multi_draw_indirect(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_GL_AMD_multi_draw_indirect
+    if ((GLeeFuncPtr_glMultiDrawArraysIndirectAMD = (GLEEPFNGLMULTIDRAWARRAYSINDIRECTAMDPROC) __GLeeGetProcAddress("glMultiDrawArraysIndirectAMD"))!=0) nLinked++;
+    if ((GLeeFuncPtr_glMultiDrawElementsIndirectAMD = (GLEEPFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC) __GLeeGetProcAddress("glMultiDrawElementsIndirectAMD"))!=0) nLinked++;
+#endif
+    if (nLinked==2) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
+
 GLuint __GLeeLink_GL_SGIX_texture_select(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_INGR_blend_func_separate(void)
@@ -18583,64 +18431,24 @@ GLuint __GLeeLink_GL_AMD_vertex_shader_tessellator(void)
 {
     GLint nLinked=0;
 #ifdef __GLEE_GL_AMD_vertex_shader_tessellator
-    if ((GLeeFuncPtr_glTessellationFactorAMD = (GLEEPFNGLTESSELLATIONFACTORAMDPROC) __GLeeGetProcAddress("glTessellationFactorAMD"))!=0) nLinked++;
     if ((GLeeFuncPtr_glTessellationModeAMD = (GLEEPFNGLTESSELLATIONMODEAMDPROC) __GLeeGetProcAddress("glTessellationModeAMD"))!=0) nLinked++;
 #endif
-    if (nLinked==2) return GLEE_LINK_COMPLETE;
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
     if (nLinked==0) return GLEE_LINK_FAIL;
     return GLEE_LINK_PARTIAL;
 }
 
-GLuint __GLeeLink_GL_EXT_fragment_lighting(void)
-{
-    GLint nLinked=0;
-#ifdef __GLEE_GL_EXT_fragment_lighting
-    if ((GLeeFuncPtr_glFragmentLightModeliEXT = (GLEEPFNGLFRAGMENTLIGHTMODELIEXTPROC) __GLeeGetProcAddress("glFragmentLightModeliEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightModelfEXT = (GLEEPFNGLFRAGMENTLIGHTMODELFEXTPROC) __GLeeGetProcAddress("glFragmentLightModelfEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightModelivEXT = (GLEEPFNGLFRAGMENTLIGHTMODELIVEXTPROC) __GLeeGetProcAddress("glFragmentLightModelivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightModelfvEXT = (GLEEPFNGLFRAGMENTLIGHTMODELFVEXTPROC) __GLeeGetProcAddress("glFragmentLightModelfvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightiEXT = (GLEEPFNGLFRAGMENTLIGHTIEXTPROC) __GLeeGetProcAddress("glFragmentLightiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightfEXT = (GLEEPFNGLFRAGMENTLIGHTFEXTPROC) __GLeeGetProcAddress("glFragmentLightfEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightivEXT = (GLEEPFNGLFRAGMENTLIGHTIVEXTPROC) __GLeeGetProcAddress("glFragmentLightivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentLightfvEXT = (GLEEPFNGLFRAGMENTLIGHTFVEXTPROC) __GLeeGetProcAddress("glFragmentLightfvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetFragmentLightivEXT = (GLEEPFNGLGETFRAGMENTLIGHTIVEXTPROC) __GLeeGetProcAddress("glGetFragmentLightivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetFragmentLightfvEXT = (GLEEPFNGLGETFRAGMENTLIGHTFVEXTPROC) __GLeeGetProcAddress("glGetFragmentLightfvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentMaterialfEXT = (GLEEPFNGLFRAGMENTMATERIALFEXTPROC) __GLeeGetProcAddress("glFragmentMaterialfEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentMaterialiEXT = (GLEEPFNGLFRAGMENTMATERIALIEXTPROC) __GLeeGetProcAddress("glFragmentMaterialiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentMaterialfvEXT = (GLEEPFNGLFRAGMENTMATERIALFVEXTPROC) __GLeeGetProcAddress("glFragmentMaterialfvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentMaterialivEXT = (GLEEPFNGLFRAGMENTMATERIALIVEXTPROC) __GLeeGetProcAddress("glFragmentMaterialivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFragmentColorMaterialEXT = (GLEEPFNGLFRAGMENTCOLORMATERIALEXTPROC) __GLeeGetProcAddress("glFragmentColorMaterialEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetFragmentMaterialfvEXT = (GLEEPFNGLGETFRAGMENTMATERIALFVEXTPROC) __GLeeGetProcAddress("glGetFragmentMaterialfvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetFragmentMaterialivEXT = (GLEEPFNGLGETFRAGMENTMATERIALIVEXTPROC) __GLeeGetProcAddress("glGetFragmentMaterialivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glLightEnviEXT = (GLEEPFNGLLIGHTENVIEXTPROC) __GLeeGetProcAddress("glLightEnviEXT"))!=0) nLinked++;
-#endif
-    if (nLinked==18) return GLEE_LINK_COMPLETE;
-    if (nLinked==0) return GLEE_LINK_FAIL;
-    return GLEE_LINK_PARTIAL;
-}
+GLuint __GLeeLink_GL_EXT_fragment_lighting(void) {return GLEE_LINK_COMPLETE;}
 
-GLuint __GLeeLink_GL_EXT_geometry_shader4(void)
-{
-    GLint nLinked=0;
-#ifdef __GLEE_GL_EXT_geometry_shader4
-    if ((GLeeFuncPtr_glProgramParameteriEXT = (GLEEPFNGLPROGRAMPARAMETERIEXTPROC) __GLeeGetProcAddress("glProgramParameteriEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureEXT = (GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC) __GLeeGetProcAddress("glFramebufferTextureEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureLayerEXT = (GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC) __GLeeGetProcAddress("glFramebufferTextureLayerEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureFaceEXT = (GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC) __GLeeGetProcAddress("glFramebufferTextureFaceEXT"))!=0) nLinked++;
-#endif
-    if (nLinked==4) return GLEE_LINK_COMPLETE;
-    if (nLinked==0) return GLEE_LINK_FAIL;
-    return GLEE_LINK_PARTIAL;
-}
+GLuint __GLeeLink_GL_EXT_geometry_shader4(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_EXT_scene_marker(void)
 {
     GLint nLinked=0;
 #ifdef __GLEE_GL_EXT_scene_marker
-    if ((GLeeFuncPtr_glBeginSceneEXT = (GLEEPFNGLBEGINSCENEEXTPROC) __GLeeGetProcAddress("glBeginSceneEXT"))!=0) nLinked++;
     if ((GLeeFuncPtr_glEndSceneEXT = (GLEEPFNGLENDSCENEEXTPROC) __GLeeGetProcAddress("glEndSceneEXT"))!=0) nLinked++;
 #endif
-    if (nLinked==2) return GLEE_LINK_COMPLETE;
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
     if (nLinked==0) return GLEE_LINK_FAIL;
     return GLEE_LINK_PARTIAL;
 }
@@ -18651,73 +18459,23 @@ GLuint __GLeeLink_GL_EXT_texture_env(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_IBM_static_data(void) {return GLEE_LINK_COMPLETE;}
 
-GLuint __GLeeLink_GL_NV_gpu_program4(void)
-{
-    GLint nLinked=0;
-#ifdef __GLEE_GL_NV_gpu_program4
-    if ((GLeeFuncPtr_glProgramLocalParameterI4iNV = (GLEEPFNGLPROGRAMLOCALPARAMETERI4INVPROC) __GLeeGetProcAddress("glProgramLocalParameterI4iNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramLocalParameterI4ivNV = (GLEEPFNGLPROGRAMLOCALPARAMETERI4IVNVPROC) __GLeeGetProcAddress("glProgramLocalParameterI4ivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramLocalParametersI4ivNV = (GLEEPFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC) __GLeeGetProcAddress("glProgramLocalParametersI4ivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramLocalParameterI4uiNV = (GLEEPFNGLPROGRAMLOCALPARAMETERI4UINVPROC) __GLeeGetProcAddress("glProgramLocalParameterI4uiNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramLocalParameterI4uivNV = (GLEEPFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC) __GLeeGetProcAddress("glProgramLocalParameterI4uivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramLocalParametersI4uivNV = (GLEEPFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC) __GLeeGetProcAddress("glProgramLocalParametersI4uivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParameterI4iNV = (GLEEPFNGLPROGRAMENVPARAMETERI4INVPROC) __GLeeGetProcAddress("glProgramEnvParameterI4iNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParameterI4ivNV = (GLEEPFNGLPROGRAMENVPARAMETERI4IVNVPROC) __GLeeGetProcAddress("glProgramEnvParameterI4ivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParametersI4ivNV = (GLEEPFNGLPROGRAMENVPARAMETERSI4IVNVPROC) __GLeeGetProcAddress("glProgramEnvParametersI4ivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParameterI4uiNV = (GLEEPFNGLPROGRAMENVPARAMETERI4UINVPROC) __GLeeGetProcAddress("glProgramEnvParameterI4uiNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParameterI4uivNV = (GLEEPFNGLPROGRAMENVPARAMETERI4UIVNVPROC) __GLeeGetProcAddress("glProgramEnvParameterI4uivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glProgramEnvParametersI4uivNV = (GLEEPFNGLPROGRAMENVPARAMETERSI4UIVNVPROC) __GLeeGetProcAddress("glProgramEnvParametersI4uivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetProgramLocalParameterIivNV = (GLEEPFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC) __GLeeGetProcAddress("glGetProgramLocalParameterIivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetProgramLocalParameterIuivNV = (GLEEPFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC) __GLeeGetProcAddress("glGetProgramLocalParameterIuivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetProgramEnvParameterIivNV = (GLEEPFNGLGETPROGRAMENVPARAMETERIIVNVPROC) __GLeeGetProcAddress("glGetProgramEnvParameterIivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetProgramEnvParameterIuivNV = (GLEEPFNGLGETPROGRAMENVPARAMETERIUIVNVPROC) __GLeeGetProcAddress("glGetProgramEnvParameterIuivNV"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureEXT = (GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC) __GLeeGetProcAddress("glFramebufferTextureEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureLayerEXT = (GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC) __GLeeGetProcAddress("glFramebufferTextureLayerEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFramebufferTextureFaceEXT = (GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC) __GLeeGetProcAddress("glFramebufferTextureFaceEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI2iEXT = (GLEEPFNGLVERTEXATTRIBI2IEXTPROC) __GLeeGetProcAddress("glVertexAttribI2iEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI3iEXT = (GLEEPFNGLVERTEXATTRIBI3IEXTPROC) __GLeeGetProcAddress("glVertexAttribI3iEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4iEXT = (GLEEPFNGLVERTEXATTRIBI4IEXTPROC) __GLeeGetProcAddress("glVertexAttribI4iEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI1uiEXT = (GLEEPFNGLVERTEXATTRIBI1UIEXTPROC) __GLeeGetProcAddress("glVertexAttribI1uiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI2uiEXT = (GLEEPFNGLVERTEXATTRIBI2UIEXTPROC) __GLeeGetProcAddress("glVertexAttribI2uiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI3uiEXT = (GLEEPFNGLVERTEXATTRIBI3UIEXTPROC) __GLeeGetProcAddress("glVertexAttribI3uiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4uiEXT = (GLEEPFNGLVERTEXATTRIBI4UIEXTPROC) __GLeeGetProcAddress("glVertexAttribI4uiEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI1ivEXT = (GLEEPFNGLVERTEXATTRIBI1IVEXTPROC) __GLeeGetProcAddress("glVertexAttribI1ivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI2ivEXT = (GLEEPFNGLVERTEXATTRIBI2IVEXTPROC) __GLeeGetProcAddress("glVertexAttribI2ivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI3ivEXT = (GLEEPFNGLVERTEXATTRIBI3IVEXTPROC) __GLeeGetProcAddress("glVertexAttribI3ivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4ivEXT = (GLEEPFNGLVERTEXATTRIBI4IVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4ivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI1uivEXT = (GLEEPFNGLVERTEXATTRIBI1UIVEXTPROC) __GLeeGetProcAddress("glVertexAttribI1uivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI2uivEXT = (GLEEPFNGLVERTEXATTRIBI2UIVEXTPROC) __GLeeGetProcAddress("glVertexAttribI2uivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI3uivEXT = (GLEEPFNGLVERTEXATTRIBI3UIVEXTPROC) __GLeeGetProcAddress("glVertexAttribI3uivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4uivEXT = (GLEEPFNGLVERTEXATTRIBI4UIVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4uivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4bvEXT = (GLEEPFNGLVERTEXATTRIBI4BVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4bvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4svEXT = (GLEEPFNGLVERTEXATTRIBI4SVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4svEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4ubvEXT = (GLEEPFNGLVERTEXATTRIBI4UBVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4ubvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribI4usvEXT = (GLEEPFNGLVERTEXATTRIBI4USVEXTPROC) __GLeeGetProcAddress("glVertexAttribI4usvEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glVertexAttribIPointerEXT = (GLEEPFNGLVERTEXATTRIBIPOINTEREXTPROC) __GLeeGetProcAddress("glVertexAttribIPointerEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetVertexAttribIivEXT = (GLEEPFNGLGETVERTEXATTRIBIIVEXTPROC) __GLeeGetProcAddress("glGetVertexAttribIivEXT"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetVertexAttribIuivEXT = (GLEEPFNGLGETVERTEXATTRIBIUIVEXTPROC) __GLeeGetProcAddress("glGetVertexAttribIuivEXT"))!=0) nLinked++;
-#endif
-    if (nLinked==41) return GLEE_LINK_COMPLETE;
-    if (nLinked==0) return GLEE_LINK_FAIL;
-    return GLEE_LINK_PARTIAL;
-}
+GLuint __GLeeLink_GL_NV_gpu_program4(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_OES_byte_coordinates(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_OES_compressed_paletted_texture(void) {return GLEE_LINK_COMPLETE;}
 
+GLuint __GLeeLink_GL_OES_fixed_point(void) {return GLEE_LINK_COMPLETE;}
+
+GLuint __GLeeLink_GL_OES_query_matrix(void) {return GLEE_LINK_COMPLETE;}
+
 GLuint __GLeeLink_GL_OES_single_precision(void)
 {
     GLint nLinked=0;
 #ifdef __GLEE_GL_OES_single_precision
-    if ((GLeeFuncPtr_glDepthRangefOES = (GLEEPFNGLDEPTHRANGEFOESPROC) __GLeeGetProcAddress("glDepthRangefOES"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glFrustumfOES = (GLEEPFNGLFRUSTUMFOESPROC) __GLeeGetProcAddress("glFrustumfOES"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glOrthofOES = (GLEEPFNGLORTHOFOESPROC) __GLeeGetProcAddress("glOrthofOES"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glClipPlanefOES = (GLEEPFNGLCLIPPLANEFOESPROC) __GLeeGetProcAddress("glClipPlanefOES"))!=0) nLinked++;
-    if ((GLeeFuncPtr_glGetClipPlanefOES = (GLEEPFNGLGETCLIPPLANEFOESPROC) __GLeeGetProcAddress("glGetClipPlanefOES"))!=0) nLinked++;
     if ((GLeeFuncPtr_glClearDepthfOES = (GLEEPFNGLCLEARDEPTHFOESPROC) __GLeeGetProcAddress("glClearDepthfOES"))!=0) nLinked++;
 #endif
-    if (nLinked==6) return GLEE_LINK_COMPLETE;
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
     if (nLinked==0) return GLEE_LINK_FAIL;
     return GLEE_LINK_PARTIAL;
 }
@@ -18726,7 +18484,7 @@ GLuint __GLeeLink_GL_SGIX_pixel_texture_bits(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_SGIX_texture_range(void) {return GLEE_LINK_COMPLETE;}
 
-GLEE_LINK_FUNCTION __GLeeGLLoadFunction[409];
+GLEE_LINK_FUNCTION __GLeeGLLoadFunction[416];
 
 void initGLLoadFunctions(void)
 {
@@ -19122,23 +18880,30 @@ void initGLLoadFunctions(void)
     __GLeeGLLoadFunction[389]=__GLeeLink_GL_AMD_transform_feedback3_lines_triangles;
     __GLeeGLLoadFunction[390]=__GLeeLink_GL_AMD_depth_clamp_separate;
     __GLeeGLLoadFunction[391]=__GLeeLink_GL_EXT_texture_sRGB_decode;
-    __GLeeGLLoadFunction[392]=__GLeeLink_GL_SGIX_texture_select;
-    __GLeeGLLoadFunction[393]=__GLeeLink_GL_INGR_blend_func_separate;
-    __GLeeGLLoadFunction[394]=__GLeeLink_GL_SGIX_depth_pass_instrument;
-    __GLeeGLLoadFunction[395]=__GLeeLink_GL_SGIX_igloo_interface;
-    __GLeeGLLoadFunction[396]=__GLeeLink_GL_AMD_vertex_shader_tessellator;
-    __GLeeGLLoadFunction[397]=__GLeeLink_GL_EXT_fragment_lighting;
-    __GLeeGLLoadFunction[398]=__GLeeLink_GL_EXT_geometry_shader4;
-    __GLeeGLLoadFunction[399]=__GLeeLink_GL_EXT_scene_marker;
-    __GLeeGLLoadFunction[400]=__GLeeLink_GL_EXT_texture_compression_dxt1;
-    __GLeeGLLoadFunction[401]=__GLeeLink_GL_EXT_texture_env;
-    __GLeeGLLoadFunction[402]=__GLeeLink_GL_IBM_static_data;
-    __GLeeGLLoadFunction[403]=__GLeeLink_GL_NV_gpu_program4;
-    __GLeeGLLoadFunction[404]=__GLeeLink_GL_OES_byte_coordinates;
-    __GLeeGLLoadFunction[405]=__GLeeLink_GL_OES_compressed_paletted_texture;
-    __GLeeGLLoadFunction[406]=__GLeeLink_GL_OES_single_precision;
-    __GLeeGLLoadFunction[407]=__GLeeLink_GL_SGIX_pixel_texture_bits;
-    __GLeeGLLoadFunction[408]=__GLeeLink_GL_SGIX_texture_range;
+    __GLeeGLLoadFunction[392]=__GLeeLink_GL_NV_texture_multisample;
+    __GLeeGLLoadFunction[393]=__GLeeLink_GL_AMD_blend_minmax_factor;
+    __GLeeGLLoadFunction[394]=__GLeeLink_GL_AMD_sample_positions;
+    __GLeeGLLoadFunction[395]=__GLeeLink_GL_EXT_x11_sync_object;
+    __GLeeGLLoadFunction[396]=__GLeeLink_GL_AMD_multi_draw_indirect;
+    __GLeeGLLoadFunction[397]=__GLeeLink_GL_SGIX_texture_select;
+    __GLeeGLLoadFunction[398]=__GLeeLink_GL_INGR_blend_func_separate;
+    __GLeeGLLoadFunction[399]=__GLeeLink_GL_SGIX_depth_pass_instrument;
+    __GLeeGLLoadFunction[400]=__GLeeLink_GL_SGIX_igloo_interface;
+    __GLeeGLLoadFunction[401]=__GLeeLink_GL_AMD_vertex_shader_tessellator;
+    __GLeeGLLoadFunction[402]=__GLeeLink_GL_EXT_fragment_lighting;
+    __GLeeGLLoadFunction[403]=__GLeeLink_GL_EXT_geometry_shader4;
+    __GLeeGLLoadFunction[404]=__GLeeLink_GL_EXT_scene_marker;
+    __GLeeGLLoadFunction[405]=__GLeeLink_GL_EXT_texture_compression_dxt1;
+    __GLeeGLLoadFunction[406]=__GLeeLink_GL_EXT_texture_env;
+    __GLeeGLLoadFunction[407]=__GLeeLink_GL_IBM_static_data;
+    __GLeeGLLoadFunction[408]=__GLeeLink_GL_NV_gpu_program4;
+    __GLeeGLLoadFunction[409]=__GLeeLink_GL_OES_byte_coordinates;
+    __GLeeGLLoadFunction[410]=__GLeeLink_GL_OES_compressed_paletted_texture;
+    __GLeeGLLoadFunction[411]=__GLeeLink_GL_OES_fixed_point;
+    __GLeeGLLoadFunction[412]=__GLeeLink_GL_OES_query_matrix;
+    __GLeeGLLoadFunction[413]=__GLeeLink_GL_OES_single_precision;
+    __GLeeGLLoadFunction[414]=__GLeeLink_GL_SGIX_pixel_texture_bits;
+    __GLeeGLLoadFunction[415]=__GLeeLink_GL_SGIX_texture_range;
 }
 
 #ifdef WIN32
@@ -19464,6 +19229,24 @@ GLuint __GLeeLink_WGL_NV_multisample_coverage(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_WGL_EXT_create_context_es2_profile(void) {return GLEE_LINK_COMPLETE;}
 
+GLuint __GLeeLink_WGL_NV_DX_interop(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_WGL_NV_DX_interop
+    if ((GLeeFuncPtr_wglDXSetResourceShareHandleNV = (GLEEPFNWGLDXSETRESOURCESHAREHANDLENVPROC) __GLeeGetProcAddress("wglDXSetResourceShareHandleNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXOpenDeviceNV = (GLEEPFNWGLDXOPENDEVICENVPROC) __GLeeGetProcAddress("wglDXOpenDeviceNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXCloseDeviceNV = (GLEEPFNWGLDXCLOSEDEVICENVPROC) __GLeeGetProcAddress("wglDXCloseDeviceNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXRegisterObjectNV = (GLEEPFNWGLDXREGISTEROBJECTNVPROC) __GLeeGetProcAddress("wglDXRegisterObjectNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXUnregisterObjectNV = (GLEEPFNWGLDXUNREGISTEROBJECTNVPROC) __GLeeGetProcAddress("wglDXUnregisterObjectNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXObjectAccessNV = (GLEEPFNWGLDXOBJECTACCESSNVPROC) __GLeeGetProcAddress("wglDXObjectAccessNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXLockObjectsNV = (GLEEPFNWGLDXLOCKOBJECTSNVPROC) __GLeeGetProcAddress("wglDXLockObjectsNV"))!=0) nLinked++;
+    if ((GLeeFuncPtr_wglDXUnlockObjectsNV = (GLEEPFNWGLDXUNLOCKOBJECTSNVPROC) __GLeeGetProcAddress("wglDXUnlockObjectsNV"))!=0) nLinked++;
+#endif
+    if (nLinked==8) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
+
 GLuint __GLeeLink_WGL_EXT_display_color_table(void)
 {
     GLint nLinked=0;
@@ -19559,7 +19342,7 @@ GLuint __GLeeLink_WGL_NV_video_output(void)
     return GLEE_LINK_PARTIAL;
 }
 
-GLEE_LINK_FUNCTION __GLeeWGLLoadFunction[44];
+GLEE_LINK_FUNCTION __GLeeWGLLoadFunction[45];
 
 void initWGLLoadFunctions(void)
 {
@@ -19600,13 +19383,14 @@ void initWGLLoadFunctions(void)
     __GLeeWGLLoadFunction[34]=__GLeeLink_WGL_NV_copy_image;
     __GLeeWGLLoadFunction[35]=__GLeeLink_WGL_NV_multisample_coverage;
     __GLeeWGLLoadFunction[36]=__GLeeLink_WGL_EXT_create_context_es2_profile;
-    __GLeeWGLLoadFunction[37]=__GLeeLink_WGL_EXT_display_color_table;
-    __GLeeWGLLoadFunction[38]=__GLeeLink_WGL_EXT_extensions_string;
-    __GLeeWGLLoadFunction[39]=__GLeeLink_WGL_EXT_swap_control;
-    __GLeeWGLLoadFunction[40]=__GLeeLink_WGL_NV_vertex_array_range;
-    __GLeeWGLLoadFunction[41]=__GLeeLink_WGL_OML_sync_control;
-    __GLeeWGLLoadFunction[42]=__GLeeLink_WGL_I3D_swap_frame_usage;
-    __GLeeWGLLoadFunction[43]=__GLeeLink_WGL_NV_video_output;
+    __GLeeWGLLoadFunction[37]=__GLeeLink_WGL_NV_DX_interop;
+    __GLeeWGLLoadFunction[38]=__GLeeLink_WGL_EXT_display_color_table;
+    __GLeeWGLLoadFunction[39]=__GLeeLink_WGL_EXT_extensions_string;
+    __GLeeWGLLoadFunction[40]=__GLeeLink_WGL_EXT_swap_control;
+    __GLeeWGLLoadFunction[41]=__GLeeLink_WGL_NV_vertex_array_range;
+    __GLeeWGLLoadFunction[42]=__GLeeLink_WGL_OML_sync_control;
+    __GLeeWGLLoadFunction[43]=__GLeeLink_WGL_I3D_swap_frame_usage;
+    __GLeeWGLLoadFunction[44]=__GLeeLink_WGL_NV_video_output;
 }
 
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
@@ -22329,6 +22113,31 @@ GLEE_EXTERN GLboolean GLeeInit( void )
         _GLEE_EXT_texture_sRGB_decode = GL_TRUE;
         __GLeeLink_GL_EXT_texture_sRGB_decode();
     }
+    if (__GLeeCheckExtension("GL_NV_texture_multisample", &extensionNames) )
+    {
+        _GLEE_NV_texture_multisample = GL_TRUE;
+        __GLeeLink_GL_NV_texture_multisample();
+    }
+    if (__GLeeCheckExtension("GL_AMD_blend_minmax_factor", &extensionNames) )
+    {
+        _GLEE_AMD_blend_minmax_factor = GL_TRUE;
+        __GLeeLink_GL_AMD_blend_minmax_factor();
+    }
+    if (__GLeeCheckExtension("GL_AMD_sample_positions", &extensionNames) )
+    {
+        _GLEE_AMD_sample_positions = GL_TRUE;
+        __GLeeLink_GL_AMD_sample_positions();
+    }
+    if (__GLeeCheckExtension("GL_EXT_x11_sync_object", &extensionNames) )
+    {
+        _GLEE_EXT_x11_sync_object = GL_TRUE;
+        __GLeeLink_GL_EXT_x11_sync_object();
+    }
+    if (__GLeeCheckExtension("GL_AMD_multi_draw_indirect", &extensionNames) )
+    {
+        _GLEE_AMD_multi_draw_indirect = GL_TRUE;
+        __GLeeLink_GL_AMD_multi_draw_indirect();
+    }
     if (__GLeeCheckExtension("GL_SGIX_texture_select", &extensionNames) )
     {
         _GLEE_SGIX_texture_select = GL_TRUE;
@@ -22398,6 +22207,16 @@ GLEE_EXTERN GLboolean GLeeInit( void )
     {
         _GLEE_OES_compressed_paletted_texture = GL_TRUE;
         __GLeeLink_GL_OES_compressed_paletted_texture();
+    }
+    if (__GLeeCheckExtension("GL_OES_fixed_point", &extensionNames) )
+    {
+        _GLEE_OES_fixed_point = GL_TRUE;
+        __GLeeLink_GL_OES_fixed_point();
+    }
+    if (__GLeeCheckExtension("GL_OES_query_matrix", &extensionNames) )
+    {
+        _GLEE_OES_query_matrix = GL_TRUE;
+        __GLeeLink_GL_OES_query_matrix();
     }
     if (__GLeeCheckExtension("GL_OES_single_precision", &extensionNames) )
     {
@@ -22599,6 +22418,11 @@ GLEE_EXTERN GLboolean GLeeInit( void )
     {
         _GLEE_WGL_EXT_create_context_es2_profile = GL_TRUE;
         __GLeeLink_WGL_EXT_create_context_es2_profile();
+    }
+    if (__GLeeCheckExtension("WGL_NV_DX_interop", &extensionNames) )
+    {
+        _GLEE_WGL_NV_DX_interop = GL_TRUE;
+        __GLeeLink_WGL_NV_DX_interop();
     }
     if (__GLeeCheckExtension("WGL_EXT_display_color_table", &extensionNames) )
     {
