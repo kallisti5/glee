@@ -58,7 +58,7 @@ file( GLOB_RECURSE spec_files
 
 add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMAND gleexmlgen
-                    MAIN_DEPENDENCY gleexmlgen
+                    MAIN_DEPENDENCY GLeeXMLGen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/registry
@@ -68,7 +68,7 @@ add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
 add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
                            ${DATA_DIR}/output/glee.h
                     COMMAND gleegen
-                    MAIN_DEPENDENCY gleegen
+                    MAIN_DEPENDENCY GLeeGen
                     DEPENDS ${DATA_DIR}/GleeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GleeGenInput/extensions.xml
                     COMMENT "Generating glee.h and glee.c" )
