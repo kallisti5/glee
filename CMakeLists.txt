@@ -40,6 +40,9 @@ add_subdirectory( GLeeGen )
 set( glee_sources ${DATA_DIR}/output/glee.c
                   ${DATA_DIR}/output/glee.h )
 
+set_source_files_properties( ${glee_sources}
+                             PROPERTIES GENERATED TRUE )
+
 add_library( libgleeStatic    STATIC    ${glee_sources} )
 add_library( libgleeShared    SHARED    ${glee_sources} )
 
