@@ -6,7 +6,7 @@
 #pragma once
 
 #include <iostream>
-#include <tchar.h>
+//#include <tchar.h>
 
 // this code disables data conversion warnings
 #pragma warning(disable:4051)    
@@ -22,12 +22,12 @@
 #include <stdio.h>
 #include <assert.h>
 #include <algorithm>
-#include <xutility>
+//#include <xutility>
 #include <string>
 #include <vector>
 #include <list>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 
 const int MAX_INT=std::numeric_limits<int>::max();
 const float MAX_FLOAT=std::numeric_limits<float>::max();
@@ -41,6 +41,6 @@ typedef unsigned int uint;
 #define min(X,Y) ((X)<(Y) ? (X) : (Y))
 #endif
 
-#include "arraylist.h"
-#include "string.h"
-#include "exception.h"
+#include "ArrayList.h"
+#include "String.h"
+#include "Exception.h"

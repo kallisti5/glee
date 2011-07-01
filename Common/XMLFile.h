@@ -31,7 +31,7 @@ namespace Mirage
 	struct XMLElement
 	{ 
 	
-		friend XMLFile;
+		friend struct XMLFile;
 		XMLElement()								{elementSearchIndex=0;}
 		XMLElement(const XMLElement& src)			{*this=src;}
 		XMLElement& operator=(const XMLElement& src) {name=src.name; elements=src.elements; attribs=src.attribs; return *this;}

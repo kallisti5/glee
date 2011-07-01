@@ -246,7 +246,7 @@ namespace Mirage
 		void allocSetShrinkable(bool shrinkable)	{allocDat.shrinkable=shrinkable;}
 
 		//reorderings
-		void randomiseOrder(int seed=-1)
+		/*void randomiseOrder(int seed=-1)
 		{
 			ArrayList<T> rand;
 			while (_size>0)
@@ -256,7 +256,7 @@ namespace Mirage
 				erase(i);
 			}
 			*this=rand;
-		}
+		}*/
 
 		void filter(const ArrayList<T>& src) //merges the common elements of both arraylists into this arraylist
 		{

@@ -1,14 +1,25 @@
 // GLeeXMLGen.cpp : Defines the entry point for the console application.
 //
 
-#include <cstdint>
-#include <conio.h>
-#include "..\common\stdafx.h"
-#include "..\common\XMLFile.h"
 #include "GLeeXMLGen.h"
-#include <windows.h>
+#include <stdint.h>
+//#include <conio.h>
+#include "../Common/stdafx.h"
+#include "../Common/XMLFile.h"
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <sys/types.h>
+    #include <dirent.h>
+    #undef min
+    #undef max
+#endif
 
-using namespace std::tr1;
+#ifdef _MSC_VER
+    using namespace std::tr1;
+#else
+    using namespace boost;
+#endif
 using namespace Mirage;
 
 /*
@@ -38,13 +49,13 @@ using namespace Mirage;
 
 void getSubstring(const char * start, const char * end, String& string_out)
 {
-	int len=(int)end-(int)start;
+	int len=(long int)end-(long int)start;
 	string_out.resize(len);
 	for (int a=0;a<len;a++)
 		string_out[a]=start[a];
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
 	ArrayList<String> ignoreList;
 	ArrayList<String> includedExtensions;
@@ -162,6 +173,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOut)
 {
+#ifdef _WIN32
 	//need to traverse subdirectories
 	WIN32_FIND_DATA fileData;
 	HANDLE hFind;
@@ -196,6 +208,29 @@ bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOu
 		res=FindNextFile(hFind, &fileData);
 	} while (res!=0);
 	return true;
+#else
+    DIR*           dir;
+    struct dirent* dit;
+    dir = opendir( startDir.cStr() );
+    
+    while( dit = readdir(dir) )
+    {
+        //
+        // If this is a folder recurse
+        //
+        if( dit->d_type == 0x4 )
+        {
+            if( !getSpecFilenames( startDir + String(dit->d_name), specFilenamesOut ) )
+                return false;
+        }
+        else if ( dit->d_type == 0x8 )
+        {
+            specFilenamesOut.add( startDir + String("/") + String(dit->d_name) );
+        }
+    }
+    
+    return true;
+#endif
 }
 
 SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsXML, ArrayList<String>& ignoreList)

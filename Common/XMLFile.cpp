@@ -14,7 +14,8 @@
 
 
 #include "stdafx.h"
-#include "xmlFile.h"
+#include "XMLFile.h"
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

@@ -106,7 +106,7 @@ namespace Mirage
 
 		String subString(int start, int end) const;				
 
-		void insert(int pos, String& src);
+		void insert(int pos, const Mirage::String& src);
 		void remove(int pos, int len);
 		void insertChar(int pos, char c);
 		void removeChar(int pos);
@@ -145,7 +145,7 @@ namespace Mirage
 		return newString;
 	}
 
-	inline std::strstream& operator>> ( std::strstream& is, String& str )
+	inline std::stringstream& operator>> ( std::stringstream& is, String& str )
 	{
 		char c;
 		while (!is.eof())

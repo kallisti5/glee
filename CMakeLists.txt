@@ -45,8 +45,7 @@ add_library( libgleeShared    SHARED    ${glee_sources} )
 
 target_link_libraries( libgleeShared opengl32 )
 
-add_custom_target ( latest_specs
-                    ALL
+add_custom_target ( update_specs
                     wget --recursive --level=1 --timestamping --directory-prefix=${DATA_DIR}/GLeeXMLGenInput/ --no-host-directories --accept=txt,h --include-directories=registry/specs,registry/api --exclude-directories=registry/doc --user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30\" http://www.opengl.org/registry/
                     COMMENT "Getting latest specs from http://www.opengl.org/registry/" )
 
@@ -55,7 +54,6 @@ add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/registry
-                            latest_specs
                     COMMENT "Generating GLeeXMLGen inputs" )
 
 add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c

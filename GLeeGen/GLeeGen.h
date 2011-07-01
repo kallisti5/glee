@@ -31,7 +31,7 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#include <conio.h>
+//#include <conio.h>
 #include <utility>
 #include "../Common/stdafx.h"
 #include "../Common/XMLFile.h"

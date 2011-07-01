@@ -1,7 +1,13 @@
 // GLeeXMLGen.cpp : Defines the entry point for the console application.
 //
-#include <regex>
+#ifdef _MSC_VER
+    #include <regex>
+#else
+    #include <boost/regex.hpp>
+#endif
 #include "../Common/Config.h"
+#include "../Common/stdafx.h"
+#include "../Common/XMLFile.h"
 
 using namespace Mirage;
 
@@ -20,7 +26,7 @@ enum SpecParseResult
 };
 
 
-int _tmain(int argc, _TCHAR* argv[]);
+int main(int argc, char* argv[]);
 bool readNames(String &extFileString, ArrayList<String>& names);
 bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter);
 bool readFunctions(String& extFileString, XMLElement& XMLOut, int typeFilter);
@@ -30,8 +36,12 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
 bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOut);
 bool readStringList(const char * filename, ArrayList<String>& stringListOut);
 
+#ifdef _MSC_VER
 std::tr1::regex& getTypeRegex();
-
+#else
+//typedef boost::xpressive::basic_regex<std::string> regex;
+boost::regex& getTypeRegex();
+#endif
 
 void addPrefixes(XMLElement& XMLOut);
 void convertType(String& type);

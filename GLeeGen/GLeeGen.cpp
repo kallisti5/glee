@@ -30,7 +30,8 @@
 //  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "GleeGen.h"
+#include "GLeeGen.h"
+#include <cstring>
 using namespace Mirage;
 using namespace std;
 

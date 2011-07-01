@@ -30,6 +30,8 @@
 #include "stdafx.h"
 #include "String.h"
 #include <stdarg.h>
+#include <cstdio>
+#include <cstring>
 
 
 using namespace std;
@@ -209,7 +211,7 @@ namespace Mirage
 		return sub;
 	}
 
-	void String::insert(int pos, String &src)
+	void String::insert(int pos, const String &src)
 	{
 		//int newLength=length+src.length;
 		int oldLength=_length;
@@ -274,7 +276,7 @@ namespace Mirage
 	{
 		char msg[1024];
 		int len;
-		len=_vsnprintf( msg, 1023, format, args);
+		len=vsnprintf( msg, 1023, format, args);
 		append(msg,len);
 	}
 
@@ -312,13 +314,13 @@ namespace Mirage
 
 	bool String::writeToFile(FILE *file)
 	{
-		_putw(_length,file);
+		putw(_length,file);
 		return writeFile(file);
 	}
 
 	bool String::readFromFile(FILE *file)
 	{
-		int flen=_getw(file);
+		int flen=getw(file);
 		if (flen<0) return false;
 		resize(flen);
 		for (int a=0;a<flen;a++)
