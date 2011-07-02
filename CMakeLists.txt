@@ -46,7 +46,11 @@ set_source_files_properties( ${glee_sources}
 add_library( libgleeStatic    STATIC    ${glee_sources} )
 add_library( libgleeShared    SHARED    ${glee_sources} )
 
-target_link_libraries( libgleeShared opengl32 )
+if( UNIX )
+    target_link_libraries( libgleeShared GL )
+else( )
+    target_link_libraries( libgleeShared opengl32 )
+endif( )
 
 add_custom_target ( update_specs
                     wget --recursive --level=1 --timestamping --directory-prefix=${DATA_DIR}/GLeeXMLGenInput/ --no-host-directories --accept=txt,h --include-directories=registry/specs,registry/api --exclude-directories=registry/doc --user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30\" http://www.opengl.org/registry/
