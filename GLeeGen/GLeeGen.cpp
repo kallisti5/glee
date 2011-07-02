@@ -52,8 +52,8 @@ int main(int argc, char* argv[])
 	versionString.readFile(versionFile);
 	fclose(versionFile);
 
-	generateCode(	OUTFILE("glee.c"),
-					OUTFILE("glee.h"), xmlFile.root);
+	generateCode(	OUTFILE("GLee.c"),
+					OUTFILE("GLee.h"), xmlFile.root);
 
 	generateExtensionList(OUTFILE("extensionList.txt"),xmlFile.root);
 	return 0;
@@ -384,7 +384,7 @@ void generateCode(const char * cppFilename,
 {
 	const char * elseIfAppleString = "#elif defined(__APPLE__) || defined(__APPLE_CC__)\n";
 
-	FILE * licenseFile=fopen(INFILE("license.txt"),"rt");
+	FILE * licenseFile=fopen(INFILE("License.txt"),"rt");
 	String license;
 	license.readFile(licenseFile);
 	fclose(licenseFile);
