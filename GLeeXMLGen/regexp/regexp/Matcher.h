@@ -237,6 +237,12 @@ class Matcher
      */
     std::string getGroup(const int groupNum = 0) const;
     /**
+      Returns The number of capturing Groups
+
+      @return The Number of capturing Groups
+     */
+    int getNumGroups( ) const;
+    /**
       Returns every capture group in a vector
 
       @param includeGroupZero Whether or not include capture group zero

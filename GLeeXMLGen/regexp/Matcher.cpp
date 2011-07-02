@@ -167,6 +167,10 @@ std::string Matcher::getGroup(const int groupNum) const
   if (starts[groupNum] < 0 || ends[groupNum] < 0) return "";
   return str.substr(starts[groupNum], ends[groupNum] - starts[groupNum]);
 }
+int Matcher::getNumGroups() const
+{
+    return gc;
+}
 std::vector<std::string> Matcher::getGroups(const bool includeGroupZero) const
 {
   int i, start = (includeGroupZero ? 0 : 1);

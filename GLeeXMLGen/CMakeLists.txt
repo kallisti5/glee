@@ -1,5 +1,6 @@
 set( gleexmlgen_sources GLeeXMLGen.cpp
                         GLeeXMLGen.h
+                        regexp_wrapper.h
                         regexp/Matcher.cpp
                         regexp/Pattern.cpp
                         regexp/regexp/Matcher.h

@@ -3,6 +3,7 @@
 
 #include "GLeeXMLGen.h"
 #include <stdint.h>
+#include <cstring>
 //#include <conio.h>
 #include "../Common/stdafx.h"
 #include "../Common/XMLFile.h"
@@ -15,11 +16,6 @@
     #undef max
 #endif
 
-#ifdef _MSC_VER
-    using namespace std::tr1;
-#else
-    using namespace boost;
-#endif
 using namespace Mirage;
 
 /*
@@ -218,9 +214,11 @@ bool getSpecFilenames(const String& startDir, ArrayList<String>& specFilenamesOu
         //
         // If this is a folder recurse
         //
-        if( dit->d_type == 0x4 )
+        if( dit->d_type == 0x4 &&
+            strcmp(dit->d_name, ".") != 0 && 
+            strcmp(dit->d_name, "..") != 0 )
         {
-            if( !getSpecFilenames( startDir + String(dit->d_name), specFilenamesOut ) )
+            if( !getSpecFilenames( startDir + "/" + String(dit->d_name), specFilenamesOut ) )
                 return false;
         }
         else if ( dit->d_type == 0x8 )
@@ -355,7 +353,7 @@ void convertType(String& type)
 	regex& typeReg=getTypeRegex();
 	cmatch what;
 	String temp=type+" "; //hack (type pattern requires ending space for non-pointers)
-	if (!regex_match(temp.cStr(),what,typeReg)) 
+	if (!regex_match(temp.cStr(),what,typeReg))
 	{
 		assert(false);  //this shouldn't happen
 		return;
