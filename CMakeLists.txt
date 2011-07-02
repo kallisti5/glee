@@ -60,7 +60,7 @@ file( GLOB_RECURSE spec_files
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.h
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.txt )
 
-add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
+add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
                     COMMAND gleexmlgen
                     MAIN_DEPENDENCY GLeeXMLGen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
