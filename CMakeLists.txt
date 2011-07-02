@@ -37,8 +37,8 @@ add_subdirectory( GLeeGen )
 # Create library
 #
 
-set( glee_sources ${DATA_DIR}/output/glee.c
-                  ${DATA_DIR}/output/glee.h )
+set( glee_sources ${DATA_DIR}/output/GLee.c
+                  ${DATA_DIR}/output/GLee.h )
 
 set_source_files_properties( ${glee_sources}
                              PROPERTIES GENERATED TRUE )
@@ -65,13 +65,13 @@ add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
                             ${spec_files}
                     COMMENT "Generating GLeeXMLGen inputs" )
 
-add_custom_command( OUTPUT ${DATA_DIR}/output/glee.c
-                           ${DATA_DIR}/output/glee.h
+add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
+                           ${DATA_DIR}/output/GLee.h
                     COMMAND gleegen
                     MAIN_DEPENDENCY GLeeGen
-                    DEPENDS ${DATA_DIR}/GleeGenInput/GLeeVersion.txt
-                            ${DATA_DIR}/GleeGenInput/extensions.xml
-                    COMMENT "Generating glee.h and glee.c" )
+                    DEPENDS ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
+                            ${DATA_DIR}/GLeeGenInput/extensions.xml
+                    COMMENT "Generating GLee.h and GLee.c" )
 
 #
 # Set up glee on windows
