@@ -129,8 +129,13 @@ int main(int argc, char* argv[])
 	for (int a=0;a<finalSpecFilenamesList.size();a++)
 	{
 		FILE *file=fopen(finalSpecFilenamesList[a].cStr(),"rb");
-
+		
         if ( finalSpecFilenamesList[a].toLower().search( Mirage::String("gpu_program4") ) != -1 )
+        {
+            printf("found it!");
+        }
+		
+        if ( finalSpecFilenamesList[a].toLower().search( Mirage::String("vertex_shader_tessellator.txt") ) != -1 )
         {
             printf("found it!");
         }
@@ -140,6 +145,7 @@ int main(int argc, char* argv[])
 			String str;
 			str.readFile(file);
 			fclose(file);
+
             SpecParseResult rv = readExtensionSpec(str, xmlFile.root, ignoreList);
             switch (rv)
             {
@@ -396,7 +402,7 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 			const char * pos=&tokensBlock[0];
 			cmatch tokwhat;
 			//regex regToken("(\r)?\n(\\s)*(([a-zA-Z0-9]|_)+)(\\s)+((0x([0-9a-fA-F])+)|(([0-9]);+))");
-			regex regToken("\r?\n\\s*([A-Z0-9_]+)\\s+((?:0x[0-9a-fA-F\\?]+)|(?:[0-9]+))\r?\n");
+			regex regToken("\r?\n\\s*([A-Z0-9_]+)\\s+((?:0x[0-9a-fA-F\\?]+)|(?:[0-9]+))");
 			while (regex_search(pos, tokwhat, regToken))
 			{
 				XMLElement constantXML;
@@ -405,17 +411,13 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 				getSubstring(tokwhat[1].first,tokwhat[1].second,tokName);
 				getSubstring(tokwhat[1].second,tokwhat[2].second,tokValue);
 
-				if( tokName == String("GLX_BAD_HYPERPIPE_CONFIG_SGIX"))
-				{
-					volatile int lol = 0;
-					++lol;
-				}
-
 				regex regUnknownValue("0x\\?+");
 				cmatch temp;
 
-				bool skip= regex_match(tokValue.cStr(), temp, regUnknownValue);
+				if( regex_search(tokValue.cStr(), temp, regUnknownValue) )
+					tokValue = String("0x0");
 
+				bool skip = false;
 				if( skip )
 				{
 					volatile int lol = 0;
