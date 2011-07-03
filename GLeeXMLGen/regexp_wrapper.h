@@ -9,8 +9,11 @@ class regex
 public:
     explicit regex(const char* pattern)
     {
-        m_pattern = Pattern::compile( pattern, Pattern::MULTILINE_MATCHING );
-        m_matcher = m_pattern->createMatcher("");
+        m_pattern = Pattern::compile( pattern );
+		if( m_pattern != NULL )
+			m_matcher = m_pattern->createMatcher("");
+		else
+			m_matcher = NULL;
     }
     ~regex()
     {
@@ -51,6 +54,8 @@ private:
 
 bool regex_match( const char* text, cmatch& groups, regex& reg )
 {
+	if( reg.m_pattern == NULL )
+		return false;
     reg.m_matcher->setString( text );
     bool ret = reg.m_matcher->matches();
     groups.Init( text, reg );
@@ -59,6 +64,8 @@ bool regex_match( const char* text, cmatch& groups, regex& reg )
 
 bool regex_search( const char* text, cmatch& groups, regex& reg )
 {
+	if( reg.m_pattern == NULL )
+		return false;
     reg.m_matcher->setString( text );
     bool ret = reg.m_matcher->findNextMatch();
     groups.Init( text, reg );
