@@ -129,16 +129,6 @@ int main(int argc, char* argv[])
 	for (int a=0;a<finalSpecFilenamesList.size();a++)
 	{
 		FILE *file=fopen(finalSpecFilenamesList[a].cStr(),"rb");
-		
-        if ( finalSpecFilenamesList[a].toLower().search( Mirage::String("gpu_program4") ) != -1 )
-        {
-            printf("found it!");
-        }
-		
-        if ( finalSpecFilenamesList[a].toLower().search( Mirage::String("vertex_shader_tessellator.txt") ) != -1 )
-        {
-            printf("found it!");
-        }
 
 		if (file)
 		{
@@ -245,7 +235,7 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
     // because they're actually part of other extensions. E.g. GL_NV_GPU_program4
 	if (!readNames(extFileString,names))
     {
-		return SPEC_FAILED;
+		return SPEC_IGNORED;
     }
 
     /*
@@ -270,13 +260,6 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
 		int fileType;
 		String& name=names[a];
 		XMLElement& extXML=extensionElements[a];
-
-		if (name == String("GLX_"))
-		{
-			//readNames(extFileString, names);
-			volatile int lol = 0;
-			++lol;
-		}
 
 		if (name.subString(0,3)==String("GL_")) fileType=FT_GLEXT;
 		else if (name.subString(0,4)==String("WGL_")) fileType=FT_WGLEXT;
@@ -418,11 +401,6 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 					tokValue = String("0x0");
 
 				bool skip = false;
-				if( skip )
-				{
-					volatile int lol = 0;
-					lol++;
-				}
 
 				if (typeFilter>=0)
 				{
