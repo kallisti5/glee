@@ -18845,13 +18845,13 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_AMD_vertex_shader_tessellator 1
 #define __GLEE_GL_AMD_vertex_shader_tessellator 1
 /* Constants */
-#define GL_SAMPLER_BUFFER_AMD                                                             0x9001
-#define GL_INT_SAMPLER_BUFFER_AMD                                                     0x9002
-#define GL_UNSIGNED_INT_SAMPLER_BUFFER_AMD                                   0x9003
-#define GL_DISCRETE_AMD                                                                         0x9006
-#define GL_CONTINUOUS_AMD                                                                     0x9007
-#define GL_TESSELLATION_MODE_AMD                                                       0x9004
-#define GL_TESSELLATION_FACTOR_AMD                                                   0x9005
+#define GL_SAMPLER_BUFFER_AMD                              0x9001
+#define GL_INT_SAMPLER_BUFFER_AMD                          0x9002
+#define GL_UNSIGNED_INT_SAMPLER_BUFFER_AMD                 0x9003
+#define GL_DISCRETE_AMD                                    0x9006
+#define GL_CONTINUOUS_AMD                                  0x9007
+#define GL_TESSELLATION_MODE_AMD                           0x9004
+#define GL_TESSELLATION_FACTOR_AMD                         0x9005
 #ifndef GLEE_H_DEFINED_glTessellationModeAMD
 #define GLEE_H_DEFINED_glTessellationModeAMD
   typedef GLvoid (APIENTRYP GLEEPFNGLTESSELLATIONMODEAMDPROC) (GLenum mode);
@@ -18866,20 +18866,20 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_EXT_fragment_lighting 1
 #define __GLEE_GL_EXT_fragment_lighting 1
 /* Constants */
-#define GL_FRAGMENT_LIGHTING_EXT                                                          0x8400
-#define GL_FRAGMENT_COLOR_MATERIAL_EXT                                              0x8401
-#define GL_FRAGMENT_COLOR_MATERIAL_FACE_EXT                                    0x8402
-#define GL_FRAGMENT_COLOR_MATERIAL_PARAMETER_EXT                          0x8403
-#define GL_MAX_FRAGMENT_LIGHTS_EXT                                                      0x8404
-#define GL_MAX_ACTIVE_LIGHTS_EXT                                                          0x8405
-#define GL_CURRENT_RASTER_NORMAL_EXT                                                  0x8406
-#define GL_LIGHT_ENV_MODE_EXT                                                                0x8407
-#define GL_FRAGMENT_LIGHT_MODEL_LOCAL_VIEWER_EXT                          0x8408
-#define GL_FRAGMENT_LIGHT_MODEL_TWO_SIDE_EXT                                  0x8409
-#define GL_FRAGMENT_LIGHT_MODEL_AMBIENT_EXT                                    0x840A
-#define GL_FRAGMENT_LIGHT_MODEL_NORMAL_INTERPOLATION_EXT          0x840B
-#define GL_FRAGMENT_LIGHT0_EXT                                                              0x840C
-#define GL_FRAGMENT_LIGHT7_EXT                                                              0x8413
+#define GL_FRAGMENT_LIGHTING_EXT                           0x8400
+#define GL_FRAGMENT_COLOR_MATERIAL_EXT                     0x8401
+#define GL_FRAGMENT_COLOR_MATERIAL_FACE_EXT                0x8402
+#define GL_FRAGMENT_COLOR_MATERIAL_PARAMETER_EXT           0x8403
+#define GL_MAX_FRAGMENT_LIGHTS_EXT                         0x8404
+#define GL_MAX_ACTIVE_LIGHTS_EXT                           0x8405
+#define GL_CURRENT_RASTER_NORMAL_EXT                       0x8406
+#define GL_LIGHT_ENV_MODE_EXT                              0x8407
+#define GL_FRAGMENT_LIGHT_MODEL_LOCAL_VIEWER_EXT           0x8408
+#define GL_FRAGMENT_LIGHT_MODEL_TWO_SIDE_EXT               0x8409
+#define GL_FRAGMENT_LIGHT_MODEL_AMBIENT_EXT                0x840A
+#define GL_FRAGMENT_LIGHT_MODEL_NORMAL_INTERPOLATION_EXT   0x840B
+#define GL_FRAGMENT_LIGHT0_EXT                             0x840C
+#define GL_FRAGMENT_LIGHT7_EXT                             0x8413
 #endif 
 
 /* GL_EXT_geometry_shader4 */
@@ -18888,26 +18888,26 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_EXT_geometry_shader4 1
 #define __GLEE_GL_EXT_geometry_shader4 1
 /* Constants */
-#define GL_GEOMETRY_SHADER_EXT                                                          0x8DD9
-#define GL_GEOMETRY_VERTICES_OUT_EXT                                              0x8DDA
-#define GL_GEOMETRY_INPUT_TYPE_EXT                                                  0x8DDB
-#define GL_GEOMETRY_OUTPUT_TYPE_EXT                                                0x8DDC
-#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT                         0x8C29
-#define GL_MAX_GEOMETRY_VARYING_COMPONENTS_EXT                           0x8DDD
-#define GL_MAX_VERTEX_VARYING_COMPONENTS_EXT                               0x8DDE
-#define GL_MAX_VARYING_COMPONENTS_EXT                                             0x8B4B
-#define GL_MAX_GEOMETRY_UNIFORM_COMPONENTS_EXT                           0x8DDF
-#define GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT                                 0x8DE0
-#define GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS_EXT                 0x8DE1
-#define GL_LINES_ADJACENCY_EXT                                                           0xA
-#define GL_LINE_STRIP_ADJACENCY_EXT                                                 0xB
-#define GL_TRIANGLES_ADJACENCY_EXT                                                   0xC
-#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                                         0xD
-#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT                 0x8DA8
-#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT                     0x8DA9
-#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT                             0x8DA7
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT                 0x8CD4
-#define GL_PROGRAM_POINT_SIZE_EXT                                                     0x8642
+#define GL_GEOMETRY_SHADER_EXT                             0x8DD9
+#define GL_GEOMETRY_VERTICES_OUT_EXT                       0x8DDA
+#define GL_GEOMETRY_INPUT_TYPE_EXT                         0x8DDB
+#define GL_GEOMETRY_OUTPUT_TYPE_EXT                        0x8DDC
+#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT            0x8C29
+#define GL_MAX_GEOMETRY_VARYING_COMPONENTS_EXT             0x8DDD
+#define GL_MAX_VERTEX_VARYING_COMPONENTS_EXT               0x8DDE
+#define GL_MAX_VARYING_COMPONENTS_EXT                      0x8B4B
+#define GL_MAX_GEOMETRY_UNIFORM_COMPONENTS_EXT             0x8DDF
+#define GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT                0x8DE0
+#define GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS_EXT        0x8DE1
+#define GL_LINES_ADJACENCY_EXT                             0xA
+#define GL_LINE_STRIP_ADJACENCY_EXT                        0xB
+#define GL_TRIANGLES_ADJACENCY_EXT                         0xC
+#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                    0xD
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT        0x8DA8
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT          0x8DA9
+#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT              0x8DA7
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT        0x8CD4
+#define GL_PROGRAM_POINT_SIZE_EXT                          0x8642
 #endif 
 
 /* GL_EXT_scene_marker */
@@ -18930,8 +18930,8 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_EXT_texture_compression_dxt1 1
 #define __GLEE_GL_EXT_texture_compression_dxt1 1
 /* Constants */
-#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT                                          0x83F0
-#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT                                        0x83F1
+#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT                    0x83F0
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT                   0x83F1
 #endif 
 
 /* GL_EXT_texture_env */
@@ -18959,8 +18959,8 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_IBM_static_data 1
 #define __GLEE_GL_IBM_static_data 1
 /* Constants */
-#define GL_ALL_STATIC_DATA_IBM                             			103060
-#define GL_STATIC_VERTEX_ARRAY_IBM                         			103061
+#define GL_ALL_STATIC_DATA_IBM                             103060
+#define GL_STATIC_VERTEX_ARRAY_IBM                         103061
 #endif 
 
 /* GL_NV_gpu_program4 */
@@ -18969,31 +18969,31 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_NV_gpu_program4 1
 #define __GLEE_GL_NV_gpu_program4 1
 /* Constants */
-#define GL_MIN_PROGRAM_TEXEL_OFFSET_EXT                                        0x8904
-#define GL_MAX_PROGRAM_TEXEL_OFFSET_EXT                                        0x8905
-#define GL_PROGRAM_ATTRIB_COMPONENTS_NV                                        0x8906
-#define GL_PROGRAM_RESULT_COMPONENTS_NV                                        0x8907
-#define GL_MAX_PROGRAM_ATTRIB_COMPONENTS_NV                                0x8908
-#define GL_MAX_PROGRAM_RESULT_COMPONENTS_NV                                0x8909
-#define GL_MAX_PROGRAM_GENERIC_ATTRIBS_NV                                    0x8DA5
-#define GL_MAX_PROGRAM_GENERIC_RESULTS_NV                                    0x8DA6
-#define GL_GEOMETRY_PROGRAM_NV                                                          0x8C26
-#define GL_MAX_PROGRAM_OUTPUT_VERTICES_NV                                    0x8C27
-#define GL_MAX_PROGRAM_TOTAL_OUTPUT_COMPONENTS_NV                    0x8C28
-#define GL_GEOMETRY_VERTICES_OUT_EXT                                              0x8DDA
-#define GL_GEOMETRY_INPUT_TYPE_EXT                                                  0x8DDB
-#define GL_GEOMETRY_OUTPUT_TYPE_EXT                                                0x8DDC
-#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT                        0x8C29
-#define GL_LINES_ADJACENCY_EXT                                                          0xA
-#define GL_LINE_STRIP_ADJACENCY_EXT                                                0xB
-#define GL_TRIANGLES_ADJACENCY_EXT                                                  0xC
-#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                                        0xD
-#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT                0x8DA8
-#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT                    0x8DA9
-#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT                            0x8DA7
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT                0x8CD4
-#define GL_PROGRAM_POINT_SIZE_EXT                                                    0x8642
-#define GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT                                  0x88FD
+#define GL_MIN_PROGRAM_TEXEL_OFFSET_EXT                    0x8904
+#define GL_MAX_PROGRAM_TEXEL_OFFSET_EXT                    0x8905
+#define GL_PROGRAM_ATTRIB_COMPONENTS_NV                    0x8906
+#define GL_PROGRAM_RESULT_COMPONENTS_NV                    0x8907
+#define GL_MAX_PROGRAM_ATTRIB_COMPONENTS_NV                0x8908
+#define GL_MAX_PROGRAM_RESULT_COMPONENTS_NV                0x8909
+#define GL_MAX_PROGRAM_GENERIC_ATTRIBS_NV                  0x8DA5
+#define GL_MAX_PROGRAM_GENERIC_RESULTS_NV                  0x8DA6
+#define GL_GEOMETRY_PROGRAM_NV                             0x8C26
+#define GL_MAX_PROGRAM_OUTPUT_VERTICES_NV                  0x8C27
+#define GL_MAX_PROGRAM_TOTAL_OUTPUT_COMPONENTS_NV          0x8C28
+#define GL_GEOMETRY_VERTICES_OUT_EXT                       0x8DDA
+#define GL_GEOMETRY_INPUT_TYPE_EXT                         0x8DDB
+#define GL_GEOMETRY_OUTPUT_TYPE_EXT                        0x8DDC
+#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT            0x8C29
+#define GL_LINES_ADJACENCY_EXT                             0xA
+#define GL_LINE_STRIP_ADJACENCY_EXT                        0xB
+#define GL_TRIANGLES_ADJACENCY_EXT                         0xC
+#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                    0xD
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT        0x8DA8
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT          0x8DA9
+#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT              0x8DA7
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT        0x8CD4
+#define GL_PROGRAM_POINT_SIZE_EXT                          0x8642
+#define GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT                 0x88FD
 #endif 
 
 /* GL_OES_byte_coordinates */
@@ -19002,7 +19002,7 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_OES_byte_coordinates 1
 #define __GLEE_GL_OES_byte_coordinates 1
 /* Constants */
-#define GL_BYTE                                                 0x1400
+#define GL_BYTE                                            0x1400
 #endif 
 
 /* GL_OES_compressed_paletted_texture */
@@ -19011,16 +19011,16 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_OES_compressed_paletted_texture 1
 #define __GLEE_GL_OES_compressed_paletted_texture 1
 /* Constants */
-#define GL_PALETTE4_RGB8_OES                                        0x8B90
-#define GL_PALETTE4_RGBA8_OES                                      0x8B91
-#define GL_PALETTE4_R5_G6_B5_OES                                0x8B92
-#define GL_PALETTE4_RGBA4_OES                                      0x8B93
-#define GL_PALETTE4_RGB5_A1_OES                                  0x8B94
-#define GL_PALETTE8_RGB8_OES                                        0x8B95
-#define GL_PALETTE8_RGBA8_OES                                      0x8B96
-#define GL_PALETTE8_R5_G6_B5_OES                                0x8B97
-#define GL_PALETTE8_RGBA4_OES                                      0x8B98
-#define GL_PALETTE8_RGB5_A1_OES                                  0x8B99
+#define GL_PALETTE4_RGB8_OES                               0x8B90
+#define GL_PALETTE4_RGBA8_OES                              0x8B91
+#define GL_PALETTE4_R5_G6_B5_OES                           0x8B92
+#define GL_PALETTE4_RGBA4_OES                              0x8B93
+#define GL_PALETTE4_RGB5_A1_OES                            0x8B94
+#define GL_PALETTE8_RGB8_OES                               0x8B95
+#define GL_PALETTE8_RGBA8_OES                              0x8B96
+#define GL_PALETTE8_R5_G6_B5_OES                           0x8B97
+#define GL_PALETTE8_RGBA4_OES                              0x8B98
+#define GL_PALETTE8_RGB5_A1_OES                            0x8B99
 #endif 
 
 /* GL_OES_fixed_point */
@@ -19029,7 +19029,7 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_OES_fixed_point 1
 #define __GLEE_GL_OES_fixed_point 1
 /* Constants */
-#define GL_FIXED_OES                                                       0x140C
+#define GL_FIXED_OES                                       0x140C
 #endif 
 
 /* GL_OES_query_matrix */
@@ -19068,34 +19068,34 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_SGIX_texture_range 1
 #define __GLEE_GL_SGIX_texture_range 1
 /* Constants */
-#define GL_RGB_SIGNED_SGIX                                 				0x85E0
-#define GL_RGBA_SIGNED_SGIX                                				0x85E1
-#define GL_ALPHA_SIGNED_SGIX                               				0x85E2
-#define GL_LUMINANCE_SIGNED_SGIX                           			0x85E3
-#define GL_INTENSITY_SIGNED_SGIX                           			0x85E4
-#define GL_LUMINANCE_ALPHA_SIGNED_SGIX                     			0x85E5
-#define GL_RGB16_SIGNED_SGIX                               				0x85E6
-#define GL_RGBA16_SIGNED_SGIX                              				0x85E7
-#define GL_ALPHA16_SIGNED_SGIX                             				0x85E8
-#define GL_LUMINANCE16_SIGNED_SGIX                         			0x85E9
-#define GL_INTENSITY16_SIGNED_SGIX                         			0x85EA
-#define GL_LUMINANCE16_ALPHA16_SIGNED_SGIX                 		0x85EB
-#define GL_RGB_EXTENDED_RANGE_SGIX                         			0x85EC
-#define GL_RGBA_EXTENDED_RANGE_SGIX                        			0x85ED
-#define GL_ALPHA_EXTENDED_RANGE_SGIX                       			0x85EE
-#define GL_LUMINANCE_EXTENDED_RANGE_SGIX                   		0x85EF
-#define GL_INTENSITY_EXTENDED_RANGE_SGIX                   		0x85F0
-#define GL_LUMINANCE_ALPHA_EXTENDED_RANGE_SGIX             		0x85F1
-#define GL_RGB16_EXTENDED_RANGE_SGIX                       			0x85F2
-#define GL_RGBA16_EXTENDED_RANGE_SGIX                      			0x85F3
-#define GL_ALPHA16_EXTENDED_RANGE_SGIX                     			0x85F4
-#define GL_LUMINANCE16_EXTENDED_RANGE_SGIX                 		0x85F5
-#define GL_INTENSITY16_EXTENDED_RANGE_SGIX                 		0x85F6
-#define GL_LUMINANCE16_ALPHA16_EXTENDED_RANGE_SGIX         	0x85F7
-#define GL_MIN_LUMINANCE_SGIS                              				0x85F8
-#define GL_MAX_LUMINANCE_SGIS                              				0x85F9
-#define GL_MIN_INTENSITY_SGIS                              				0x85FA
-#define GL_MAX_INTENSITY_SGIS                              				0x85FB
+#define GL_RGB_SIGNED_SGIX                                 0x85E0
+#define GL_RGBA_SIGNED_SGIX                                0x85E1
+#define GL_ALPHA_SIGNED_SGIX                               0x85E2
+#define GL_LUMINANCE_SIGNED_SGIX                           0x85E3
+#define GL_INTENSITY_SIGNED_SGIX                           0x85E4
+#define GL_LUMINANCE_ALPHA_SIGNED_SGIX                     0x85E5
+#define GL_RGB16_SIGNED_SGIX                               0x85E6
+#define GL_RGBA16_SIGNED_SGIX                              0x85E7
+#define GL_ALPHA16_SIGNED_SGIX                             0x85E8
+#define GL_LUMINANCE16_SIGNED_SGIX                         0x85E9
+#define GL_INTENSITY16_SIGNED_SGIX                         0x85EA
+#define GL_LUMINANCE16_ALPHA16_SIGNED_SGIX                 0x85EB
+#define GL_RGB_EXTENDED_RANGE_SGIX                         0x85EC
+#define GL_RGBA_EXTENDED_RANGE_SGIX                        0x85ED
+#define GL_ALPHA_EXTENDED_RANGE_SGIX                       0x85EE
+#define GL_LUMINANCE_EXTENDED_RANGE_SGIX                   0x85EF
+#define GL_INTENSITY_EXTENDED_RANGE_SGIX                   0x85F0
+#define GL_LUMINANCE_ALPHA_EXTENDED_RANGE_SGIX             0x85F1
+#define GL_RGB16_EXTENDED_RANGE_SGIX                       0x85F2
+#define GL_RGBA16_EXTENDED_RANGE_SGIX                      0x85F3
+#define GL_ALPHA16_EXTENDED_RANGE_SGIX                     0x85F4
+#define GL_LUMINANCE16_EXTENDED_RANGE_SGIX                 0x85F5
+#define GL_INTENSITY16_EXTENDED_RANGE_SGIX                 0x85F6
+#define GL_LUMINANCE16_ALPHA16_EXTENDED_RANGE_SGIX         0x85F7
+#define GL_MIN_LUMINANCE_SGIS                              0x85F8
+#define GL_MAX_LUMINANCE_SGIS                              0x85F9
+#define GL_MIN_INTENSITY_SGIS                              0x85FA
+#define GL_MAX_INTENSITY_SGIS                              0x85FB
 #endif 
 
 /* WGL  */
