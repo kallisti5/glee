@@ -282,7 +282,7 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
 
 
 		extXML.name="extension";
-		extXML.addAttrib(XMLAttrib("name",name));
+		extXML.addAttrib(XMLAttrib("name",name.trimWhitespace()));
 
 		int typeFilter=names.size()==1?-1:fileType; //-1 signifies no filter
 
@@ -418,8 +418,8 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 
 				if (!skip)
 				{
-					constantXML.addAttrib(XMLAttrib("name",tokName));
-					constantXML.addAttrib(XMLAttrib("value",tokValue));
+					constantXML.addAttrib(XMLAttrib("name",tokName.trimWhitespace()));
+					constantXML.addAttrib(XMLAttrib("value",tokValue.trimWhitespace()));
 					constantsXML.addElement(constantXML);
 				}
 				pos=tokwhat[2].second;
@@ -789,7 +789,7 @@ void convertHeaderExtensionsToXML(ArrayList<_Extension> &extensions, XMLElement&
 		//find the functions and the constants
 		XMLElement xmlElement;
 		xmlElement.setName("extension");
-		xmlElement.addAttrib(XMLAttrib("name",ext.name));
+		xmlElement.addAttrib(XMLAttrib("name",ext.name.trimWhitespace()));
 		xmlElement.elements.resize(2);
 		xmlElement.elements[0].setName("constants");
 		xmlElement.elements[1].setName("functions");
@@ -811,8 +811,8 @@ bool readHeaderConstant(std::pair<String,String >& constPair, XMLElement& XMLOut
 {
 	XMLElement el;
 	el.setName("constant");
-	el.addAttrib(XMLAttrib("name",constPair.first));
-	el.addAttrib(XMLAttrib("value",constPair.second));
+	el.addAttrib(XMLAttrib("name",constPair.first.trimWhitespace()));
+	el.addAttrib(XMLAttrib("value",constPair.second.trimWhitespace()));
 	XMLOut.addElement(el);
 	return true;
 }
@@ -839,7 +839,7 @@ bool readHeaderFunction(String& typeDefString, String& funcName, XMLElement& XML
 	*/
 	XMLElement el;
 	el.setName("function");
-	el.addAttrib(XMLAttrib("name",funcName));
+	el.addAttrib(XMLAttrib("name",funcName.trimWhitespace()));
 
 	regex regFuncTypedefStart("\\s*typedef\\s+(.*)");
     regex regFuncTypedefNext("\\s?\\(([\\sa-zA-Z0-9_\\*])+\\)\\s*\\((.*)");
