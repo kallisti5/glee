@@ -35,6 +35,7 @@
 
 //#include "memory/object.h"
 //#include "memory/sptr.h"
+#include <cstdarg>
 #include "ArrayList.h"
 
 namespace Mirage
