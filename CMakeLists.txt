@@ -33,12 +33,14 @@ configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in
 add_subdirectory( GLeeXMLGen )
 add_subdirectory( GLeeGen )
 
+include_directories( ${glee_SOURCE_DIR}/include )
+
 #
 # Create library
 #
 
 set( glee_sources ${DATA_DIR}/output/GLee.c
-                  ${DATA_DIR}/output/GLee.h )
+                  ${glee_SOURCE_DIR}/include/GL/GLee.h )
 
 set_source_files_properties( ${glee_sources}
                              PROPERTIES GENERATED TRUE )
@@ -72,7 +74,7 @@ add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
                     COMMENT "Generating GLeeXMLGen inputs" )
 
 add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
-                           ${DATA_DIR}/output/GLee.h
+                           ${glee_SOURCE_DIR}/include/GL/GLee.h
                     COMMAND gleegen
                     MAIN_DEPENDENCY GLeeGen
                     DEPENDS ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
