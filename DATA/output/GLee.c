@@ -54,6 +54,10 @@ GLboolean __GLeeInited=GL_FALSE;
 	#define __stdcall  /* nothing */
 #endif 
 
+#ifdef _MSC_VER
+    #define snprintf sprintf_s
+#endif
+
 GLEE_FUNC __GLeeGetProcAddress(const char *extname)
 {
 #ifdef WIN32
@@ -20022,7 +20026,7 @@ GLboolean __GLeeGetExtensions(ExtensionList* extList)
        extStr=(char *)malloc( totalExtStrLen+1 ); /* allow for a null terminator */
 
        /* concatenate the two extension strings */
-       sprintf_s(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
+       snprintf(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
 
        /* extract the extensions */
        for (p = extStr + totalExtStrLen; p > extStr; --p) {
