@@ -60,11 +60,13 @@ file( GLOB_RECURSE spec_files
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.h
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.txt )
 
-add_custom_command( OUTPUT ${DATA_DIR}/GleeGenInput/extensions.xml
+add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
                     COMMAND gleexmlgen
                     MAIN_DEPENDENCY GLeeXMLGen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
+                            ${DATA_DIR}/GLeeXMLGenInput/license.txt
+                            ${DATA_DIR}/GLeeXMLGenInput/PatchedSpecs
                             ${DATA_DIR}/GLeeXMLGenInput/registry
                             ${spec_files}
                     COMMENT "Generating GLeeXMLGen inputs" )
@@ -75,6 +77,13 @@ add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
                     MAIN_DEPENDENCY GLeeGen
                     DEPENDS ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GLeeGenInput/extensions.xml
+                            ${DATA_DIR}/GLeeGenInput/GLeeCTop.txt
+                            ${DATA_DIR}/GLeeGenInput/gleehtop.txt
+                            ${DATA_DIR}/GLeeGenInput/exceptions.txt
+                            ${DATA_DIR}/GLeeGenInput/License.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeHBottom.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeFunctions.txt
                     COMMENT "Generating GLee.h and GLee.c" )
 
 #
