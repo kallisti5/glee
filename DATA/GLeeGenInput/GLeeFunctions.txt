@@ -134,7 +134,7 @@ GLboolean __GLeeGetExtensions(ExtensionList* extList)
        extStr=(char *)malloc( totalExtStrLen+1 ); /* allow for a null terminator */
 
        /* concatenate the two extension strings */
-       sprintf_s(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
+       snprintf(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
 
        /* extract the extensions */
        for (p = extStr + totalExtStrLen; p > extStr; --p) {

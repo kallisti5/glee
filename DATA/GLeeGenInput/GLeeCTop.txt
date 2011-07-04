@@ -19,6 +19,10 @@ GLboolean __GLeeInited=GL_FALSE;
 	#define __stdcall  /* nothing */
 #endif 
 
+#ifdef _MSC_VER
+    #define snprintf sprintf_s
+#endif
+
 GLEE_FUNC __GLeeGetProcAddress(const char *extname)
 {
 #ifdef WIN32
