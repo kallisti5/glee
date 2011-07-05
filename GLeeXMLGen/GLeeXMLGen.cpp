@@ -45,7 +45,7 @@ using namespace Mirage;
 
 void getSubstring(const char * start, const char * end, String& string_out)
 {
-	int len=(long int)end-(long int)start;
+	int len=(intptr_t)end-(intptr_t)start;
 	string_out.resize(len);
 	for (int a=0;a<len;a++)
 		string_out[a]=start[a];
