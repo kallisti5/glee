@@ -68,8 +68,6 @@ add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/license.txt
-                            ${DATA_DIR}/GLeeXMLGenInput/PatchedSpecs
-                            ${DATA_DIR}/GLeeXMLGenInput/registry
                             ${spec_files}
                     COMMENT "Generating GLeeXMLGen inputs" )
 
