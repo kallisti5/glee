@@ -52,8 +52,8 @@
 	#error glxext.h included before GLee.h
 #endif
 
-#ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
+#ifdef _WIN32
+	#define _WIN32_LEAN_AND_MEAN
 	#include <windows.h>
 	#include <GL/gl.h>
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
@@ -980,7 +980,7 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 
 /* Platform-specific */
 
-#ifdef WIN32    
+#ifdef _WIN32    
 
 	/* WGL */
 
@@ -19100,7 +19100,7 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 
 /* WGL  */
 
-#ifdef WIN32
+#ifdef _WIN32
 
 /* Extension querying variables */
 
@@ -21781,7 +21781,7 @@ GLEE_EXTERN const char * GLeeGetErrorString( void );
 GLEE_EXTERN const char * GLeeGetExtStrGL( void );
 GLEE_EXTERN GLboolean GLeeEnabled(GLboolean * extensionQueryingVariable);
 
-#ifdef WIN32
+#ifdef _WIN32
 GLEE_EXTERN const char * GLeeGetExtStrWGL( void );
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
 #else 

@@ -25,7 +25,7 @@ GLboolean __GLeeInited=GL_FALSE;
 
 GLEE_FUNC __GLeeGetProcAddress(const char *extname)
 {
-#ifdef WIN32
+#ifdef _WIN32
     return (GLEE_FUNC)wglGetProcAddress(extname);
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
     CFBundleRef bundle;

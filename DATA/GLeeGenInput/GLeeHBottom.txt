@@ -9,7 +9,7 @@ GLEE_EXTERN const char * GLeeGetErrorString( void );
 GLEE_EXTERN const char * GLeeGetExtStrGL( void );
 GLEE_EXTERN GLboolean GLeeEnabled(GLboolean * extensionQueryingVariable);
 
-#ifdef WIN32
+#ifdef _WIN32
 GLEE_EXTERN const char * GLeeGetExtStrWGL( void );
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
 #else 
