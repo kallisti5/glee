@@ -446,9 +446,9 @@ void generateCode(const char * cppFilename,
     
 	//win32 specific
 	cpp+="\n/* WGL */\n\n";
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	header+="\n/* WGL  */\n\n";
-	header+="#ifdef WIN32\n";
+	header+="#ifdef _WIN32\n";
 
 	writeBools(cpp,header,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	writeExtensionNames(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
@@ -469,7 +469,7 @@ void generateCode(const char * cppFilename,
 		 "*****************************************************************/\n\n";
 
 	writeFunctionLinkFunctions(cpp,xml.elements[FT_GLEXT],FT_GLEXT);
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	writeFunctionLinkFunctions(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	cpp+=elseIfAppleString;
 	cpp+="#else /* Linux */\n";
@@ -487,7 +487,7 @@ void generateCode(const char * cppFilename,
 	fclose(functionsFile);
 
 	writeFunctionLinkCode(cpp,xml.elements[FT_GLEXT],FT_GLEXT);
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	writeFunctionLinkCode(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	cpp+=elseIfAppleString;
 	cpp+="#else /* GLX */\n";
