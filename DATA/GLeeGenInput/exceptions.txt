@@ -167,6 +167,10 @@
 	#ifndef GLX_NV_video_output
     typedef unsigned int GLXVideoDeviceNV;
     #endif // GLX_NV_video_output
+
+    #ifndef GLX_NV_video_capture
+    typedef XID GLXVideoCaptureDeviceNV;
+    #endif // GLX_NV_video_output
     	
 #endif /* end platform specific */
 
