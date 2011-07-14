@@ -486,25 +486,26 @@ GLEE_EXTERN GLboolean _GLEE_AMD_blend_minmax_factor;
 GLEE_EXTERN GLboolean _GLEE_AMD_sample_positions;
 GLEE_EXTERN GLboolean _GLEE_EXT_x11_sync_object;
 GLEE_EXTERN GLboolean _GLEE_AMD_multi_draw_indirect;
+GLEE_EXTERN GLboolean _GLEE_EXT_framebuffer_multisample_blit_scaled;
 GLEE_EXTERN GLboolean _GLEE_SGIX_texture_select;
 GLEE_EXTERN GLboolean _GLEE_INGR_blend_func_separate;
 GLEE_EXTERN GLboolean _GLEE_SGIX_depth_pass_instrument;
 GLEE_EXTERN GLboolean _GLEE_SGIX_igloo_interface;
-GLEE_EXTERN GLboolean _GLEE_AMD_vertex_shader_tessellator;
-GLEE_EXTERN GLboolean _GLEE_EXT_fragment_lighting;
+GLEE_EXTERN GLboolean _GLEE_IBM_static_data;
+GLEE_EXTERN GLboolean _GLEE_EXT_texture_env;
 GLEE_EXTERN GLboolean _GLEE_EXT_geometry_shader4;
 GLEE_EXTERN GLboolean _GLEE_EXT_scene_marker;
+GLEE_EXTERN GLboolean _GLEE_EXT_fragment_lighting;
 GLEE_EXTERN GLboolean _GLEE_EXT_texture_compression_dxt1;
-GLEE_EXTERN GLboolean _GLEE_EXT_texture_env;
-GLEE_EXTERN GLboolean _GLEE_IBM_static_data;
 GLEE_EXTERN GLboolean _GLEE_NV_gpu_program4;
-GLEE_EXTERN GLboolean _GLEE_OES_byte_coordinates;
-GLEE_EXTERN GLboolean _GLEE_OES_compressed_paletted_texture;
-GLEE_EXTERN GLboolean _GLEE_OES_fixed_point;
-GLEE_EXTERN GLboolean _GLEE_OES_query_matrix;
-GLEE_EXTERN GLboolean _GLEE_OES_single_precision;
 GLEE_EXTERN GLboolean _GLEE_SGIX_pixel_texture_bits;
 GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
+GLEE_EXTERN GLboolean _GLEE_OES_byte_coordinates;
+GLEE_EXTERN GLboolean _GLEE_OES_compressed_paletted_texture;
+GLEE_EXTERN GLboolean _GLEE_OES_query_matrix;
+GLEE_EXTERN GLboolean _GLEE_OES_fixed_point;
+GLEE_EXTERN GLboolean _GLEE_OES_single_precision;
+GLEE_EXTERN GLboolean _GLEE_AMD_vertex_shader_tessellator;
 
 /* Aliases for extension querying variables */
 
@@ -905,25 +906,26 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GLEE_AMD_sample_positions     GLeeEnabled(&_GLEE_AMD_sample_positions)
 #define GLEE_EXT_x11_sync_object     GLeeEnabled(&_GLEE_EXT_x11_sync_object)
 #define GLEE_AMD_multi_draw_indirect     GLeeEnabled(&_GLEE_AMD_multi_draw_indirect)
+#define GLEE_EXT_framebuffer_multisample_blit_scaled     GLeeEnabled(&_GLEE_EXT_framebuffer_multisample_blit_scaled)
 #define GLEE_SGIX_texture_select     GLeeEnabled(&_GLEE_SGIX_texture_select)
 #define GLEE_INGR_blend_func_separate     GLeeEnabled(&_GLEE_INGR_blend_func_separate)
 #define GLEE_SGIX_depth_pass_instrument     GLeeEnabled(&_GLEE_SGIX_depth_pass_instrument)
 #define GLEE_SGIX_igloo_interface     GLeeEnabled(&_GLEE_SGIX_igloo_interface)
-#define GLEE_AMD_vertex_shader_tessellator     GLeeEnabled(&_GLEE_AMD_vertex_shader_tessellator)
-#define GLEE_EXT_fragment_lighting     GLeeEnabled(&_GLEE_EXT_fragment_lighting)
+#define GLEE_IBM_static_data     GLeeEnabled(&_GLEE_IBM_static_data)
+#define GLEE_EXT_texture_env     GLeeEnabled(&_GLEE_EXT_texture_env)
 #define GLEE_EXT_geometry_shader4     GLeeEnabled(&_GLEE_EXT_geometry_shader4)
 #define GLEE_EXT_scene_marker     GLeeEnabled(&_GLEE_EXT_scene_marker)
+#define GLEE_EXT_fragment_lighting     GLeeEnabled(&_GLEE_EXT_fragment_lighting)
 #define GLEE_EXT_texture_compression_dxt1     GLeeEnabled(&_GLEE_EXT_texture_compression_dxt1)
-#define GLEE_EXT_texture_env     GLeeEnabled(&_GLEE_EXT_texture_env)
-#define GLEE_IBM_static_data     GLeeEnabled(&_GLEE_IBM_static_data)
 #define GLEE_NV_gpu_program4     GLeeEnabled(&_GLEE_NV_gpu_program4)
-#define GLEE_OES_byte_coordinates     GLeeEnabled(&_GLEE_OES_byte_coordinates)
-#define GLEE_OES_compressed_paletted_texture     GLeeEnabled(&_GLEE_OES_compressed_paletted_texture)
-#define GLEE_OES_fixed_point     GLeeEnabled(&_GLEE_OES_fixed_point)
-#define GLEE_OES_query_matrix     GLeeEnabled(&_GLEE_OES_query_matrix)
-#define GLEE_OES_single_precision     GLeeEnabled(&_GLEE_OES_single_precision)
 #define GLEE_SGIX_pixel_texture_bits     GLeeEnabled(&_GLEE_SGIX_pixel_texture_bits)
 #define GLEE_SGIX_texture_range     GLeeEnabled(&_GLEE_SGIX_texture_range)
+#define GLEE_OES_byte_coordinates     GLeeEnabled(&_GLEE_OES_byte_coordinates)
+#define GLEE_OES_compressed_paletted_texture     GLeeEnabled(&_GLEE_OES_compressed_paletted_texture)
+#define GLEE_OES_query_matrix     GLeeEnabled(&_GLEE_OES_query_matrix)
+#define GLEE_OES_fixed_point     GLeeEnabled(&_GLEE_OES_fixed_point)
+#define GLEE_OES_single_precision     GLeeEnabled(&_GLEE_OES_single_precision)
+#define GLEE_AMD_vertex_shader_tessellator     GLeeEnabled(&_GLEE_AMD_vertex_shader_tessellator)
 
 
 /*****************************************************************
@@ -1093,6 +1095,10 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 	
 	#ifndef GLX_NV_video_output
     typedef unsigned int GLXVideoDeviceNV;
+    #endif // GLX_NV_video_output
+
+    #ifndef GLX_NV_video_capture
+    typedef XID GLXVideoCaptureDeviceNV;
     #endif // GLX_NV_video_output
     	
 #endif /* end platform specific */
@@ -18795,6 +18801,16 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #endif
 #endif 
 
+/* GL_EXT_framebuffer_multisample_blit_scaled */
+
+#ifndef GL_EXT_framebuffer_multisample_blit_scaled
+#define GL_EXT_framebuffer_multisample_blit_scaled 1
+#define __GLEE_GL_EXT_framebuffer_multisample_blit_scaled 1
+/* Constants */
+#define GL_SCALED_RESOLVE_FASTEST_EXT                      0x90BA
+#define GL_SCALED_RESOLVE_NICEST_EXT                       0x90BB
+#endif 
+
 /* GL_SGIX_texture_select */
 
 #ifndef GL_SGIX_texture_select
@@ -18839,47 +18855,33 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #endif
 #endif 
 
-/* GL_AMD_vertex_shader_tessellator */
+/* GL_IBM_static_data */
 
-#ifndef GL_AMD_vertex_shader_tessellator
-#define GL_AMD_vertex_shader_tessellator 1
-#define __GLEE_GL_AMD_vertex_shader_tessellator 1
+#ifndef GL_IBM_static_data
+#define GL_IBM_static_data 1
+#define __GLEE_GL_IBM_static_data 1
 /* Constants */
-#define GL_SAMPLER_BUFFER_AMD                              0x9001
-#define GL_INT_SAMPLER_BUFFER_AMD                          0x9002
-#define GL_UNSIGNED_INT_SAMPLER_BUFFER_AMD                 0x9003
-#define GL_DISCRETE_AMD                                    0x9006
-#define GL_CONTINUOUS_AMD                                  0x9007
-#define GL_TESSELLATION_MODE_AMD                           0x9004
-#define GL_TESSELLATION_FACTOR_AMD                         0x9005
-#ifndef GLEE_H_DEFINED_glTessellationModeAMD
-#define GLEE_H_DEFINED_glTessellationModeAMD
-  typedef GLvoid (APIENTRYP GLEEPFNGLTESSELLATIONMODEAMDPROC) (GLenum mode);
-  GLEE_EXTERN GLEEPFNGLTESSELLATIONMODEAMDPROC GLeeFuncPtr_glTessellationModeAMD;
-  #define glTessellationModeAMD GLeeFuncPtr_glTessellationModeAMD
-#endif
+#define GL_ALL_STATIC_DATA_IBM                             103060
+#define GL_STATIC_VERTEX_ARRAY_IBM                         103061
 #endif 
 
-/* GL_EXT_fragment_lighting */
+/* GL_EXT_texture_env */
 
-#ifndef GL_EXT_fragment_lighting
-#define GL_EXT_fragment_lighting 1
-#define __GLEE_GL_EXT_fragment_lighting 1
+#ifndef GL_EXT_texture_env
+#define GL_EXT_texture_env 1
+#define __GLEE_GL_EXT_texture_env 1
 /* Constants */
-#define GL_FRAGMENT_LIGHTING_EXT                           0x8400
-#define GL_FRAGMENT_COLOR_MATERIAL_EXT                     0x8401
-#define GL_FRAGMENT_COLOR_MATERIAL_FACE_EXT                0x8402
-#define GL_FRAGMENT_COLOR_MATERIAL_PARAMETER_EXT           0x8403
-#define GL_MAX_FRAGMENT_LIGHTS_EXT                         0x8404
-#define GL_MAX_ACTIVE_LIGHTS_EXT                           0x8405
-#define GL_CURRENT_RASTER_NORMAL_EXT                       0x8406
-#define GL_LIGHT_ENV_MODE_EXT                              0x8407
-#define GL_FRAGMENT_LIGHT_MODEL_LOCAL_VIEWER_EXT           0x8408
-#define GL_FRAGMENT_LIGHT_MODEL_TWO_SIDE_EXT               0x8409
-#define GL_FRAGMENT_LIGHT_MODEL_AMBIENT_EXT                0x840A
-#define GL_FRAGMENT_LIGHT_MODEL_NORMAL_INTERPOLATION_EXT   0x840B
-#define GL_FRAGMENT_LIGHT0_EXT                             0x840C
-#define GL_FRAGMENT_LIGHT7_EXT                             0x8413
+#define GL_TEXTURE_ENV0_EXT                                0x0
+#define GL_TEXTURE_ENV_MODE_ALPHA_EXT                      0x0
+#define GL_ENV_COPY_EXT                                    0x0
+#define GL_ENV_REPLACE_EXT                                 0x0
+#define GL_ENV_MODULATE_EXT                                0x0
+#define GL_ENV_ADD_EXT                                     0x0
+#define GL_ENV_SUBTRACT_EXT                                0x0
+#define GL_ENV_REVERSE_SUBTRACT_EXT                        0x0
+#define GL_ENV_BLEND_EXT                                   0x0
+#define GL_ENV_REVERSE_BLEND_EXT                           0x0
+#define GL_TEXTURE_ENV_SHIFT_EXT                           0x0
 #endif 
 
 /* GL_EXT_geometry_shader4 */
@@ -18924,6 +18926,28 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #endif
 #endif 
 
+/* GL_EXT_fragment_lighting */
+
+#ifndef GL_EXT_fragment_lighting
+#define GL_EXT_fragment_lighting 1
+#define __GLEE_GL_EXT_fragment_lighting 1
+/* Constants */
+#define GL_FRAGMENT_LIGHTING_EXT                           0x8400
+#define GL_FRAGMENT_COLOR_MATERIAL_EXT                     0x8401
+#define GL_FRAGMENT_COLOR_MATERIAL_FACE_EXT                0x8402
+#define GL_FRAGMENT_COLOR_MATERIAL_PARAMETER_EXT           0x8403
+#define GL_MAX_FRAGMENT_LIGHTS_EXT                         0x8404
+#define GL_MAX_ACTIVE_LIGHTS_EXT                           0x8405
+#define GL_CURRENT_RASTER_NORMAL_EXT                       0x8406
+#define GL_LIGHT_ENV_MODE_EXT                              0x8407
+#define GL_FRAGMENT_LIGHT_MODEL_LOCAL_VIEWER_EXT           0x8408
+#define GL_FRAGMENT_LIGHT_MODEL_TWO_SIDE_EXT               0x8409
+#define GL_FRAGMENT_LIGHT_MODEL_AMBIENT_EXT                0x840A
+#define GL_FRAGMENT_LIGHT_MODEL_NORMAL_INTERPOLATION_EXT   0x840B
+#define GL_FRAGMENT_LIGHT0_EXT                             0x840C
+#define GL_FRAGMENT_LIGHT7_EXT                             0x8413
+#endif 
+
 /* GL_EXT_texture_compression_dxt1 */
 
 #ifndef GL_EXT_texture_compression_dxt1
@@ -18932,35 +18956,6 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 /* Constants */
 #define GL_COMPRESSED_RGB_S3TC_DXT1_EXT                    0x83F0
 #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT                   0x83F1
-#endif 
-
-/* GL_EXT_texture_env */
-
-#ifndef GL_EXT_texture_env
-#define GL_EXT_texture_env 1
-#define __GLEE_GL_EXT_texture_env 1
-/* Constants */
-#define GL_TEXTURE_ENV0_EXT                                0x0
-#define GL_TEXTURE_ENV_MODE_ALPHA_EXT                      0x0
-#define GL_ENV_COPY_EXT                                    0x0
-#define GL_ENV_REPLACE_EXT                                 0x0
-#define GL_ENV_MODULATE_EXT                                0x0
-#define GL_ENV_ADD_EXT                                     0x0
-#define GL_ENV_SUBTRACT_EXT                                0x0
-#define GL_ENV_REVERSE_SUBTRACT_EXT                        0x0
-#define GL_ENV_BLEND_EXT                                   0x0
-#define GL_ENV_REVERSE_BLEND_EXT                           0x0
-#define GL_TEXTURE_ENV_SHIFT_EXT                           0x0
-#endif 
-
-/* GL_IBM_static_data */
-
-#ifndef GL_IBM_static_data
-#define GL_IBM_static_data 1
-#define __GLEE_GL_IBM_static_data 1
-/* Constants */
-#define GL_ALL_STATIC_DATA_IBM                             103060
-#define GL_STATIC_VERTEX_ARRAY_IBM                         103061
 #endif 
 
 /* GL_NV_gpu_program4 */
@@ -18994,64 +18989,6 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT        0x8CD4
 #define GL_PROGRAM_POINT_SIZE_EXT                          0x8642
 #define GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT                 0x88FD
-#endif 
-
-/* GL_OES_byte_coordinates */
-
-#ifndef GL_OES_byte_coordinates
-#define GL_OES_byte_coordinates 1
-#define __GLEE_GL_OES_byte_coordinates 1
-/* Constants */
-#define GL_BYTE                                            0x1400
-#endif 
-
-/* GL_OES_compressed_paletted_texture */
-
-#ifndef GL_OES_compressed_paletted_texture
-#define GL_OES_compressed_paletted_texture 1
-#define __GLEE_GL_OES_compressed_paletted_texture 1
-/* Constants */
-#define GL_PALETTE4_RGB8_OES                               0x8B90
-#define GL_PALETTE4_RGBA8_OES                              0x8B91
-#define GL_PALETTE4_R5_G6_B5_OES                           0x8B92
-#define GL_PALETTE4_RGBA4_OES                              0x8B93
-#define GL_PALETTE4_RGB5_A1_OES                            0x8B94
-#define GL_PALETTE8_RGB8_OES                               0x8B95
-#define GL_PALETTE8_RGBA8_OES                              0x8B96
-#define GL_PALETTE8_R5_G6_B5_OES                           0x8B97
-#define GL_PALETTE8_RGBA4_OES                              0x8B98
-#define GL_PALETTE8_RGB5_A1_OES                            0x8B99
-#endif 
-
-/* GL_OES_fixed_point */
-
-#ifndef GL_OES_fixed_point
-#define GL_OES_fixed_point 1
-#define __GLEE_GL_OES_fixed_point 1
-/* Constants */
-#define GL_FIXED_OES                                       0x140C
-#endif 
-
-/* GL_OES_query_matrix */
-
-#ifndef GL_OES_query_matrix
-#define GL_OES_query_matrix 1
-#define __GLEE_GL_OES_query_matrix 1
-/* Constants */
-#endif 
-
-/* GL_OES_single_precision */
-
-#ifndef GL_OES_single_precision
-#define GL_OES_single_precision 1
-#define __GLEE_GL_OES_single_precision 1
-/* Constants */
-#ifndef GLEE_H_DEFINED_glClearDepthfOES
-#define GLEE_H_DEFINED_glClearDepthfOES
-  typedef GLvoid (APIENTRYP GLEEPFNGLCLEARDEPTHFOESPROC) (GLclampd depth);
-  GLEE_EXTERN GLEEPFNGLCLEARDEPTHFOESPROC GLeeFuncPtr_glClearDepthfOES;
-  #define glClearDepthfOES GLeeFuncPtr_glClearDepthfOES
-#endif
 #endif 
 
 /* GL_SGIX_pixel_texture_bits */
@@ -19096,6 +19033,85 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_texture_range;
 #define GL_MAX_LUMINANCE_SGIS                              0x85F9
 #define GL_MIN_INTENSITY_SGIS                              0x85FA
 #define GL_MAX_INTENSITY_SGIS                              0x85FB
+#endif 
+
+/* GL_OES_byte_coordinates */
+
+#ifndef GL_OES_byte_coordinates
+#define GL_OES_byte_coordinates 1
+#define __GLEE_GL_OES_byte_coordinates 1
+/* Constants */
+#define GL_BYTE                                            0x1400
+#endif 
+
+/* GL_OES_compressed_paletted_texture */
+
+#ifndef GL_OES_compressed_paletted_texture
+#define GL_OES_compressed_paletted_texture 1
+#define __GLEE_GL_OES_compressed_paletted_texture 1
+/* Constants */
+#define GL_PALETTE4_RGB8_OES                               0x8B90
+#define GL_PALETTE4_RGBA8_OES                              0x8B91
+#define GL_PALETTE4_R5_G6_B5_OES                           0x8B92
+#define GL_PALETTE4_RGBA4_OES                              0x8B93
+#define GL_PALETTE4_RGB5_A1_OES                            0x8B94
+#define GL_PALETTE8_RGB8_OES                               0x8B95
+#define GL_PALETTE8_RGBA8_OES                              0x8B96
+#define GL_PALETTE8_R5_G6_B5_OES                           0x8B97
+#define GL_PALETTE8_RGBA4_OES                              0x8B98
+#define GL_PALETTE8_RGB5_A1_OES                            0x8B99
+#endif 
+
+/* GL_OES_query_matrix */
+
+#ifndef GL_OES_query_matrix
+#define GL_OES_query_matrix 1
+#define __GLEE_GL_OES_query_matrix 1
+/* Constants */
+#endif 
+
+/* GL_OES_fixed_point */
+
+#ifndef GL_OES_fixed_point
+#define GL_OES_fixed_point 1
+#define __GLEE_GL_OES_fixed_point 1
+/* Constants */
+#define GL_FIXED_OES                                       0x140C
+#endif 
+
+/* GL_OES_single_precision */
+
+#ifndef GL_OES_single_precision
+#define GL_OES_single_precision 1
+#define __GLEE_GL_OES_single_precision 1
+/* Constants */
+#ifndef GLEE_H_DEFINED_glClearDepthfOES
+#define GLEE_H_DEFINED_glClearDepthfOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLCLEARDEPTHFOESPROC) (GLclampd depth);
+  GLEE_EXTERN GLEEPFNGLCLEARDEPTHFOESPROC GLeeFuncPtr_glClearDepthfOES;
+  #define glClearDepthfOES GLeeFuncPtr_glClearDepthfOES
+#endif
+#endif 
+
+/* GL_AMD_vertex_shader_tessellator */
+
+#ifndef GL_AMD_vertex_shader_tessellator
+#define GL_AMD_vertex_shader_tessellator 1
+#define __GLEE_GL_AMD_vertex_shader_tessellator 1
+/* Constants */
+#define GL_SAMPLER_BUFFER_AMD                              0x9001
+#define GL_INT_SAMPLER_BUFFER_AMD                          0x9002
+#define GL_UNSIGNED_INT_SAMPLER_BUFFER_AMD                 0x9003
+#define GL_DISCRETE_AMD                                    0x9006
+#define GL_CONTINUOUS_AMD                                  0x9007
+#define GL_TESSELLATION_MODE_AMD                           0x9004
+#define GL_TESSELLATION_FACTOR_AMD                         0x9005
+#ifndef GLEE_H_DEFINED_glTessellationModeAMD
+#define GLEE_H_DEFINED_glTessellationModeAMD
+  typedef GLvoid (APIENTRYP GLEEPFNGLTESSELLATIONMODEAMDPROC) (GLenum mode);
+  GLEE_EXTERN GLEEPFNGLTESSELLATIONMODEAMDPROC GLeeFuncPtr_glTessellationModeAMD;
+  #define glTessellationModeAMD GLeeFuncPtr_glTessellationModeAMD
+#endif
 #endif 
 
 /* WGL  */

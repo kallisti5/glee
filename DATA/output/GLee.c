@@ -487,29 +487,30 @@ GLboolean _GLEE_AMD_blend_minmax_factor = GL_FALSE;
 GLboolean _GLEE_AMD_sample_positions = GL_FALSE;
 GLboolean _GLEE_EXT_x11_sync_object = GL_FALSE;
 GLboolean _GLEE_AMD_multi_draw_indirect = GL_FALSE;
+GLboolean _GLEE_EXT_framebuffer_multisample_blit_scaled = GL_FALSE;
 GLboolean _GLEE_SGIX_texture_select = GL_FALSE;
 GLboolean _GLEE_INGR_blend_func_separate = GL_FALSE;
 GLboolean _GLEE_SGIX_depth_pass_instrument = GL_FALSE;
 GLboolean _GLEE_SGIX_igloo_interface = GL_FALSE;
-GLboolean _GLEE_AMD_vertex_shader_tessellator = GL_FALSE;
-GLboolean _GLEE_EXT_fragment_lighting = GL_FALSE;
+GLboolean _GLEE_IBM_static_data = GL_FALSE;
+GLboolean _GLEE_EXT_texture_env = GL_FALSE;
 GLboolean _GLEE_EXT_geometry_shader4 = GL_FALSE;
 GLboolean _GLEE_EXT_scene_marker = GL_FALSE;
+GLboolean _GLEE_EXT_fragment_lighting = GL_FALSE;
 GLboolean _GLEE_EXT_texture_compression_dxt1 = GL_FALSE;
-GLboolean _GLEE_EXT_texture_env = GL_FALSE;
-GLboolean _GLEE_IBM_static_data = GL_FALSE;
 GLboolean _GLEE_NV_gpu_program4 = GL_FALSE;
-GLboolean _GLEE_OES_byte_coordinates = GL_FALSE;
-GLboolean _GLEE_OES_compressed_paletted_texture = GL_FALSE;
-GLboolean _GLEE_OES_fixed_point = GL_FALSE;
-GLboolean _GLEE_OES_query_matrix = GL_FALSE;
-GLboolean _GLEE_OES_single_precision = GL_FALSE;
 GLboolean _GLEE_SGIX_pixel_texture_bits = GL_FALSE;
 GLboolean _GLEE_SGIX_texture_range = GL_FALSE;
+GLboolean _GLEE_OES_byte_coordinates = GL_FALSE;
+GLboolean _GLEE_OES_compressed_paletted_texture = GL_FALSE;
+GLboolean _GLEE_OES_query_matrix = GL_FALSE;
+GLboolean _GLEE_OES_fixed_point = GL_FALSE;
+GLboolean _GLEE_OES_single_precision = GL_FALSE;
+GLboolean _GLEE_AMD_vertex_shader_tessellator = GL_FALSE;
 
 /*  GL Extension names */
 
-char __GLeeGLExtensionNames[416][43]={
+char __GLeeGLExtensionNames[417][43]={
     "GL_VERSION_1_2",
     "GL_ARB_imaging",
     "GL_VERSION_1_3",
@@ -907,27 +908,28 @@ char __GLeeGLExtensionNames[416][43]={
     "GL_AMD_sample_positions",
     "GL_EXT_x11_sync_object",
     "GL_AMD_multi_draw_indirect",
+    "GL_EXT_framebuffer_multisample_blit_scaled",
     "GL_SGIX_texture_select",
     "GL_INGR_blend_func_separate",
     "GL_SGIX_depth_pass_instrument",
     "GL_SGIX_igloo_interface",
-    "GL_AMD_vertex_shader_tessellator",
-    "GL_EXT_fragment_lighting",
+    "GL_IBM_static_data",
+    "GL_EXT_texture_env",
     "GL_EXT_geometry_shader4",
     "GL_EXT_scene_marker",
+    "GL_EXT_fragment_lighting",
     "GL_EXT_texture_compression_dxt1",
-    "GL_EXT_texture_env",
-    "GL_IBM_static_data",
     "GL_NV_gpu_program4",
+    "GL_SGIX_pixel_texture_bits",
+    "GL_SGIX_texture_range",
     "GL_OES_byte_coordinates",
     "GL_OES_compressed_paletted_texture",
-    "GL_OES_fixed_point",
     "GL_OES_query_matrix",
+    "GL_OES_fixed_point",
     "GL_OES_single_precision",
-    "GL_SGIX_pixel_texture_bits",
-    "GL_SGIX_texture_range"
+    "GL_AMD_vertex_shader_tessellator"
 };
-int __GLeeGLNumExtensions=416;
+int __GLeeGLNumExtensions=417;
 
 /* GL_VERSION_1_2 */
 
@@ -12309,6 +12311,11 @@ int __GLeeGLNumExtensions=416;
 #endif
 #endif 
 
+/* GL_EXT_framebuffer_multisample_blit_scaled */
+
+#ifdef __GLEE_GL_EXT_framebuffer_multisample_blit_scaled
+#endif 
+
 /* GL_SGIX_texture_select */
 
 #ifdef __GLEE_GL_SGIX_texture_select
@@ -12339,19 +12346,14 @@ int __GLeeGLNumExtensions=416;
 #endif
 #endif 
 
-/* GL_AMD_vertex_shader_tessellator */
+/* GL_IBM_static_data */
 
-#ifdef __GLEE_GL_AMD_vertex_shader_tessellator
-#ifndef GLEE_C_DEFINED_glTessellationModeAMD
-#define GLEE_C_DEFINED_glTessellationModeAMD
-  GLvoid __stdcall GLee_Lazy_glTessellationModeAMD(GLenum mode)  {if (GLeeInit()) glTessellationModeAMD(mode);}
-  GLEEPFNGLTESSELLATIONMODEAMDPROC GLeeFuncPtr_glTessellationModeAMD=GLee_Lazy_glTessellationModeAMD;
-#endif
+#ifdef __GLEE_GL_IBM_static_data
 #endif 
 
-/* GL_EXT_fragment_lighting */
+/* GL_EXT_texture_env */
 
-#ifdef __GLEE_GL_EXT_fragment_lighting
+#ifdef __GLEE_GL_EXT_texture_env
 #endif 
 
 /* GL_EXT_geometry_shader4 */
@@ -12369,24 +12371,29 @@ int __GLeeGLNumExtensions=416;
 #endif
 #endif 
 
+/* GL_EXT_fragment_lighting */
+
+#ifdef __GLEE_GL_EXT_fragment_lighting
+#endif 
+
 /* GL_EXT_texture_compression_dxt1 */
 
 #ifdef __GLEE_GL_EXT_texture_compression_dxt1
 #endif 
 
-/* GL_EXT_texture_env */
-
-#ifdef __GLEE_GL_EXT_texture_env
-#endif 
-
-/* GL_IBM_static_data */
-
-#ifdef __GLEE_GL_IBM_static_data
-#endif 
-
 /* GL_NV_gpu_program4 */
 
 #ifdef __GLEE_GL_NV_gpu_program4
+#endif 
+
+/* GL_SGIX_pixel_texture_bits */
+
+#ifdef __GLEE_GL_SGIX_pixel_texture_bits
+#endif 
+
+/* GL_SGIX_texture_range */
+
+#ifdef __GLEE_GL_SGIX_texture_range
 #endif 
 
 /* GL_OES_byte_coordinates */
@@ -12399,14 +12406,14 @@ int __GLeeGLNumExtensions=416;
 #ifdef __GLEE_GL_OES_compressed_paletted_texture
 #endif 
 
-/* GL_OES_fixed_point */
-
-#ifdef __GLEE_GL_OES_fixed_point
-#endif 
-
 /* GL_OES_query_matrix */
 
 #ifdef __GLEE_GL_OES_query_matrix
+#endif 
+
+/* GL_OES_fixed_point */
+
+#ifdef __GLEE_GL_OES_fixed_point
 #endif 
 
 /* GL_OES_single_precision */
@@ -12419,14 +12426,14 @@ int __GLeeGLNumExtensions=416;
 #endif
 #endif 
 
-/* GL_SGIX_pixel_texture_bits */
+/* GL_AMD_vertex_shader_tessellator */
 
-#ifdef __GLEE_GL_SGIX_pixel_texture_bits
-#endif 
-
-/* GL_SGIX_texture_range */
-
-#ifdef __GLEE_GL_SGIX_texture_range
+#ifdef __GLEE_GL_AMD_vertex_shader_tessellator
+#ifndef GLEE_C_DEFINED_glTessellationModeAMD
+#define GLEE_C_DEFINED_glTessellationModeAMD
+  GLvoid __stdcall GLee_Lazy_glTessellationModeAMD(GLenum mode)  {if (GLeeInit()) glTessellationModeAMD(mode);}
+  GLEEPFNGLTESSELLATIONMODEAMDPROC GLeeFuncPtr_glTessellationModeAMD=GLee_Lazy_glTessellationModeAMD;
+#endif
 #endif 
 
 /* WGL */
@@ -18419,6 +18426,8 @@ GLuint __GLeeLink_GL_AMD_multi_draw_indirect(void)
     return GLEE_LINK_PARTIAL;
 }
 
+GLuint __GLeeLink_GL_EXT_framebuffer_multisample_blit_scaled(void) {return GLEE_LINK_COMPLETE;}
+
 GLuint __GLeeLink_GL_SGIX_texture_select(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_INGR_blend_func_separate(void)
@@ -18445,18 +18454,9 @@ GLuint __GLeeLink_GL_SGIX_igloo_interface(void)
     return GLEE_LINK_PARTIAL;
 }
 
-GLuint __GLeeLink_GL_AMD_vertex_shader_tessellator(void)
-{
-    GLint nLinked=0;
-#ifdef __GLEE_GL_AMD_vertex_shader_tessellator
-    if ((GLeeFuncPtr_glTessellationModeAMD = (GLEEPFNGLTESSELLATIONMODEAMDPROC) __GLeeGetProcAddress("glTessellationModeAMD"))!=0) nLinked++;
-#endif
-    if (nLinked==1) return GLEE_LINK_COMPLETE;
-    if (nLinked==0) return GLEE_LINK_FAIL;
-    return GLEE_LINK_PARTIAL;
-}
+GLuint __GLeeLink_GL_IBM_static_data(void) {return GLEE_LINK_COMPLETE;}
 
-GLuint __GLeeLink_GL_EXT_fragment_lighting(void) {return GLEE_LINK_COMPLETE;}
+GLuint __GLeeLink_GL_EXT_texture_env(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_EXT_geometry_shader4(void) {return GLEE_LINK_COMPLETE;}
 
@@ -18471,21 +18471,23 @@ GLuint __GLeeLink_GL_EXT_scene_marker(void)
     return GLEE_LINK_PARTIAL;
 }
 
+GLuint __GLeeLink_GL_EXT_fragment_lighting(void) {return GLEE_LINK_COMPLETE;}
+
 GLuint __GLeeLink_GL_EXT_texture_compression_dxt1(void) {return GLEE_LINK_COMPLETE;}
 
-GLuint __GLeeLink_GL_EXT_texture_env(void) {return GLEE_LINK_COMPLETE;}
-
-GLuint __GLeeLink_GL_IBM_static_data(void) {return GLEE_LINK_COMPLETE;}
-
 GLuint __GLeeLink_GL_NV_gpu_program4(void) {return GLEE_LINK_COMPLETE;}
+
+GLuint __GLeeLink_GL_SGIX_pixel_texture_bits(void) {return GLEE_LINK_COMPLETE;}
+
+GLuint __GLeeLink_GL_SGIX_texture_range(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_OES_byte_coordinates(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_OES_compressed_paletted_texture(void) {return GLEE_LINK_COMPLETE;}
 
-GLuint __GLeeLink_GL_OES_fixed_point(void) {return GLEE_LINK_COMPLETE;}
-
 GLuint __GLeeLink_GL_OES_query_matrix(void) {return GLEE_LINK_COMPLETE;}
+
+GLuint __GLeeLink_GL_OES_fixed_point(void) {return GLEE_LINK_COMPLETE;}
 
 GLuint __GLeeLink_GL_OES_single_precision(void)
 {
@@ -18498,11 +18500,18 @@ GLuint __GLeeLink_GL_OES_single_precision(void)
     return GLEE_LINK_PARTIAL;
 }
 
-GLuint __GLeeLink_GL_SGIX_pixel_texture_bits(void) {return GLEE_LINK_COMPLETE;}
+GLuint __GLeeLink_GL_AMD_vertex_shader_tessellator(void)
+{
+    GLint nLinked=0;
+#ifdef __GLEE_GL_AMD_vertex_shader_tessellator
+    if ((GLeeFuncPtr_glTessellationModeAMD = (GLEEPFNGLTESSELLATIONMODEAMDPROC) __GLeeGetProcAddress("glTessellationModeAMD"))!=0) nLinked++;
+#endif
+    if (nLinked==1) return GLEE_LINK_COMPLETE;
+    if (nLinked==0) return GLEE_LINK_FAIL;
+    return GLEE_LINK_PARTIAL;
+}
 
-GLuint __GLeeLink_GL_SGIX_texture_range(void) {return GLEE_LINK_COMPLETE;}
-
-GLEE_LINK_FUNCTION __GLeeGLLoadFunction[416];
+GLEE_LINK_FUNCTION __GLeeGLLoadFunction[417];
 
 void initGLLoadFunctions(void)
 {
@@ -18903,25 +18912,26 @@ void initGLLoadFunctions(void)
     __GLeeGLLoadFunction[394]=__GLeeLink_GL_AMD_sample_positions;
     __GLeeGLLoadFunction[395]=__GLeeLink_GL_EXT_x11_sync_object;
     __GLeeGLLoadFunction[396]=__GLeeLink_GL_AMD_multi_draw_indirect;
-    __GLeeGLLoadFunction[397]=__GLeeLink_GL_SGIX_texture_select;
-    __GLeeGLLoadFunction[398]=__GLeeLink_GL_INGR_blend_func_separate;
-    __GLeeGLLoadFunction[399]=__GLeeLink_GL_SGIX_depth_pass_instrument;
-    __GLeeGLLoadFunction[400]=__GLeeLink_GL_SGIX_igloo_interface;
-    __GLeeGLLoadFunction[401]=__GLeeLink_GL_AMD_vertex_shader_tessellator;
-    __GLeeGLLoadFunction[402]=__GLeeLink_GL_EXT_fragment_lighting;
-    __GLeeGLLoadFunction[403]=__GLeeLink_GL_EXT_geometry_shader4;
-    __GLeeGLLoadFunction[404]=__GLeeLink_GL_EXT_scene_marker;
-    __GLeeGLLoadFunction[405]=__GLeeLink_GL_EXT_texture_compression_dxt1;
-    __GLeeGLLoadFunction[406]=__GLeeLink_GL_EXT_texture_env;
-    __GLeeGLLoadFunction[407]=__GLeeLink_GL_IBM_static_data;
+    __GLeeGLLoadFunction[397]=__GLeeLink_GL_EXT_framebuffer_multisample_blit_scaled;
+    __GLeeGLLoadFunction[398]=__GLeeLink_GL_SGIX_texture_select;
+    __GLeeGLLoadFunction[399]=__GLeeLink_GL_INGR_blend_func_separate;
+    __GLeeGLLoadFunction[400]=__GLeeLink_GL_SGIX_depth_pass_instrument;
+    __GLeeGLLoadFunction[401]=__GLeeLink_GL_SGIX_igloo_interface;
+    __GLeeGLLoadFunction[402]=__GLeeLink_GL_IBM_static_data;
+    __GLeeGLLoadFunction[403]=__GLeeLink_GL_EXT_texture_env;
+    __GLeeGLLoadFunction[404]=__GLeeLink_GL_EXT_geometry_shader4;
+    __GLeeGLLoadFunction[405]=__GLeeLink_GL_EXT_scene_marker;
+    __GLeeGLLoadFunction[406]=__GLeeLink_GL_EXT_fragment_lighting;
+    __GLeeGLLoadFunction[407]=__GLeeLink_GL_EXT_texture_compression_dxt1;
     __GLeeGLLoadFunction[408]=__GLeeLink_GL_NV_gpu_program4;
-    __GLeeGLLoadFunction[409]=__GLeeLink_GL_OES_byte_coordinates;
-    __GLeeGLLoadFunction[410]=__GLeeLink_GL_OES_compressed_paletted_texture;
-    __GLeeGLLoadFunction[411]=__GLeeLink_GL_OES_fixed_point;
-    __GLeeGLLoadFunction[412]=__GLeeLink_GL_OES_query_matrix;
-    __GLeeGLLoadFunction[413]=__GLeeLink_GL_OES_single_precision;
-    __GLeeGLLoadFunction[414]=__GLeeLink_GL_SGIX_pixel_texture_bits;
-    __GLeeGLLoadFunction[415]=__GLeeLink_GL_SGIX_texture_range;
+    __GLeeGLLoadFunction[409]=__GLeeLink_GL_SGIX_pixel_texture_bits;
+    __GLeeGLLoadFunction[410]=__GLeeLink_GL_SGIX_texture_range;
+    __GLeeGLLoadFunction[411]=__GLeeLink_GL_OES_byte_coordinates;
+    __GLeeGLLoadFunction[412]=__GLeeLink_GL_OES_compressed_paletted_texture;
+    __GLeeGLLoadFunction[413]=__GLeeLink_GL_OES_query_matrix;
+    __GLeeGLLoadFunction[414]=__GLeeLink_GL_OES_fixed_point;
+    __GLeeGLLoadFunction[415]=__GLeeLink_GL_OES_single_precision;
+    __GLeeGLLoadFunction[416]=__GLeeLink_GL_AMD_vertex_shader_tessellator;
 }
 
 #ifdef _WIN32
@@ -22156,6 +22166,11 @@ GLEE_EXTERN GLboolean GLeeInit( void )
         _GLEE_AMD_multi_draw_indirect = GL_TRUE;
         __GLeeLink_GL_AMD_multi_draw_indirect();
     }
+    if (__GLeeCheckExtension("GL_EXT_framebuffer_multisample_blit_scaled", &extensionNames) )
+    {
+        _GLEE_EXT_framebuffer_multisample_blit_scaled = GL_TRUE;
+        __GLeeLink_GL_EXT_framebuffer_multisample_blit_scaled();
+    }
     if (__GLeeCheckExtension("GL_SGIX_texture_select", &extensionNames) )
     {
         _GLEE_SGIX_texture_select = GL_TRUE;
@@ -22176,15 +22191,15 @@ GLEE_EXTERN GLboolean GLeeInit( void )
         _GLEE_SGIX_igloo_interface = GL_TRUE;
         __GLeeLink_GL_SGIX_igloo_interface();
     }
-    if (__GLeeCheckExtension("GL_AMD_vertex_shader_tessellator", &extensionNames) )
+    if (__GLeeCheckExtension("GL_IBM_static_data", &extensionNames) )
     {
-        _GLEE_AMD_vertex_shader_tessellator = GL_TRUE;
-        __GLeeLink_GL_AMD_vertex_shader_tessellator();
+        _GLEE_IBM_static_data = GL_TRUE;
+        __GLeeLink_GL_IBM_static_data();
     }
-    if (__GLeeCheckExtension("GL_EXT_fragment_lighting", &extensionNames) )
+    if (__GLeeCheckExtension("GL_EXT_texture_env", &extensionNames) )
     {
-        _GLEE_EXT_fragment_lighting = GL_TRUE;
-        __GLeeLink_GL_EXT_fragment_lighting();
+        _GLEE_EXT_texture_env = GL_TRUE;
+        __GLeeLink_GL_EXT_texture_env();
     }
     if (__GLeeCheckExtension("GL_EXT_geometry_shader4", &extensionNames) )
     {
@@ -22196,25 +22211,30 @@ GLEE_EXTERN GLboolean GLeeInit( void )
         _GLEE_EXT_scene_marker = GL_TRUE;
         __GLeeLink_GL_EXT_scene_marker();
     }
+    if (__GLeeCheckExtension("GL_EXT_fragment_lighting", &extensionNames) )
+    {
+        _GLEE_EXT_fragment_lighting = GL_TRUE;
+        __GLeeLink_GL_EXT_fragment_lighting();
+    }
     if (__GLeeCheckExtension("GL_EXT_texture_compression_dxt1", &extensionNames) )
     {
         _GLEE_EXT_texture_compression_dxt1 = GL_TRUE;
         __GLeeLink_GL_EXT_texture_compression_dxt1();
     }
-    if (__GLeeCheckExtension("GL_EXT_texture_env", &extensionNames) )
-    {
-        _GLEE_EXT_texture_env = GL_TRUE;
-        __GLeeLink_GL_EXT_texture_env();
-    }
-    if (__GLeeCheckExtension("GL_IBM_static_data", &extensionNames) )
-    {
-        _GLEE_IBM_static_data = GL_TRUE;
-        __GLeeLink_GL_IBM_static_data();
-    }
     if (__GLeeCheckExtension("GL_NV_gpu_program4", &extensionNames) )
     {
         _GLEE_NV_gpu_program4 = GL_TRUE;
         __GLeeLink_GL_NV_gpu_program4();
+    }
+    if (__GLeeCheckExtension("GL_SGIX_pixel_texture_bits", &extensionNames) )
+    {
+        _GLEE_SGIX_pixel_texture_bits = GL_TRUE;
+        __GLeeLink_GL_SGIX_pixel_texture_bits();
+    }
+    if (__GLeeCheckExtension("GL_SGIX_texture_range", &extensionNames) )
+    {
+        _GLEE_SGIX_texture_range = GL_TRUE;
+        __GLeeLink_GL_SGIX_texture_range();
     }
     if (__GLeeCheckExtension("GL_OES_byte_coordinates", &extensionNames) )
     {
@@ -22226,30 +22246,25 @@ GLEE_EXTERN GLboolean GLeeInit( void )
         _GLEE_OES_compressed_paletted_texture = GL_TRUE;
         __GLeeLink_GL_OES_compressed_paletted_texture();
     }
-    if (__GLeeCheckExtension("GL_OES_fixed_point", &extensionNames) )
-    {
-        _GLEE_OES_fixed_point = GL_TRUE;
-        __GLeeLink_GL_OES_fixed_point();
-    }
     if (__GLeeCheckExtension("GL_OES_query_matrix", &extensionNames) )
     {
         _GLEE_OES_query_matrix = GL_TRUE;
         __GLeeLink_GL_OES_query_matrix();
+    }
+    if (__GLeeCheckExtension("GL_OES_fixed_point", &extensionNames) )
+    {
+        _GLEE_OES_fixed_point = GL_TRUE;
+        __GLeeLink_GL_OES_fixed_point();
     }
     if (__GLeeCheckExtension("GL_OES_single_precision", &extensionNames) )
     {
         _GLEE_OES_single_precision = GL_TRUE;
         __GLeeLink_GL_OES_single_precision();
     }
-    if (__GLeeCheckExtension("GL_SGIX_pixel_texture_bits", &extensionNames) )
+    if (__GLeeCheckExtension("GL_AMD_vertex_shader_tessellator", &extensionNames) )
     {
-        _GLEE_SGIX_pixel_texture_bits = GL_TRUE;
-        __GLeeLink_GL_SGIX_pixel_texture_bits();
-    }
-    if (__GLeeCheckExtension("GL_SGIX_texture_range", &extensionNames) )
-    {
-        _GLEE_SGIX_texture_range = GL_TRUE;
-        __GLeeLink_GL_SGIX_texture_range();
+        _GLEE_AMD_vertex_shader_tessellator = GL_TRUE;
+        __GLeeLink_GL_AMD_vertex_shader_tessellator();
     }
 #ifdef _WIN32
     if (__GLeeCheckExtension("WGL_ARB_buffer_region", &extensionNames) )
