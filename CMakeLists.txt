@@ -33,12 +33,14 @@ configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in
 add_subdirectory( GLeeXMLGen )
 add_subdirectory( GLeeGen )
 
+include_directories( ${glee_SOURCE_DIR}/include )
+
 #
 # Create library
 #
 
 set( glee_sources ${DATA_DIR}/output/GLee.c
-                  ${DATA_DIR}/output/GLee.h )
+                  ${glee_SOURCE_DIR}/include/GL/GLee.h )
 
 set_source_files_properties( ${glee_sources}
                              PROPERTIES GENERATED TRUE )
@@ -65,16 +67,23 @@ add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
                     MAIN_DEPENDENCY GLeeXMLGen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
-                            ${DATA_DIR}/GLeeXMLGenInput/registry
+                            ${DATA_DIR}/GLeeXMLGenInput/license.txt
                             ${spec_files}
                     COMMENT "Generating GLeeXMLGen inputs" )
 
 add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
-                           ${DATA_DIR}/output/GLee.h
+                           ${glee_SOURCE_DIR}/include/GL/GLee.h
                     COMMAND gleegen
                     MAIN_DEPENDENCY GLeeGen
                     DEPENDS ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GLeeGenInput/extensions.xml
+                            ${DATA_DIR}/GLeeGenInput/GLeeCTop.txt
+                            ${DATA_DIR}/GLeeGenInput/gleehtop.txt
+                            ${DATA_DIR}/GLeeGenInput/exceptions.txt
+                            ${DATA_DIR}/GLeeGenInput/License.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeHBottom.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeFunctions.txt
                     COMMENT "Generating GLee.h and GLee.c" )
 
 #
@@ -111,7 +120,8 @@ install( FILES license.txt readme.txt
 configure_file( ${glee_SOURCE_DIR}/cmake_uninstall.cmake.in
                 ${glee_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY )
 
-add_custom_target( uninstall
-                   ${CMAKE_COMMAND} -P
-                   ${uninstall_BINARY_DIR}/cmake_uninstall.cmake )
-
+if( NOT TARGET uninstall )
+    add_custom_target( uninstall
+                       ${CMAKE_COMMAND} -P
+                       ${uninstall_BINARY_DIR}/cmake_uninstall.cmake )
+endif( )

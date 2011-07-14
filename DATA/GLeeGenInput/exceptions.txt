@@ -53,7 +53,7 @@
 
 /* Platform-specific */
 
-#ifdef WIN32    
+#ifdef _WIN32    
 
 	/* WGL */
 

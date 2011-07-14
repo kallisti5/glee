@@ -45,7 +45,7 @@ using namespace Mirage;
 
 void getSubstring(const char * start, const char * end, String& string_out)
 {
-	int len=(long int)end-(long int)start;
+	int len=(intptr_t)end-(intptr_t)start;
 	string_out.resize(len);
 	for (int a=0;a<len;a++)
 		string_out[a]=start[a];
@@ -130,16 +130,12 @@ int main(int argc, char* argv[])
 	{
 		FILE *file=fopen(finalSpecFilenamesList[a].cStr(),"rb");
 
-        if ( finalSpecFilenamesList[a].toLower().search( Mirage::String("gpu_program4") ) != -1 )
-        {
-            printf("found it!");
-        }
-
 		if (file)
 		{
 			String str;
 			str.readFile(file);
 			fclose(file);
+
             SpecParseResult rv = readExtensionSpec(str, xmlFile.root, ignoreList);
             switch (rv)
             {
@@ -239,7 +235,7 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
     // because they're actually part of other extensions. E.g. GL_NV_GPU_program4
 	if (!readNames(extFileString,names))
     {
-		return SPEC_FAILED;
+		return SPEC_IGNORED;
     }
 
     /*
@@ -286,7 +282,7 @@ SpecParseResult readExtensionSpec(String& extFileString, XMLElement& extensionsX
 
 
 		extXML.name="extension";
-		extXML.addAttrib(XMLAttrib("name",name));
+		extXML.addAttrib(XMLAttrib("name",name.trimWhitespace()));
 
 		int typeFilter=names.size()==1?-1:fileType; //-1 signifies no filter
 
@@ -359,7 +355,7 @@ void convertType(String& type)
 		return;
 	}
 
-	int i=what[6].first-temp.cStr();
+	int i=what[3].first-temp.cStr();
 	if (temp[i]!='G' || temp[i+1]!='L')
 		temp.insert(i,String("GL"));
 	type=temp.trimWhitespace();
@@ -375,8 +371,8 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 {
 	XMLElement constantsXML;
 	constantsXML.setName("constants");
-	regex regStartTokens("(\r)?\nNew Tokens(\\s)+");
-	regex regEndTokens("(\r)?\n(\r)?\n[a-zA-Z0-9]");
+	regex regStartTokens("\r?\nNew Tokens\\s+");
+	regex regEndTokens("\r?\n\r?\n[a-zA-Z0-9]");
 	cmatch what,what2; 
 	if(regex_search(extFileString.cStr(), what, regStartTokens)) 
 	{
@@ -388,17 +384,24 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 			//read the tokens
 			const char * pos=&tokensBlock[0];
 			cmatch tokwhat;
-			//regex regToken("(\r)?\n(\\s)*(([a-zA-Z0-9]|_)+)(\\s)+((0x([0-9a-fA-F])+)|(([0-9])+))");
-			regex regToken("(\r)?\n(\\s)*(([A-Z0-9]|_)+)(\\s)+((0x([0-9a-fA-F])+)|(([0-9])+))");
+			//regex regToken("(\r)?\n(\\s)*(([a-zA-Z0-9]|_)+)(\\s)+((0x([0-9a-fA-F])+)|(([0-9]);+))");
+			regex regToken("\r?\n\\s*([A-Z0-9_]+)\\s+((?:0x[0-9a-fA-F\\?]+)|(?:[0-9]+))");
 			while (regex_search(pos, tokwhat, regToken))
 			{
 				XMLElement constantXML;
 				constantXML.setName("constant");
 				String tokValue,tokName;
-				getSubstring(tokwhat[3].first,tokwhat[3].second,tokName);
-				getSubstring(tokwhat[6].first,tokwhat[6].second,tokValue);
+				getSubstring(tokwhat[1].first,tokwhat[1].second,tokName);
+				getSubstring(tokwhat[1].second,tokwhat[2].second,tokValue);
 
-				bool skip=false;
+				regex regUnknownValue("0x\\?+");
+				cmatch temp;
+
+				if( regex_search(tokValue.cStr(), temp, regUnknownValue) )
+					tokValue = String("0x0");
+
+				bool skip = false;
+
 				if (typeFilter>=0)
 				{
 					String prefix=tokName.subString(0,3);
@@ -415,11 +418,11 @@ bool readConstants(String& extFileString, XMLElement& XMLOut, int typeFilter)
 
 				if (!skip)
 				{
-					constantXML.addAttrib(XMLAttrib("name",tokName));
-					constantXML.addAttrib(XMLAttrib("value",tokValue));
+					constantXML.addAttrib(XMLAttrib("name",tokName.trimWhitespace()));
+					constantXML.addAttrib(XMLAttrib("value",tokValue.trimWhitespace()));
 					constantsXML.addElement(constantXML);
 				}
-				pos=tokwhat[6].second;
+				pos=tokwhat[2].second;
 			}
 		}
 	}
@@ -433,12 +436,12 @@ bool readFunctions(String& extFileString, XMLElement& XMLOut, int typeFilter)
 	functionsXML.setName("functions");
 	String ptrStr;
 
-	static regex regStartFunctions("(\r)?\nNew Procedures and Functions");
-	static regex regEndFunctions("(\r)?\n(\r)?\n[a-zA-Z0-9]");
+	static regex regStartFunctions("\r?\nNew Procedures and Functions");
+	static regex regEndFunctions("\r?\n\r?\n[a-zA-Z0-9]");
 //	static regex regStartFunc("\n(\\s)+(((const|unsigned)(\\s)+)*([a-zA-Z0-9]|_)+)(((\\s)*((\\*)+)(\\s)*)|((\\s)+))(([a-zA-Z0-9]|_)+)(\\s)*\\(");
 
-	static regex regNewLine("(\r)?\n");
-	static regex regStartFunc("(([a-zA-Z0-9]|_)+)(\\s)*\\((.*)");
+	static regex regNewLine("\r?\n");
+	static regex regStartFunc("(\\w+)\\s*\\((.*)");
 
 	String typeStr;
 	String funcName;
@@ -488,11 +491,11 @@ bool readFunctions(String& extFileString, XMLElement& XMLOut, int typeFilter)
 							funcXML.attribs[0].value=funcName;
 							funcXML.attribs[1].value=typeStr;
 
-							pos=funcWhat[4].first;
+							pos=funcWhat[2].first;
 							if (!readParams(pos,funcXML)) return false;
 							functionsXML.addElement(funcXML);
 						}
-						else pos=funcWhat[4].first; //skip this function
+						else pos=funcWhat[0].second; //skip this function
 					}
 				} //read return type
 				else
@@ -509,16 +512,16 @@ bool readFunctions(String& extFileString, XMLElement& XMLOut, int typeFilter)
 
 regex& getTypeRegex()
 {
-	static String regStr=  String("(\\s)*")+
-					"("+ //open brackets 2
-					    "((const|unsigned)(\\s)+)*"+ //type modifiers
-						"(([a-zA-Z0-9]|_)+)"+ //core type (6)
-						"((\\s)+(const|unsigned))*"+ //more type modifiers
-						"(\\s)*"+
+	static String regStr=  String("\\s*")+ //Any leading spaces
+					"("+ //open brackets 2 //capturing the whole type
+					    "((?:const|unsigned)(?:\\s)+)*"+ //type modifiers
+						"((?:[a-zA-Z0-9]|_)+)"+ //core type (6)
+						"((?:\\s)+(:?const|unsigned))*"+ //more type modifiers
+						"(?:\\s)*"+
 						"("+
-   					      "(\\*(\\s)*(const(\\s)+)?)+"+ //stars (each with optional :const modifier and spaces)
+   					      "(?:\\*(?:\\s)*(const(?:\\s)+)?)+"+ //stars (each with optional :const modifier and spaces)
 						  "|"+ //OR
-						  "(\\s)+"+ //spaces
+						  "(?:\\s)+"+ //spaces
 						")"+
 					")"+// close brackets 2
 					"(.*)";
@@ -534,9 +537,9 @@ const char * readType(const char *pos, String& typeOut)
 	cmatch what;
 	if (regex_match(pos,what,regType))
 	{
-		getSubstring(what[2].first,what[2].second,typeOut);
+		getSubstring(what[1].first,what[1].second,typeOut);
 		typeOut=typeOut.trimWhitespace();
-		posOut=what[2].second;
+		posOut=what[1].second;
 	}
 	return posOut;
 }
@@ -554,7 +557,7 @@ bool readParams(const char *pos, XMLElement& funcXML)
 	//regex regParam("(\\s)*((((const|unsigned)(\\s)+)*([a-zA-Z0-9]|_)+)(((\\s)*((\\*(\\s)*)+)(\\s)*)|((\\s)+))(([a-zA-Z0-9]|_)+))(.*)");
 	//  End                                                                 1            1 1    1        1 1                1 1
 	//1                   5    6 4               7 3      0            2 1    4 9      6 58               8 72
-	static regex regName("(([a-zA-Z0-9]|_)+).*");
+	static regex regName("(\\w+).*");
 	cmatch nameWhat;
 
 	bool hasParams=false;
@@ -568,7 +571,34 @@ bool readParams(const char *pos, XMLElement& funcXML)
 	}
 	if (hasParams) 
 	{
-		String type;
+		static regex regTypeAndName("\\s*([\\w\\s\\*]+?)([\\*\\s]+)(\\w+)\\s*([\\),])");
+		cmatch typeAndNameWhat;
+		while (regex_search(pos, typeAndNameWhat, regTypeAndName))
+		{
+			String type;
+			String name;
+
+			getSubstring(typeAndNameWhat[1].first, typeAndNameWhat[2].second, type);
+			getSubstring(typeAndNameWhat[3].first, typeAndNameWhat[3].second, name);
+			
+			XMLElement paramXML;
+			paramXML.setName("param");
+			paramXML.attribs.resize(2);
+			paramXML.attribs[0].name="type";
+			paramXML.attribs[1].name="name";
+			paramXML.attribs[0].value=type;
+			paramXML.attribs[1].value=name;
+			
+			funcXML.addElement(paramXML);
+			
+			pos = typeAndNameWhat[0].second;
+
+			if (*pos=='\0') 
+				return false;
+			if (*typeAndNameWhat[4].first==')')
+				break;
+		}
+		/*String type;
 		while (pos=readType(pos, type))
 		{
 			if (regex_match(pos, nameWhat, regName))
@@ -597,7 +627,7 @@ bool readParams(const char *pos, XMLElement& funcXML)
 				if (*pos=='\0') 
 					return false;
 			}
-		}
+		}*/
 	}
 	return true;
 }
@@ -683,9 +713,9 @@ bool readNames(String &extFileString, ArrayList<String>& names)
 	}
 	return name;
 	*/
-	regex regName("(GL_|WGL_|GLX_)([a-zA-Z0-9]|_)+");
-	regex regNamesStart("Name String(s)?( )*(\r)?\n( )*(\r)?\n");
-	regex regNamesEnd("(\r)?\n( )*(\r)?\n([a-zA-Z0-9]|_)+");
+	regex regName("W?GLX?_\\w+");
+	regex regNamesStart("Name Strings? *\r?\n *\r?\n");
+	regex regNamesEnd("\r?\n *\r?\n\\w+");
 	String namesBlock;
 	cmatch whatStart,whatEnd,whatName;
 	if (regex_search(extFileString.cStr(),whatStart,regNamesStart))
@@ -759,7 +789,7 @@ void convertHeaderExtensionsToXML(ArrayList<_Extension> &extensions, XMLElement&
 		//find the functions and the constants
 		XMLElement xmlElement;
 		xmlElement.setName("extension");
-		xmlElement.addAttrib(XMLAttrib("name",ext.name));
+		xmlElement.addAttrib(XMLAttrib("name",ext.name.trimWhitespace()));
 		xmlElement.elements.resize(2);
 		xmlElement.elements[0].setName("constants");
 		xmlElement.elements[1].setName("functions");
@@ -781,8 +811,8 @@ bool readHeaderConstant(std::pair<String,String >& constPair, XMLElement& XMLOut
 {
 	XMLElement el;
 	el.setName("constant");
-	el.addAttrib(XMLAttrib("name",constPair.first));
-	el.addAttrib(XMLAttrib("value",constPair.second));
+	el.addAttrib(XMLAttrib("name",constPair.first.trimWhitespace()));
+	el.addAttrib(XMLAttrib("value",constPair.second.trimWhitespace()));
 	XMLOut.addElement(el);
 	return true;
 }
@@ -809,20 +839,25 @@ bool readHeaderFunction(String& typeDefString, String& funcName, XMLElement& XML
 	*/
 	XMLElement el;
 	el.setName("function");
-	el.addAttrib(XMLAttrib("name",funcName));
+	el.addAttrib(XMLAttrib("name",funcName.trimWhitespace()));
 
-	regex regFuncTypedefStart("(\\s)*typedef(\\s)+(.*)");
-	regex regFuncTypedefNext("(\\s)?\\((\\s|[a-zA-Z0-9]|_|\\*)+\\)(\\s)*\\((.*)");
+	regex regFuncTypedefStart("\\s*typedef\\s+(.*)");
+    regex regFuncTypedefNext("\\s?\\(([\\sa-zA-Z0-9_\\*])+\\)\\s*\\((.*)");
+	//regex regFuncTypedefNext("\\s?\\(((?:\\s|\\w)+)       \\)\\s*\\((.*)");
+	//regex regFuncTypedefNext("(?:\\s)?\\(((?:\\s|\\w)+)\\)(?:\\s)*\\((.*)");
 
 	cmatch what;
 	if (regex_match(typeDefString.cStr(),what,regFuncTypedefStart))
 	{
 		String returnType;
-		const char *pos=what[3].first;
-		if (!(pos=readType(pos,returnType))) return false;
-		if (!regex_match(pos,what,regFuncTypedefNext)) return false;
-		pos=what[4].first;
-		if (!readParams(pos,el)) return false;
+		const char *pos=what[1].first;
+		if (!(pos=readType(pos,returnType)))
+			return false;
+		if (!regex_match(pos,what,regFuncTypedefNext))
+			return false;
+		pos=what[2].first;
+		if (!readParams(pos,el))
+			return false;
 		el.addAttrib(XMLAttrib("returnType",returnType.trimWhitespace()));
 		XMLOut.addElement(el);
 		return true;

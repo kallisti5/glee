@@ -39,8 +39,9 @@ using namespace std;
 String versionString;//="5.33"; YAY, no longer need to recompile GLEEGEN!!! (see GLeeVersion.txt)
 String gleeGenVersionString="7.0"; 
 
-#define INFILE(filename)  (String(DATA_DIR)+String("/GLeeGenInput/")+filename).cStr()
-#define OUTFILE(filename) (String(DATA_DIR)+String("/output/")+filename).cStr()
+#define INFILE(filename)         (String(DATA_DIR)+String("/GLeeGenInput/")+filename).cStr()
+#define OUTFILE(filename)        (String(DATA_DIR)+String("/output/")+filename).cStr()
+#define OUTINCLUDEFILE(filename) (String(INCLUDE_DIR)+String("/GL/")+filename).cStr()
 
 int main(int argc, char* argv[])
 {
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
 	fclose(versionFile);
 
 	generateCode(	OUTFILE("GLee.c"),
-					OUTFILE("GLee.h"), xmlFile.root);
+					OUTINCLUDEFILE("GLee.h"), xmlFile.root);
 
 	generateExtensionList(OUTFILE("extensionList.txt"),xmlFile.root);
 	return 0;
@@ -445,9 +446,9 @@ void generateCode(const char * cppFilename,
     
 	//win32 specific
 	cpp+="\n/* WGL */\n\n";
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	header+="\n/* WGL  */\n\n";
-	header+="#ifdef WIN32\n";
+	header+="#ifdef _WIN32\n";
 
 	writeBools(cpp,header,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	writeExtensionNames(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
@@ -468,7 +469,7 @@ void generateCode(const char * cppFilename,
 		 "*****************************************************************/\n\n";
 
 	writeFunctionLinkFunctions(cpp,xml.elements[FT_GLEXT],FT_GLEXT);
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	writeFunctionLinkFunctions(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	cpp+=elseIfAppleString;
 	cpp+="#else /* Linux */\n";
@@ -486,7 +487,7 @@ void generateCode(const char * cppFilename,
 	fclose(functionsFile);
 
 	writeFunctionLinkCode(cpp,xml.elements[FT_GLEXT],FT_GLEXT);
-	cpp+="#ifdef WIN32\n";
+	cpp+="#ifdef _WIN32\n";
 	writeFunctionLinkCode(cpp,xml.elements[FT_WGLEXT],FT_WGLEXT);
 	cpp+=elseIfAppleString;
 	cpp+="#else /* GLX */\n";

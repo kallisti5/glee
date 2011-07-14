@@ -62,7 +62,7 @@ void __GLeeExtList_add(ExtensionList *extList, const char * extName)
 
 const char *__GLeeGetExtStrPlat( void )
 {
-#ifdef WIN32
+#ifdef _WIN32
 	if (!_GLEE_WGL_ARB_extensions_string)
 		wglGetExtensionsStringARB = (GLEEPFNWGLGETEXTENSIONSSTRINGARBPROC) wglGetProcAddress("wglGetExtensionsStringARB");
 
@@ -134,7 +134,7 @@ GLboolean __GLeeGetExtensions(ExtensionList* extList)
        extStr=(char *)malloc( totalExtStrLen+1 ); /* allow for a null terminator */
 
        /* concatenate the two extension strings */
-       sprintf_s(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
+       snprintf(extStr,totalExtStrLen+1,addASpace?"%s %s":"%s%s",platExtStr,glExtStr);
 
        /* extract the extensions */
        for (p = extStr + totalExtStrLen; p > extStr; --p) {
@@ -170,7 +170,7 @@ GLEE_EXTERN GLint __GLeeGetExtensionNumber(const char *extensionName, int type)
 		for (a=0;a<__GLeeGLNumExtensions;a++)
 			if (strcmp(extensionName,__GLeeGLExtensionNames[a])==0)	return a;
 		return -1;
-#ifdef WIN32
+#ifdef _WIN32
 	case 1:
 		for (a=0;a<__GLeeWGLNumExtensions;a++)
 			if (strcmp(extensionName,__GLeeWGLExtensionNames[a])==0) return a;
@@ -190,7 +190,7 @@ GLEE_EXTERN GLint __GLeeGetExtensionNumber(const char *extensionName, int type)
  * GLee external functions 
  *****************************************************************/
 
-#ifdef WIN32
+#ifdef _WIN32
 GLEE_EXTERN const char * GLeeGetExtStrWGL( void )
 {
 	return __GLeeGetExtStrPlat();
@@ -225,7 +225,7 @@ GLEE_EXTERN GLint GLeeForceLink(const char * extensionName)
 	{
 		if (!__GLeeInited) GLeeInit();
 		initGLLoadFunctions();
-#ifdef WIN32
+#ifdef _WIN32
 		initWGLLoadFunctions();
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
 #else
@@ -238,7 +238,7 @@ GLEE_EXTERN GLint GLeeForceLink(const char * extensionName)
 	extNum=__GLeeGetExtensionNumber(extensionName,type);
 	if (extNum==-1) return GLEE_LINK_FAIL;
 	if (type==0) return __GLeeGLLoadFunction[extNum]();
-#ifdef WIN32
+#ifdef _WIN32
 	if (type==1) return __GLeeWGLLoadFunction[extNum]();
 #elif defined(__APPLE__) || defined(__APPLE_CC__)	
 #else
