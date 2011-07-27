@@ -30,8 +30,8 @@ configure_file( ${glee_SOURCE_DIR}/Common/Config.h.in
 #
 # 
 #
-add_subdirectory( GLeeXMLGen )
-add_subdirectory( GLeeGen )
+add_subdirectory( GLeeXMLGen EXCLUDE_FROM_ALL )
+add_subdirectory( GLeeGen EXCLUDE_FROM_ALL )
 
 include_directories( ${glee_SOURCE_DIR}/include )
 
@@ -42,9 +42,6 @@ include_directories( ${glee_SOURCE_DIR}/include )
 set( glee_sources ${DATA_DIR}/output/GLee.c
                   ${glee_SOURCE_DIR}/include/GL/GLee.h )
 
-set_source_files_properties( ${glee_sources}
-                             PROPERTIES GENERATED TRUE )
-
 add_library( libgleeStatic    STATIC    ${glee_sources} )
 add_library( libgleeShared    SHARED    ${glee_sources} )
 
@@ -54,28 +51,19 @@ else( )
     target_link_libraries( libgleeShared opengl32 )
 endif( )
 
-add_custom_target ( update_specs
-                    wget --recursive --level=1 --timestamping --directory-prefix=${DATA_DIR}/GLeeXMLGenInput/ --no-host-directories --accept=txt,h --include-directories=registry/specs,registry/api --exclude-directories=registry/doc --user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30\" http://www.opengl.org/registry/
-                    COMMENT "Getting latest specs from http://www.opengl.org/registry/" )
-
 file( GLOB_RECURSE spec_files
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.h
       ${DATA_DIR}/GLeeXMLGenInput/registry/*.txt )
 
-add_custom_command( OUTPUT ${DATA_DIR}/GLeeGenInput/extensions.xml
+add_custom_target ( update_glee
+                    wget --recursive --level=1 --timestamping --directory-prefix=${DATA_DIR}/GLeeXMLGenInput/ --no-host-directories --accept=txt,h --include-directories=registry/specs,registry/api --exclude-directories=registry/doc --user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30\" http://www.opengl.org/registry/
                     COMMAND gleexmlgen
-                    MAIN_DEPENDENCY GLeeXMLGen
+                    COMMAND gleegen
                     DEPENDS ${DATA_DIR}/GLeeXMLGenInput/GLExtIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/HeaderIgnore.txt
                             ${DATA_DIR}/GLeeXMLGenInput/license.txt
                             ${spec_files}
-                    COMMENT "Generating GLeeXMLGen inputs" )
-
-add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
-                           ${glee_SOURCE_DIR}/include/GL/GLee.h
-                    COMMAND gleegen
-                    MAIN_DEPENDENCY GLeeGen
-                    DEPENDS ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
+                            ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GLeeGenInput/extensions.xml
                             ${DATA_DIR}/GLeeGenInput/GLeeCTop.txt
                             ${DATA_DIR}/GLeeGenInput/gleehtop.txt
@@ -84,7 +72,7 @@ add_custom_command( OUTPUT ${DATA_DIR}/output/GLee.c
                             ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
                             ${DATA_DIR}/GLeeGenInput/GLeeHBottom.txt
                             ${DATA_DIR}/GLeeGenInput/GLeeFunctions.txt
-                    COMMENT "Generating GLee.h and GLee.c" )
+                    COMMENT "Generating glee.h and glee.c" )
 
 #
 # Set up glee on windows
