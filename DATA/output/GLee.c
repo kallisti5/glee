@@ -56,6 +56,7 @@ GLboolean __GLeeInited=GL_FALSE;
 
 #ifdef _MSC_VER
     #define snprintf sprintf_s
+    #define strdup _strdup
 #endif
 
 GLEE_FUNC __GLeeGetProcAddress(const char *extname)
@@ -19957,7 +19958,7 @@ void __GLeeExtList_add(ExtensionList *extList, const char * extName)
 		extList->lengths=(int *)realloc((void *)extList->lengths, n*sizeof(int));
 		extList->names=(char **)realloc((void *)extList->names, n*sizeof(char *));
 	}
-	extList->names[i]=_strdup(extName);
+	extList->names[i]=strdup(extName);
 	extList->lengths[i]=length;
 	extList->numNames++;
 }

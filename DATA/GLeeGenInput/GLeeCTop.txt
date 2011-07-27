@@ -21,6 +21,7 @@ GLboolean __GLeeInited=GL_FALSE;
 
 #ifdef _MSC_VER
     #define snprintf sprintf_s
+    #define strdup _strdup
 #endif
 
 GLEE_FUNC __GLeeGetProcAddress(const char *extname)
