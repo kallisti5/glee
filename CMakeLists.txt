@@ -117,10 +117,10 @@ install( FILES license.txt readme.txt
 #
 # Uninstall operation
 #
-configure_file( ${glee_SOURCE_DIR}/cmake_uninstall.cmake.in
-                ${glee_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY )
-
 if( NOT TARGET uninstall )
+    configure_file( ${glee_SOURCE_DIR}/cmake_uninstall.cmake.in
+                    ${glee_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY )
+
     add_custom_target( uninstall
                        ${CMAKE_COMMAND} -P
                        ${uninstall_BINARY_DIR}/cmake_uninstall.cmake )
