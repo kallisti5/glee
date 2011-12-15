@@ -51,3 +51,6 @@
 #define GLEE_LINK_COMPLETE 2
 
 typedef void (*GLEE_FUNC)(void);
+
+struct _cl_context;
+struct _cl_event;
