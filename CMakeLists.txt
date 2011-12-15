@@ -64,7 +64,6 @@ add_custom_target ( update_glee
                             ${DATA_DIR}/GLeeXMLGenInput/license.txt
                             ${spec_files}
                             ${DATA_DIR}/GLeeGenInput/GLeeVersion.txt
-                            ${DATA_DIR}/GLeeGenInput/extensions.xml
                             ${DATA_DIR}/GLeeGenInput/GLeeCTop.txt
                             ${DATA_DIR}/GLeeGenInput/gleehtop.txt
                             ${DATA_DIR}/GLeeGenInput/exceptions.txt
