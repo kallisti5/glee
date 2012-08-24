@@ -977,6 +977,7 @@ GLEE_EXTERN GLboolean _GLEE_IBM_static_data;
   #endif
 #else
   #include <stdint.h>
+  #include <stddef.h>
 #endif
 
 #ifndef GL_VERSION_1_5
