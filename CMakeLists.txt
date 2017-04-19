@@ -98,7 +98,7 @@ install( FILES ${glee_BINARY_DIR}/libglee.pc DESTINATION lib/pkgconfig )
 install( DIRECTORY include/GL DESTINATION include 
          FILES_MATCHING REGEX ".*\\.h")
 
-install( FILES license.txt readme.txt 
+install( FILES license.txt Readme.txt 
          DESTINATION share/doc/glee/)
 
 #
